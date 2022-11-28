@@ -10,7 +10,7 @@ import shfl.st.lap.model.AppData;
 @RestController
 public class StLapController {
 	
-	@GetMapping("/getApplicationData")
+	@PostMapping("/getApplicationData")
 	public String getApplicationData(@RequestBody AppData appData) {
 		return "Application Data";
 		
@@ -18,12 +18,12 @@ public class StLapController {
 	@PostMapping("/nachSave")
 	public String saveNachDetails() {
 		
-		return null;
+		return "nachSave";
 	}
 	@PostMapping("/downloadNach/{mandateId}")
 	public String downloadNach() {
 		
-		return null;
+		return "nachDownload";
 	}
 	@GetMapping("/getDashboardData")
 	public String getDashboardData() {
