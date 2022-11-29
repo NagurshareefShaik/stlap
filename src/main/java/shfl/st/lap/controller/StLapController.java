@@ -1,17 +1,35 @@
 package shfl.st.lap.controller;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import shfl.st.lap.model.AppData;
+import net.sf.jasperreports.engine.JRException;
+import shfl.st.lap.jwt.JwtUtil;
+import shfl.st.lap.model.AuthRequest;
+import shfl.st.lap.model.LoanDetails;
+import shfl.st.lap.service.ReportService;
 
 @RestController
 public class StLapController {
 	
-	@PostMapping("/getApplicationData")
-	public String getApplicationData(@RequestBody AppData appData) {
+	@Autowired
+	ReportService reportService;
+	
+	 @Autowired
+	 private JwtUtil jwtUtil;
+	
+	@Autowired
+    private AuthenticationManager authenticationManager;
+	
+	@GetMapping("/getApplicationData")
+	public String getApplicationData() {
 		return "Application Data";
 		
 	}
@@ -30,6 +48,27 @@ public class StLapController {
 		return "Application Data";
 		
 	}
+	
+	@PostMapping("/generateReport")
+	public String GenerateCustomerReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
+		return reportService.generateCustomerReport(loanDetails);
+	}
+	@PostMapping("/generateMonthReport")
+	public String generateMonthDueReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
+		return reportService.generateMonthDueReport(loanDetails);
+	}
+	
+	@PostMapping("/authenticate")
+    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
+            );
+        } catch (Exception ex) {
+            throw new Exception("inavalid username/password");
+        }
+        return jwtUtil.generateToken(authRequest.getUserName());
+    }
 	
 
 }
