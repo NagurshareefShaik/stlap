@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +51,7 @@ public class StLapController {
 	}
 	
 	@PostMapping("/generateReport")
-	public String GenerateCustomerReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
+	public String generateCustomerReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
 		return reportService.generateCustomerReport(loanDetails);
 	}
 	@PostMapping("/generateMonthReport")
@@ -65,7 +66,7 @@ public class StLapController {
                     new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
             );
         } catch (Exception ex) {
-            throw new Exception("inavalid username/password");
+            throw new UsernameNotFoundException("inavalid username/password");
         }
         return jwtUtil.generateToken(authRequest.getUserName());
     }

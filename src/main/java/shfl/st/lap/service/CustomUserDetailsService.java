@@ -1,6 +1,5 @@
 package shfl.st.lap.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;

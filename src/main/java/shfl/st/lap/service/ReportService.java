@@ -2,15 +2,19 @@ package shfl.st.lap.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.lang.Collections;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -25,8 +29,13 @@ import shfl.st.lap.model.LoanRepayment;
 @Service
 public class ReportService {
 
+	
+	private static final String CHARGES = "charges";
+	
 	@Autowired
 	ResourceLoader resourceLoader;
+	
+	
 
 	public String generateCustomerReport(LoanDetails loanDetails) throws JRException, IOException {
 		List<LoanRepayment> loanDetailsList=loanDetails.getLoanRepayment();
@@ -49,20 +58,28 @@ public class ReportService {
 		return "Report generated successfully";
 	}
 	public String generateMonthDueReport(LoanDetails loanDetails) throws JRException, IOException {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2022);
+		cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+		cal.set(Calendar.DAY_OF_MONTH, 5);
+		Date date = cal.getTime();
 		Map<String,Object> transactionMap=new HashMap<>();
-		transactionMap.put("date",new Date("5/11/2022"));
+		transactionMap.put("date",date);
 		transactionMap.put("description","loan payment monthly");
-		transactionMap.put("charges",0);
+		transactionMap.put(CHARGES,0);
 		transactionMap.put("payment",8607);
 		Map<String,Object> transactionMap1=new HashMap<>();
-		transactionMap1.put("date",new Date("5/11/2022"));
+		transactionMap1.put("date",date);
 		transactionMap1.put("description","charges for property inspection");
-		transactionMap1.put("charges",250);
+		transactionMap1.put(CHARGES,250);
 		transactionMap1.put("payment",0);
 		JRBeanCollectionDataSource beanCollectionDataSource=new JRBeanCollectionDataSource(Arrays.asList(transactionMap,transactionMap1));
 		List<LoanRepayment> loanDetailsList=loanDetails.getLoanRepayment();
-		LoanRepayment nextMonthDue=loanDetailsList.stream().filter(loan->loan.getDuedate().after(new Date())).findFirst().get();
-		LoanRepayment preMonthPayment=loanDetailsList.stream().filter(loan->loan.getDuedate().before(new Date())).findFirst().get();
+		Stream<LoanRepayment> nextMonthDueStream=loanDetailsList.stream().filter(loan->loan.getDuedate().after(new Date()));
+		LoanRepayment nextMonthDue=new LoanRepayment();
+		if(!Collections.isEmpty(loanDetailsList)) {
+			nextMonthDue=nextMonthDueStream.findFirst().get();
+		}
 		Map<String,Object> parameters=new HashMap<>();
 		parameters.put("transactionDetailsParameter",beanCollectionDataSource);
 		parameters.put("accountNumber",loanDetails.getLoanNumber());
@@ -70,9 +87,9 @@ public class ReportService {
 		parameters.put("amountDue",nextMonthDue.getPrincipal()+nextMonthDue.getInterest());
 		parameters.put("oustandingPrincipal",nextMonthDue.getOutstandamt());
 		parameters.put("interestRate",nextMonthDue.getInterest());
-		parameters.put("charges",0);
+		parameters.put(CHARGES,0);
 		parameters.put("principal",nextMonthDue.getPrincipal());
-		int monthDue=nextMonthDue.getPrincipal()+nextMonthDue.getInterest()+Integer.parseInt(parameters.get("charges").toString());
+		int monthDue=nextMonthDue.getPrincipal()+nextMonthDue.getInterest()+Integer.parseInt(parameters.get(CHARGES).toString());
 		parameters.put("monthlyPayment",monthDue);
 		parameters.put("totalDue",monthDue);
 		//data for
@@ -90,7 +107,5 @@ public class ReportService {
 		JasperPrint jasperPrint=JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 		JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\nagubash\\Desktop\\reportForMonthlyDue.pdf");
 		return "Report generated successfully";
-	};
-
-
+	}
 }
