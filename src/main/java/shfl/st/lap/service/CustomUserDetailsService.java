@@ -1,6 +1,5 @@
 package shfl.st.lap.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = repository.findByUserId(username);
-		return new org.springframework.security.core.userdetails.User(user.getUserId(), user.getPassword(),
+		User user = repository.findByEmployeeId(username);
+		return new org.springframework.security.core.userdetails.User(user.getEmployeeId(), user.getPassword(),
 				Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
 	}
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 import net.sf.jasperreports.engine.JRException;
 import shfl.st.lap.jwt.JwtUtil;
 import shfl.st.lap.model.AuthRequest;
-import shfl.st.lap.model.LoanDetails;
-import shfl.st.lap.service.ReportService;
+import shfl.st.lap.model.MailData;
+import shfl.st.lap.service.MailSevice;
+import shfl.st.lap.service.UserService;
 
 @RestController
 public class StLapController {
 	
 	@Autowired
-	ReportService reportService;
+	MailSevice mailService;
+	
+	@Autowired
+	UserService userService;
 	
 	 @Autowired
 	 private JwtUtil jwtUtil;
@@ -28,46 +32,22 @@ public class StLapController {
 	@Autowired
     private AuthenticationManager authenticationManager;
 	
-	@GetMapping("/getApplicationData")
-	public String getApplicationData() {
-		return "Application Data";
-		
-	}
-	@PostMapping("/nachSave")
-	public String saveNachDetails() {
-		
-		return "nachSave";
-	}
-	@PostMapping("/downloadNach/{mandateId}")
-	public String downloadNach() {
-		
-		return "nachDownload";
-	}
-	@GetMapping("/getDashboardData")
-	public String getDashboardData() {
-		return "Application Data";
-		
-	}
 	
-	@PostMapping("/generateReport")
-	public String GenerateCustomerReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
-		return reportService.generateCustomerReport(loanDetails);
-	}
-	@PostMapping("/generateMonthReport")
-	public String generateMonthDueReport(@RequestBody LoanDetails loanDetails) throws JRException, IOException {
-		return reportService.generateMonthDueReport(loanDetails);
+	@PostMapping("/sendMail")
+	public String sendMail(@RequestBody MailData mailData) throws JRException, IOException {
+		return mailService.sendMail(mailData);
 	}
 	
 	@PostMapping("/authenticate")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getEmployeeId(), authRequest.getPassword())
             );
         } catch (Exception ex) {
-            throw new Exception("inavalid username/password");
+            throw new UsernameNotFoundException("inavalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUserName());
+        return jwtUtil.generateToken(authRequest.getEmployeeId());
     }
 	
 
