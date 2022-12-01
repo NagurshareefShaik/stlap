@@ -6,6 +6,6 @@ import shfl.st.lap.model.User;
 
 public interface UserRepo extends JpaRepository<User, String> {
 
-	User findByUserId(String userId);
+	User findByEmployeeId(String userId);
 
 }

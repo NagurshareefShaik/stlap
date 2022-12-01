@@ -11,7 +11,7 @@ import lombok.Data;
 @Table(name = "USERS")
 public class User {
 	@Id
-	private String userId;
+	private String employeeId;
 	private String email;
 	private String password;
 	private String role;
