@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +24,7 @@ public class JwtUtil {
 
 	@Value("${jwtExpirationMs}")
 	private Integer jwtExpirationMs;
-
+	
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
@@ -43,9 +46,13 @@ public class JwtUtil {
 		return extractExpiration(token).before(new Date());
 	}
 
-	public String generateToken(String username) {
+	public String generateToken(Authentication authentication) {
+		String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 		Map<String, Object> claims = new HashMap<>();
-		return createToken(claims, username);
+		claims.put("role", authorities);
+		return createToken(claims, authentication.getName());
 	}
 
 	private String createToken(Map<String, Object> claims, String subject) {
