@@ -1,11 +1,25 @@
 package shfl.st.lap.service;
 
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import io.jsonwebtoken.io.IOException;
 import shfl.st.lap.model.MailData;
 
 @Service
@@ -14,20 +28,39 @@ public class MailSevice {
 	@Autowired
 	JavaMailSender javaMailSender;
 	
+	@Autowired     
+	 Configuration fmConfiguration;
+	
+	@Autowired
+	ResourceLoader loader;
+	
 	@Value("${spring.mail.username}")
 	private String from;
 
 	public String sendMail(MailData mailData) {
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom(from);
-        msg.setTo(mailData.getTo());
-        msg.setSubject("Testing from Spring Boot using mail service");
-        msg.setText(mailData.getMsg());
+		MimeMessage message = javaMailSender.createMimeMessage();
+		try {
+			Map<String,String> model=new HashMap<>();
+			model.put("otp", mailData.getMsg());
+			//model.put("sflogo", path);
+			// set mediaType
+			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+					StandardCharsets.UTF_8.name());
+			
+			Template t = fmConfiguration.getTemplate("otp-template.ftl");
+			String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-        javaMailSender.send(msg);
+			helper.setTo(mailData.getTo());
+			helper.setText(html, true);
+			helper.setSubject("OTP For Login");
+			helper.setFrom(from);
+			javaMailSender.send(message);
 
-		
-		return "Mail send Successfully";
+
+		} catch (MessagingException | IOException | TemplateException | java.io.IOException e) {
+			
+		}
+		return "";
 	}
 
 }
