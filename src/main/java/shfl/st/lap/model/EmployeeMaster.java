@@ -11,7 +11,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Entity
@@ -23,12 +22,12 @@ public class EmployeeMaster {
 	private String email;
 	private String mobileNumber;
 	private String password;
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name  = "role_id")
-	private Role role;
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name  = "branch_id")
-	private BranchMaster branch;
+//	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	@JoinColumn(name  = "role_id")
+	private String role;
+//	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	@JoinColumn(name  = "branch_id")
+	private String branch;
 	private int isActive;
 	private Date lastLoginTime;
 	private int currenltyLoggedIn;

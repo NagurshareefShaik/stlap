@@ -1,6 +1,6 @@
 package shfl.st.lap.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,14 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
-import lombok.Singular;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 @Data
-@Entity
+//@Entity
 public class MenuMaster {
 
 	@Id
@@ -30,7 +27,8 @@ public class MenuMaster {
 	@JoinColumn(name = "role_id")
 	private Role role;
 	@OneToMany(targetEntity = SubMenu.class, mappedBy = "menuList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<SubMenu> subMenus;
+	@EqualsAndHashCode.Exclude
+	private Set<SubMenu> subMenus;
 
 	@Override
 	public String toString() {

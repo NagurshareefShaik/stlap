@@ -8,10 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
-@Entity
+//@Entity
 public class SubMenu {
 	
 	@Id

@@ -21,7 +21,7 @@ import shfl.st.lap.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] WHITE_URLs = { "/insert","/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+	private static final String[] WHITE_URLs = { "/registerUser","/registerMobileUser","/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
 			"/configuration/security", "/swagger-ui.html", "/webjars/**", "/h2-console/**" };
 
 	@Autowired
