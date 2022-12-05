@@ -1,7 +1,7 @@
 package shfl.st.lap.service;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,11 +39,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if(checker.check(username)) {
 			MobileUser mobileUser = mobileRepo.findByMobileNumber(username);
 			return new org.springframework.security.core.userdetails.User(mobileUser.getMobileNumber(), mobileUser.getOtp(),
-					Collections.singleton(new SimpleGrantedAuthority(mobileUser.getRole().getRoleName())));
+					Collections.singleton(new SimpleGrantedAuthority(mobileUser.getRole())));
 		}
 		
 		EmployeeMaster employeeMaster = repository.findByEmployeeId(username);
+//		Set<MenuMaster> data=employeeMaster.getRole().getMenuList();
+//		data.stream().forEach(menu->{
+//			System.out.println(menu.getMenuName());
+//			menu.getSubMenus().stream().forEach(subMenu->{
+//				System.out.println(subMenu.getSubMenuName());
+//			});
+//		});
 		return new org.springframework.security.core.userdetails.User(employeeMaster.getEmployeeId(), employeeMaster.getPassword(),
-				Collections.singleton(new SimpleGrantedAuthority(employeeMaster.getRole().getRoleName())));
+				Collections.singleton(new SimpleGrantedAuthority(employeeMaster.getRole())));
 	}
 }

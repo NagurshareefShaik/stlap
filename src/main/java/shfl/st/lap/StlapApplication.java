@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class StlapApplication {
 	
 	static {
-		Twilio.init("AC095a19cec3101b3ace4523c41f87796a", "24412600a88c177bbcc054f41af28cbf");
+		Twilio.init("AC095a19cec3101b3ace4523c41f87796a", "9ba3c1dd73400b4d0c2b9a6aafebf5b9");
 	}
 
 	public static void main(String[] args) {
