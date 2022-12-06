@@ -2,12 +2,8 @@ package shfl.st.lap.model;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -15,7 +11,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "EMPLOYEE")
-public class EmployeeMaster {
+public class Employee{
 	@Id
 	private String employeeId;
 	private String employeeName;

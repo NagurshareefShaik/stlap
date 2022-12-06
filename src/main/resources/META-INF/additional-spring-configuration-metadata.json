@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "jwtSecret",
+    "type": "java.lang.String",
+    "description": "jwtSecret is used to generate jwt token"
+  },
+  {
+    "name": "jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "jwtExpirationMs is used to set the expiration time for the jwt token"
+  }
+]}

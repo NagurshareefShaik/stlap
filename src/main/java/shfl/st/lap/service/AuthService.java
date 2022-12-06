@@ -1,6 +1,8 @@
 package shfl.st.lap.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,15 +20,15 @@ public class AuthService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public String generateToken(AuthRequest authRequest) throws Exception {
+	public ResponseEntity<String> generateToken(AuthRequest authRequest) throws Exception {
 		Authentication authentication;
 		try {
 			authentication=authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getEmployeeId(), authRequest.getPassword()));
 		} catch (Exception ex) {
-			return "Invalid username/password";
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid username/password");
 		}
-		return jwtUtil.generateToken(authentication);
+		return ResponseEntity.ok().body(jwtUtil.generateToken(authentication));
 
 	}
 
