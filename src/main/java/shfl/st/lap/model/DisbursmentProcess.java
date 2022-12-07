@@ -12,7 +12,7 @@ public class DisbursmentProcess {
 	private int totalDisbursmentAmt;
 	private int numberOfDisbursment;
 	private int currentDisbursment;
-	private String effectiveDate;
+	private String effectiveRate;
 	private String proposalType;
 	private String sanctionDate;
 	private String fileNumber;

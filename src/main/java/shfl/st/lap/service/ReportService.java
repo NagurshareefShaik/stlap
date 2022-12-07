@@ -1,6 +1,7 @@
 package shfl.st.lap.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import shfl.st.lap.model.DisbursmentCurrent;
 import shfl.st.lap.model.DisbursmentProcess;
 
 @Service
@@ -28,7 +30,8 @@ public class ReportService {
 	@Autowired
 	ResourceLoader resourceLoader;
 
-	public ResponseEntity<byte[]> generateCustomerReport(DisbursmentProcess disbursmentProcess) throws Exception {
+	public ResponseEntity<byte[]> generateCustomerReport() throws Exception {
+		DisbursmentProcess disbursmentProcess=getDisbursmentData();
 		try {
 			System.out.println(disbursmentProcess);
 			System.out.println("genereate report method started");
@@ -40,9 +43,9 @@ public class ReportService {
 			parameters.put("totalDisbursmentAmt", disbursmentProcess.getTotalDisbursmentAmt());
 			parameters.put("numberOfDisbursment", disbursmentProcess.getNumberOfDisbursment());
 			parameters.put("currentDisbursment", disbursmentProcess.getCurrentDisbursment());
-			parameters.put("effectiveDate", disbursmentProcess.getEffectiveDate());
+			parameters.put("effectiveRate", disbursmentProcess.getEffectiveRate());
 			parameters.put("proposalType", disbursmentProcess.getProposalType());
-			parameters.put("sanctionDate", disbursmentProcess.getSanctionDate());
+			parameters.put("sanctionRate", disbursmentProcess.getSanctionDate());
 			parameters.put("fileNumber", disbursmentProcess.getFileNumber());
 			parameters.put("dateOfDisbursment", disbursmentProcess.getDateOfDisbursment());
 			parameters.put("paymentMode", disbursmentProcess.getPaymentMode());
@@ -52,7 +55,7 @@ public class ReportService {
 			parameters.put("favourName", disbursmentProcess.getFavourName());
 			parameters.put("accountNumber", disbursmentProcess.getAccountNumber());
 			parameters.put("debitAccountDetail", disbursmentProcess.getDebitAccountDetail());
-			parameters.put("ifscCode", disbursmentProcess.getIfscCode());
+			parameters.put("IfscCode", disbursmentProcess.getIfscCode());
 			parameters.put("imageDir", resourceLoader.getResource("classpath:images").getURI().getPath());
 			HttpHeaders headers = new HttpHeaders();
 			// set the PDF format
@@ -72,6 +75,50 @@ public class ReportService {
 			System.out.println(e.getStackTrace());
 			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	private DisbursmentProcess getDisbursmentData() {
+		DisbursmentProcess process=new DisbursmentProcess();
+		DisbursmentCurrent disbursment=new DisbursmentCurrent();
+		disbursment.setId(1);
+		disbursment.setAmount(10000);
+		disbursment.setAccountNumber("182728928282");
+		disbursment.setEmiType("Fixed Amount");
+		disbursment.setIfscCode("HDFC000007");
+		disbursment.setPaymentMode("Cash");
+		disbursment.setEntityName("Tom");
+		
+		DisbursmentCurrent disbursment1=new DisbursmentCurrent();
+		disbursment1.setId(1);
+		disbursment1.setAmount(10000);
+		disbursment1.setAccountNumber("182728928282");
+		disbursment1.setEmiType("Fixed Amount");
+		disbursment1.setIfscCode("HDFC000007");
+		disbursment1.setPaymentMode("Cash");
+		disbursment1.setEntityName("Tom");
+		
+		process.setAccountNumber("1242112176865264");
+		process.setApplicantName("Sundaram");
+		process.setChequeMode("Crossed Cheque");
+		process.setChequePrintAt("UnKnown");
+		process.setCurrentDisbursment(500000);
+		process.setDateOfDisbursment("08/18/2014");
+		process.setDebitAccountDetail("3456789976");
+		//list
+		process.setDisbursmentCurrent(Arrays.asList(disbursment,disbursment1));
+		process.setEffectiveRate("18");
+		process.setFavourName("Sundaram Finance");
+		process.setFileNumber("STLAP123456");
+		process.setIfscCode("HDFC000500");
+		process.setLoanRequestDate("08/18/2014");
+		process.setNumberOfDisbursment(2);
+		process.setPaymentMode("Cash");
+		process.setProposalType("Agri Land");
+		process.setSanctionDate("08/18/2014");
+		process.setEntityName("Sundaram Home");
+		process.setIfscCode("HDFC000500");
+		process.setTotalDisbursmentAmt(500000);
+		return process;
 	}
 
 }

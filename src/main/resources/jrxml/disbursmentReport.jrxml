@@ -47,7 +47,7 @@
 	<parameter name="totalDisbursmentAmt" class="java.lang.Integer"/>
 	<parameter name="currentDisbursment" class="java.lang.Integer"/>
 	<parameter name="disbursmentTable" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	<parameter name="effectiveDate" class="java.lang.String"/>
+	<parameter name="effectiveRate" class="java.lang.String"/>
 	<parameter name="proposalType" class="java.lang.String"/>
 	<parameter name="fileNumber" class="java.lang.String"/>
 	<parameter name="sanctionDate" class="java.lang.String"/>
@@ -70,7 +70,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="68" splitType="Stretch">
+		<band height="57" splitType="Stretch">
 			<staticText>
 				<reportElement x="212" y="5" width="130" height="20" uuid="2ec9be87-a8cd-4822-8bcf-44289ed1b6bc"/>
 				<textElement textAlignment="Center">
@@ -112,7 +112,7 @@
 			<textField>
 				<reportElement x="5" y="35" width="114" height="20" uuid="dc422da0-3bd5-4eae-958d-0d2c988c7239"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{apllicantName}]]></textFieldExpression>
@@ -120,7 +120,7 @@
 			<textField>
 				<reportElement x="155" y="35" width="114" height="20" uuid="983140ac-6aa5-4c9e-81f9-b775a3f1022f"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{loanRequestDate}]]></textFieldExpression>
@@ -128,7 +128,7 @@
 			<textField>
 				<reportElement x="298" y="35" width="114" height="20" uuid="ce4fac6d-07e2-49bd-af20-333d2c67d373"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{totalDisbursmentAmt}]]></textFieldExpression>
@@ -136,7 +136,7 @@
 			<textField>
 				<reportElement x="438" y="35" width="114" height="20" uuid="f7c41ec9-be68-4656-ac73-6627b0af6466"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{currentDisbursment}]]></textFieldExpression>
@@ -144,15 +144,15 @@
 			<textField>
 				<reportElement x="5" y="82" width="114" height="20" uuid="73b3356c-5e3d-488e-88cd-bfe0c9e219a6"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{effectiveDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{effectiveRate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="155" y="82" width="114" height="20" uuid="5f55de22-06ac-4ca0-a428-25698b2fd485"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{numberOfDisbursment}]]></textFieldExpression>
@@ -160,7 +160,7 @@
 			<textField>
 				<reportElement x="298" y="82" width="114" height="20" uuid="012f980f-0f4e-4f96-b0e0-ade2348cb97c"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{proposalType}]]></textFieldExpression>
@@ -168,7 +168,7 @@
 			<textField>
 				<reportElement x="439" y="82" width="114" height="20" uuid="706d9ce1-a5ce-4014-bbbf-9733fffa2c5e"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{proposalType}]]></textFieldExpression>
@@ -176,7 +176,7 @@
 			<textField>
 				<reportElement x="5" y="132" width="114" height="20" uuid="31722a03-c415-4d0b-b09f-6c850c56a82c"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{fileNumber}]]></textFieldExpression>
@@ -184,53 +184,83 @@
 			<textField>
 				<reportElement x="155" y="132" width="114" height="20" uuid="4f022a5b-0bf0-4286-bf46-09f032a9c8e2"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{dateOfDisbursment}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="21" width="100" height="14" uuid="cc620bd1-81af-4f16-88a2-36fd4db04c00"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Applicant Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="68" width="100" height="14" uuid="23de4e7b-4c3e-401a-877e-fcb61b6e7c80"/>
-				<text><![CDATA[Effective Date]]></text>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Effective Rate]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="21" width="100" height="14" uuid="399b2824-b3bb-45a3-ad56-b29efc33d7f9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Loan Request Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="68" width="114" height="14" uuid="a3cbbb95-d78a-41a1-9f99-695577285fbf"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Number Of Disbursment]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="298" y="21" width="114" height="14" uuid="bc862ce5-9513-4adf-931d-535949187e5c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Total Disbursment Amt]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="298" y="68" width="100" height="14" uuid="eb250fff-ec2a-40c9-8677-18d57eb1d438"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Proposal Type]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="438" y="21" width="114" height="14" uuid="41c70fe9-7a5e-40d3-ba88-a2f2d61ee874"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Current Disbursment Amt]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="439" y="68" width="100" height="14" uuid="08dcc446-67a5-470d-866e-c3d10111c68e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Sanction Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="118" width="100" height="14" uuid="c38306c2-f0e0-4095-9af0-b3d32f5f5cef"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[File Number]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="118" width="100" height="14" uuid="a2214154-117f-4548-a11a-5adf16d8e2c5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Date Of Disbursment]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="3" width="134" height="18" uuid="5b8be1cd-7a43-4f5c-8804-f6af23335dd2"/>
+				<reportElement x="5" y="-2" width="134" height="18" uuid="5b8be1cd-7a43-4f5c-8804-f6af23335dd2"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -246,7 +276,7 @@
 			<textField>
 				<reportElement x="5" y="200" width="114" height="20" uuid="ed910e15-d2cb-46d2-85a6-ac120700d0bb"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{paymentMode}]]></textFieldExpression>
@@ -254,7 +284,7 @@
 			<textField>
 				<reportElement x="155" y="200" width="114" height="20" uuid="948aa1bf-2cb5-4d2c-b272-3052194bdc83"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{chequeMode}]]></textFieldExpression>
@@ -262,7 +292,7 @@
 			<textField>
 				<reportElement x="298" y="200" width="114" height="20" uuid="70bf52f7-4e1f-4510-940e-28f5f05e9ae8"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{chequePrintAt}]]></textFieldExpression>
@@ -270,7 +300,7 @@
 			<textField>
 				<reportElement x="438" y="200" width="114" height="20" uuid="863b9c09-2ce3-483a-a402-8a628a835fec"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{entityName}]]></textFieldExpression>
@@ -278,7 +308,7 @@
 			<textField>
 				<reportElement x="5" y="247" width="114" height="20" uuid="0a7d7c2f-cafc-4067-ba5b-41044d36acfb"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{favourName}]]></textFieldExpression>
@@ -286,7 +316,7 @@
 			<textField>
 				<reportElement x="155" y="247" width="114" height="20" uuid="7fae579e-9843-477d-84fe-41b1406946c3"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{accountNumber}]]></textFieldExpression>
@@ -294,7 +324,7 @@
 			<textField>
 				<reportElement x="298" y="247" width="114" height="20" uuid="803f87b4-c23d-4528-a7ba-5bff8ea344a4"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{debitAccountDetail}]]></textFieldExpression>
@@ -302,41 +332,65 @@
 			<textField>
 				<reportElement x="439" y="247" width="114" height="20" uuid="5afacead-f27f-43c7-9d9c-81aa8401678a"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{IfscCode}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="186" width="100" height="14" uuid="e54c56ab-4666-4847-9a38-85efa5fd1242"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Payment Mode]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="233" width="100" height="14" uuid="c993548d-d389-4797-8c15-f0c9c23780a9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Favour Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="186" width="100" height="14" uuid="925604da-e81b-40b3-9a63-ee0fe08a7be7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Cheque Mode]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="155" y="233" width="100" height="14" uuid="9b6e02ea-788d-4ee8-a0a8-11323ebe6a04"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Account Number]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="298" y="186" width="100" height="14" uuid="c33064d3-db63-4056-a9f8-9d627c0fe6c1"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Cheque Print At]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="298" y="233" width="100" height="14" uuid="1c08ed47-1091-4ced-a5fb-d0a33ab54210"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Debit Account Details]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="438" y="186" width="100" height="14" uuid="afa56018-99e1-4895-a4d9-6a9a6f9062c5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Entity Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="439" y="233" width="100" height="14" uuid="603bbc25-af5c-4b4b-ab8f-c702ba154306"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
 				<text><![CDATA[IFSC Code]]></text>
 			</staticText>
 			<componentElement>
@@ -363,7 +417,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="79" height="30" uuid="41bc472f-b055-403d-897a-c2533bad71b2"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -380,7 +434,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="79" height="30" uuid="1f89917f-4407-4b76-a107-951406c07b60"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -397,7 +451,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="79" height="30" uuid="8db22b9c-6b5c-4692-88ec-77aec9fea653"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{paymentMode}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -414,7 +468,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="79" height="30" uuid="36b0f51e-9283-42e1-be5a-add2a6896b52"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{emiType}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -431,7 +485,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="30" uuid="29f5e16e-b76c-4128-89a4-8a451d2ffa20"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{entityName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -448,7 +502,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="30" uuid="2515f011-e9bc-48ce-9eb9-45df7644bc62"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{accountNumber}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -465,7 +519,7 @@
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="30" uuid="f1652528-5d9f-45f0-a009-c5c1a896f1d5"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{ifscCode}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>

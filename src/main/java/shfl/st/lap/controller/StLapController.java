@@ -55,20 +55,15 @@ public class StLapController {
 		
 	}
 	
-	@GetMapping("/check")
-	public String check() {
-		return "Validated";
-	}
-	
 	@PostMapping("/authenticate")
 	public ResponseEntity<JwtModel> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 		return authService.generateToken(authRequest);
 	}
 	
-	@PostMapping("/generateReport")
-	public ResponseEntity<byte[]> GenerateCustomerReport(@RequestBody DisbursmentProcess disbursmentProcess) throws Exception {
+	@GetMapping("/generateReport")
+	public ResponseEntity<byte[]> GenerateCustomerReport() throws Exception {
 		System.out.println("genereate report method started COntroller");
-		return reportService.generateCustomerReport(disbursmentProcess);
+		return reportService.generateCustomerReport();
 		
 	}
 
