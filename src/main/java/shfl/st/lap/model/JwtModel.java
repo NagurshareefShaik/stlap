@@ -9,6 +9,6 @@ public class JwtModel {
 	
 	private String jwToken;
 	private String userId;
-	private Date lastLoginTime;
+	private String lastLoginTime;
 
 }

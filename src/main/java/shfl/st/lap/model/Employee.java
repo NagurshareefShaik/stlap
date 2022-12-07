@@ -25,7 +25,7 @@ public class Employee{
 //	@JoinColumn(name  = "branch_id")
 	private String branch;
 	private int isActive;
-	private Date lastLoginTime;
+	private String lastLoginTime;
 	private int currenltyLoggedIn;
 	
 }
