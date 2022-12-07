@@ -24,7 +24,7 @@ public class JwtUtil {
 
 	@Value("${jwtExpirationMs}")
 	private Integer jwtExpirationMs;
-	
+
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
@@ -47,9 +47,8 @@ public class JwtUtil {
 	}
 
 	public String generateToken(Authentication authentication) {
-		String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+		String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(","));
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("role", authorities);
 		return createToken(claims, authentication.getName());

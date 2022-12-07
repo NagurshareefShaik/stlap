@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -36,14 +38,14 @@ public class MailSevice {
 	
 	@Value("${spring.mail.username}")
 	private String from;
+	
+	Logger log=LoggerFactory.getLogger(MailSevice.class);
 
-	public String sendMail(MailData mailData) {
+	public String sendMail(MailData mailData){
 		MimeMessage message = javaMailSender.createMimeMessage();
 		try {
 			Map<String,String> model=new HashMap<>();
 			model.put("otp", mailData.getMsg());
-			//model.put("sflogo", path);
-			// set mediaType
 			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 					StandardCharsets.UTF_8.name());
 			
@@ -58,9 +60,9 @@ public class MailSevice {
 
 
 		} catch (MessagingException | IOException | TemplateException | java.io.IOException e) {
-			
+			log.error(e.getMessage());
 		}
-		return "";
+		return "Mail sent successfully";
 	}
 
 }

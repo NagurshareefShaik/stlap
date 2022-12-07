@@ -21,8 +21,9 @@ import shfl.st.lap.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] WHITE_URLs = { "/registerUser","/registerMobileUser","/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-			"/configuration/security", "/swagger-ui.html", "/webjars/**", "/h2-console/**" };
+	private static final String[] WHITE_URLs = {"/registerUser", "/registerMobileUser", "/v2/api-docs",
+			"/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**",
+			"/h2-console/**" };
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
@@ -48,11 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
-		.antMatchers("/generateOtp").permitAll().antMatchers(WHITE_URLs)
-				.permitAll().anyRequest().authenticated().and().exceptionHandling().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers("/generateOtp")
+				.permitAll().antMatchers(WHITE_URLs).permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		http.headers().frameOptions().disable();
+		http.cors();
 	}
 }

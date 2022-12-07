@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="disbursmentReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="29d8c452-acae-4d0f-824e-595c17f15dcc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="disbursmentReport" uuid="6f9e6806-e9ff-4f93-b57d-b30fa405aeb2">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="id" class="java.lang.Integer"/>
+		<field name="amount" class="java.lang.Integer"/>
+		<field name="paymentMode" class="java.lang.String"/>
+		<field name="emiType" class="java.lang.String"/>
+		<field name="entityName" class="java.lang.String"/>
+		<field name="accountNumber" class="java.lang.String"/>
+		<field name="ifscCode" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="apllicantName" class="java.lang.String"/>
+	<parameter name="loanRequestDate" class="java.lang.String"/>
+	<parameter name="totalDisbursmentAmt" class="java.lang.Integer"/>
+	<parameter name="currentDisbursment" class="java.lang.Integer"/>
+	<parameter name="disbursmentTable" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="effectiveDate" class="java.lang.String"/>
+	<parameter name="proposalType" class="java.lang.String"/>
+	<parameter name="fileNumber" class="java.lang.String"/>
+	<parameter name="sanctionDate" class="java.lang.String"/>
+	<parameter name="dateOfDisbursment" class="java.lang.String"/>
+	<parameter name="paymentMode" class="java.lang.String"/>
+	<parameter name="IfscCode" class="java.lang.String"/>
+	<parameter name="debitAccountDetail" class="java.lang.String"/>
+	<parameter name="accountNumber" class="java.lang.String"/>
+	<parameter name="favourName" class="java.lang.String"/>
+	<parameter name="entityName" class="java.lang.String"/>
+	<parameter name="chequePrintAt" class="java.lang.String"/>
+	<parameter name="chequeMode" class="java.lang.String"/>
+	<parameter name="numberOfDisbursment" class="java.lang.Integer"/>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="imageDir" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="212" y="5" width="130" height="20" uuid="2ec9be87-a8cd-4822-8bcf-44289ed1b6bc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<text><![CDATA[Sunadaram Home]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="25" width="100" height="20" uuid="6c30c8ef-0cea-46d0-95fb-478d887e6b83"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Disbursment Process]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="452" y="5" width="100" height="20" uuid="5ea86b3c-1479-4b64-ba40-5642de12789d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="4" y="48" width="551" height="1" uuid="5ff8198f-4588-4bdb-b748-b4deaa00fc02"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="452" y="27" width="100" height="18" uuid="bc4929dc-f132-426a-82af-f1fe32d13dd8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="5" width="134" height="40" uuid="f8faeb07-e375-42cd-a697-350986ac7163"/>
+				<imageExpression><![CDATA[$P{imageDir}+"/sf.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="509" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="35" width="114" height="20" uuid="dc422da0-3bd5-4eae-958d-0d2c988c7239"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{apllicantName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="35" width="114" height="20" uuid="983140ac-6aa5-4c9e-81f9-b775a3f1022f"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{loanRequestDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="35" width="114" height="20" uuid="ce4fac6d-07e2-49bd-af20-333d2c67d373"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalDisbursmentAmt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="35" width="114" height="20" uuid="f7c41ec9-be68-4656-ac73-6627b0af6466"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{currentDisbursment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="82" width="114" height="20" uuid="73b3356c-5e3d-488e-88cd-bfe0c9e219a6"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{effectiveDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="82" width="114" height="20" uuid="5f55de22-06ac-4ca0-a428-25698b2fd485"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{numberOfDisbursment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="82" width="114" height="20" uuid="012f980f-0f4e-4f96-b0e0-ade2348cb97c"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{proposalType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="82" width="114" height="20" uuid="706d9ce1-a5ce-4014-bbbf-9733fffa2c5e"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{proposalType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="132" width="114" height="20" uuid="31722a03-c415-4d0b-b09f-6c850c56a82c"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{fileNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="132" width="114" height="20" uuid="4f022a5b-0bf0-4286-bf46-09f032a9c8e2"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{dateOfDisbursment}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="21" width="100" height="14" uuid="cc620bd1-81af-4f16-88a2-36fd4db04c00"/>
+				<text><![CDATA[Applicant Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="68" width="100" height="14" uuid="23de4e7b-4c3e-401a-877e-fcb61b6e7c80"/>
+				<text><![CDATA[Effective Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="21" width="100" height="14" uuid="399b2824-b3bb-45a3-ad56-b29efc33d7f9"/>
+				<text><![CDATA[Loan Request Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="68" width="114" height="14" uuid="a3cbbb95-d78a-41a1-9f99-695577285fbf"/>
+				<text><![CDATA[Number Of Disbursment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="21" width="114" height="14" uuid="bc862ce5-9513-4adf-931d-535949187e5c"/>
+				<text><![CDATA[Total Disbursment Amt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="68" width="100" height="14" uuid="eb250fff-ec2a-40c9-8677-18d57eb1d438"/>
+				<text><![CDATA[Proposal Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="21" width="114" height="14" uuid="41c70fe9-7a5e-40d3-ba88-a2f2d61ee874"/>
+				<text><![CDATA[Current Disbursment Amt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="68" width="100" height="14" uuid="08dcc446-67a5-470d-866e-c3d10111c68e"/>
+				<text><![CDATA[Sanction Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="118" width="100" height="14" uuid="c38306c2-f0e0-4095-9af0-b3d32f5f5cef"/>
+				<text><![CDATA[File Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="118" width="100" height="14" uuid="a2214154-117f-4548-a11a-5adf16d8e2c5"/>
+				<text><![CDATA[Date Of Disbursment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="3" width="134" height="18" uuid="5b8be1cd-7a43-4f5c-8804-f6af23335dd2"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Basic Infirmation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="160" width="206" height="18" uuid="5507e65e-b07a-40c9-8cbb-aad7aed24a35"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Current Disbursment Details]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="5" y="200" width="114" height="20" uuid="ed910e15-d2cb-46d2-85a6-ac120700d0bb"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paymentMode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="200" width="114" height="20" uuid="948aa1bf-2cb5-4d2c-b272-3052194bdc83"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{chequeMode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="200" width="114" height="20" uuid="70bf52f7-4e1f-4510-940e-28f5f05e9ae8"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{chequePrintAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="200" width="114" height="20" uuid="863b9c09-2ce3-483a-a402-8a628a835fec"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{entityName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="247" width="114" height="20" uuid="0a7d7c2f-cafc-4067-ba5b-41044d36acfb"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{favourName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="247" width="114" height="20" uuid="7fae579e-9843-477d-84fe-41b1406946c3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{accountNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="247" width="114" height="20" uuid="803f87b4-c23d-4528-a7ba-5bff8ea344a4"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{debitAccountDetail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="247" width="114" height="20" uuid="5afacead-f27f-43c7-9d9c-81aa8401678a"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{IfscCode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="186" width="100" height="14" uuid="e54c56ab-4666-4847-9a38-85efa5fd1242"/>
+				<text><![CDATA[Payment Mode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="233" width="100" height="14" uuid="c993548d-d389-4797-8c15-f0c9c23780a9"/>
+				<text><![CDATA[Favour Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="186" width="100" height="14" uuid="925604da-e81b-40b3-9a63-ee0fe08a7be7"/>
+				<text><![CDATA[Cheque Mode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="233" width="100" height="14" uuid="9b6e02ea-788d-4ee8-a0a8-11323ebe6a04"/>
+				<text><![CDATA[Account Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="186" width="100" height="14" uuid="c33064d3-db63-4056-a9f8-9d627c0fe6c1"/>
+				<text><![CDATA[Cheque Print At]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="233" width="100" height="14" uuid="1c08ed47-1091-4ced-a5fb-d0a33ab54210"/>
+				<text><![CDATA[Debit Account Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="186" width="100" height="14" uuid="afa56018-99e1-4895-a4d9-6a9a6f9062c5"/>
+				<text><![CDATA[Entity Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="233" width="100" height="14" uuid="603bbc25-af5c-4b4b-ab8f-c702ba154306"/>
+				<text><![CDATA[IFSC Code]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="5" y="290" width="550" height="170" uuid="3533cd0b-018e-4d0b-981f-476b8b453a98">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="disbursmentReport" uuid="0da073f3-1969-436e-aa1d-1aa26f8bd5cb">
+						<dataSourceExpression><![CDATA[$P{disbursmentTable}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="79" uuid="06668e55-acb0-41c2-b49f-39e94ae38f25">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="30" uuid="7887ed56-dec6-492b-bbba-b2fe9e161ea5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="79" height="30" uuid="41bc472f-b055-403d-897a-c2533bad71b2"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="90a08636-df76-4e84-b6af-2b6289ad4bca">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="30" uuid="52a1c33a-aacb-4088-8a94-19ecfc5f0b4a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="79" height="30" uuid="1f89917f-4407-4b76-a107-951406c07b60"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="829e9f77-38cf-4404-b07e-e64294162af4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="30" uuid="a7e08e86-3fbb-4f7c-97dc-bd0d5b5d1fe7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Payment Mode]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="79" height="30" uuid="8db22b9c-6b5c-4692-88ec-77aec9fea653"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{paymentMode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="41616b45-93b6-4bd8-850b-ea6b73bffe02">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="30" uuid="22f9d437-f158-42fb-a28a-d10b8f2c3bf4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Emi Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="79" height="30" uuid="36b0f51e-9283-42e1-be5a-add2a6896b52"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{emiType}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="a39108fa-a9f8-4f17-8ed1-057ce5e01a9f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="c46d0b08-68cd-4693-bd1b-ac2865ea2c22"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Entity Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="30" uuid="29f5e16e-b76c-4128-89a4-8a451d2ffa20"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{entityName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="0f217328-f21f-4267-a7c1-e5a4ec9c5857">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="e84a9ab0-39eb-4b01-8c98-640aaa0b84cb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Account Number]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="30" uuid="2515f011-e9bc-48ce-9eb9-45df7644bc62"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{accountNumber}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="e4d9454f-4fd6-4c7d-94c6-aa2e273ed6b8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="25f27c0b-dce1-4565-8fc7-33a0e52f2cb4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[IFSC Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="30" uuid="f1652528-5d9f-45f0-a009-c5c1a896f1d5"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{ifscCode}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

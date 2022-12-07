@@ -1,7 +1,6 @@
 package shfl.st.lap.service;
 
 import java.util.Collections;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import shfl.st.lap.model.EmployeeMaster;
-import shfl.st.lap.model.MenuMaster;
+import shfl.st.lap.model.Employee;
 import shfl.st.lap.model.MobileUser;
+import shfl.st.lap.repo.EmployeeRepo;
 import shfl.st.lap.repo.MobileRepo;
-import shfl.st.lap.repo.UserRepo;
 import shfl.st.lap.util.MobileNumberChecker;
 
 @Service
@@ -25,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
 	@Autowired
-	private UserRepo repository;
+	private EmployeeRepo employeeRepo;
 	
 	@Autowired
 	private MobileRepo mobileRepo;
@@ -42,14 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 					Collections.singleton(new SimpleGrantedAuthority(mobileUser.getRole())));
 		}
 		
-		EmployeeMaster employeeMaster = repository.findByEmployeeId(username);
-//		Set<MenuMaster> data=employeeMaster.getRole().getMenuList();
-//		data.stream().forEach(menu->{
-//			System.out.println(menu.getMenuName());
-//			menu.getSubMenus().stream().forEach(subMenu->{
-//				System.out.println(subMenu.getSubMenuName());
-//			});
-//		});
+		Employee employeeMaster = employeeRepo.findByEmployeeId(username);
 		return new org.springframework.security.core.userdetails.User(employeeMaster.getEmployeeId(), employeeMaster.getPassword(),
 				Collections.singleton(new SimpleGrantedAuthority(employeeMaster.getRole())));
 	}
