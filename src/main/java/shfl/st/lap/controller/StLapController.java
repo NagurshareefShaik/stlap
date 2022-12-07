@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.sf.jasperreports.engine.JRException;
 import shfl.st.lap.model.AuthRequest;
+import shfl.st.lap.model.DisbursmentProcess;
 import shfl.st.lap.model.Employee;
 import shfl.st.lap.model.EmployeeModel;
+import shfl.st.lap.model.JwtModel;
 import shfl.st.lap.model.MobileUser;
 import shfl.st.lap.service.AuthService;
 import shfl.st.lap.service.EmployeeService;
@@ -22,7 +24,6 @@ import shfl.st.lap.service.OptService;
 import shfl.st.lap.service.ReportService;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class StLapController {
 
 	@Autowired
@@ -40,11 +41,6 @@ public class StLapController {
 	@PostMapping("/generateOtp")
 	public ResponseEntity<String> generateOtp(@RequestBody AuthRequest authRequest) {
 		return optService.generateOtp(authRequest);
-	}
-	
-	@PostMapping("/getEmployeeData")
-	public ResponseEntity<EmployeeModel> getEmployeeData() {
-		return employeeService.getEmployeeData();
 	}
 	
 	@PostMapping("/registerUser")
@@ -65,13 +61,15 @@ public class StLapController {
 	}
 	
 	@PostMapping("/authenticate")
-	public ResponseEntity<String> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+	public ResponseEntity<JwtModel> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 		return authService.generateToken(authRequest);
 	}
 	
-	@GetMapping("/generateReport")
-	public ResponseEntity<byte[]> GenerateCustomerReport() throws JRException, IOException {
-		return reportService.generateCustomerReport();
+	@PostMapping("/generateReport")
+	public ResponseEntity<byte[]> GenerateCustomerReport(@RequestBody DisbursmentProcess disbursmentProcess) throws Exception {
+		System.out.println("genereate report method started COntroller");
+		return reportService.generateCustomerReport(disbursmentProcess);
+		
 	}
 
 }

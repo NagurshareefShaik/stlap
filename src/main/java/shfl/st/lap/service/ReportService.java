@@ -1,7 +1,6 @@
 package shfl.st.lap.service;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import shfl.st.lap.model.Details;
+import shfl.st.lap.model.DisbursmentProcess;
 
 @Service
 public class ReportService {
@@ -29,20 +28,32 @@ public class ReportService {
 	@Autowired
 	ResourceLoader resourceLoader;
 
-	public ResponseEntity<byte[]> generateCustomerReport() throws JRException, IOException {
+	public ResponseEntity<byte[]> generateCustomerReport(DisbursmentProcess disbursmentProcess) throws Exception {
 		try {
-			Map<String,Object> tableData=new HashMap<>();
-			tableData.put("id", 1);
-			tableData.put("amount", 100000);
-			tableData.put("paymentMode", "CASH");
-			tableData.put("emiType", "Emi Type");
-			tableData.put("entityName", "Sample");
-			tableData.put("accountNumber", "234567");
-			tableData.put("ifscCode", "123456");
-			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(Arrays.asList(tableData));
+			System.out.println(disbursmentProcess);
+			System.out.println("genereate report method started");
+			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(disbursmentProcess.getDisbursmentCurrent());
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("disbursmentTable", beanCollectionDataSource);
-			parameters.put("logo", resourceLoader.getResource("classpath:images/sf.png").getURI().getPath());
+			parameters.put("apllicantName", disbursmentProcess.getApplicantName());
+			parameters.put("loanRequestDate", disbursmentProcess.getLoanRequestDate());
+			parameters.put("totalDisbursmentAmt", disbursmentProcess.getTotalDisbursmentAmt());
+			parameters.put("numberOfDisbursment", disbursmentProcess.getNumberOfDisbursment());
+			parameters.put("currentDisbursment", disbursmentProcess.getCurrentDisbursment());
+			parameters.put("effectiveDate", disbursmentProcess.getEffectiveDate());
+			parameters.put("proposalType", disbursmentProcess.getProposalType());
+			parameters.put("sanctionDate", disbursmentProcess.getSanctionDate());
+			parameters.put("fileNumber", disbursmentProcess.getFileNumber());
+			parameters.put("dateOfDisbursment", disbursmentProcess.getDateOfDisbursment());
+			parameters.put("paymentMode", disbursmentProcess.getPaymentMode());
+			parameters.put("chequeMode", disbursmentProcess.getChequeMode());
+			parameters.put("chequePrintAt", disbursmentProcess.getChequePrintAt());
+			parameters.put("entityName", disbursmentProcess.getEntityName());
+			parameters.put("favourName", disbursmentProcess.getFavourName());
+			parameters.put("accountNumber", disbursmentProcess.getAccountNumber());
+			parameters.put("debitAccountDetail", disbursmentProcess.getDebitAccountDetail());
+			parameters.put("ifscCode", disbursmentProcess.getIfscCode());
+			parameters.put("imageDir", resourceLoader.getResource("classpath:images").getURI().getPath());
 			HttpHeaders headers = new HttpHeaders();
 			// set the PDF format
 			headers.setContentType(MediaType.APPLICATION_PDF);
@@ -50,9 +61,15 @@ public class ReportService {
 			String path = resourceLoader.getResource("classpath:jrxml/disbursmentReport.jrxml").getURI().getPath();
 			JasperReport jasperReport = JasperCompileManager.compileReport(path);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+			System.out.println("genereate report method compled");
 			return new ResponseEntity<byte[]>(JasperExportManager.exportReportToPdf(jasperPrint), headers,
 					HttpStatus.OK);
+			
 		} catch (Exception e) {
+			System.out.println("exception occured in report service");
+			System.out.println(e.getMessage());
+			System.out.println(e.getCause());
+			System.out.println(e.getStackTrace());
 			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -39,8 +39,8 @@
 		<field name="paymentMode" class="java.lang.String"/>
 		<field name="emiType" class="java.lang.String"/>
 		<field name="entityName" class="java.lang.String"/>
-		<field name="AccountNumber" class="java.lang.String"/>
-		<field name="IfscCode" class="java.lang.String"/>
+		<field name="accountNumber" class="java.lang.String"/>
+		<field name="ifscCode" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="apllicantName" class="java.lang.String"/>
 	<parameter name="loanRequestDate" class="java.lang.String"/>
@@ -55,12 +55,14 @@
 	<parameter name="paymentMode" class="java.lang.String"/>
 	<parameter name="IfscCode" class="java.lang.String"/>
 	<parameter name="debitAccountDetail" class="java.lang.String"/>
-	<parameter name="AccountNumber" class="java.lang.String"/>
+	<parameter name="accountNumber" class="java.lang.String"/>
 	<parameter name="favourName" class="java.lang.String"/>
 	<parameter name="entityName" class="java.lang.String"/>
 	<parameter name="chequePrintAt" class="java.lang.String"/>
 	<parameter name="chequeMode" class="java.lang.String"/>
-	<parameter name="numberOfDisbursment" class="java.lang.String"/>
+	<parameter name="numberOfDisbursment" class="java.lang.Integer"/>
+	<parameter name="logo" class="java.awt.Image"/>
+	<parameter name="imageDir" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -68,11 +70,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="57" splitType="Stretch">
-			<image>
-				<reportElement x="5" y="5" width="140" height="30" uuid="9953579b-7315-40f7-971a-c6ff0822e8bb"/>
-				<imageExpression><![CDATA["C:/Users/nagubash/Desktop/shfl.png"]]></imageExpression>
-			</image>
+		<band height="68" splitType="Stretch">
 			<staticText>
 				<reportElement x="212" y="5" width="130" height="20" uuid="2ec9be87-a8cd-4822-8bcf-44289ed1b6bc"/>
 				<textElement textAlignment="Center">
@@ -103,6 +101,10 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="5" y="5" width="134" height="40" uuid="f8faeb07-e375-42cd-a697-350986ac7163"/>
+				<imageExpression><![CDATA[$P{imageDir}+"/sf.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<detail>
@@ -287,7 +289,7 @@
 					<pen lineWidth="0.25" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{AccountNumber}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{accountNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="298" y="247" width="114" height="20" uuid="803f87b4-c23d-4528-a7ba-5bff8ea344a4"/>
@@ -447,7 +449,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="78" height="30" uuid="2515f011-e9bc-48ce-9eb9-45df7644bc62"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{AccountNumber}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{accountNumber}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -464,7 +466,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="78" height="30" uuid="f1652528-5d9f-45f0-a009-c5c1a896f1d5"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{IfscCode}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{ifscCode}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

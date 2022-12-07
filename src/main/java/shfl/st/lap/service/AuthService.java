@@ -10,25 +10,35 @@ import org.springframework.stereotype.Service;
 
 import shfl.st.lap.jwt.JwtUtil;
 import shfl.st.lap.model.AuthRequest;
+import shfl.st.lap.model.EmployeeModel;
+import shfl.st.lap.model.JwtModel;
 
 @Service
 public class AuthService {
 
 	@Autowired
 	private JwtUtil jwtUtil;
+	
+	@Autowired
+	EmployeeService employeeService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	public ResponseEntity<String> generateToken(AuthRequest authRequest) throws Exception {
+	public ResponseEntity<JwtModel> generateToken(AuthRequest authRequest) throws Exception {
 		Authentication authentication;
+		JwtModel jwtModel=new JwtModel();
 		try {
 			authentication=authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getEmployeeId(), authRequest.getPassword()));
 		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid username/password");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jwtModel);
 		}
-		return ResponseEntity.ok().body(jwtUtil.generateToken(authentication));
+		ResponseEntity<EmployeeModel> employee=employeeService.getEmployeeData(authentication.getName());
+		jwtModel.setJwToken(jwtUtil.generateToken(authentication));
+		jwtModel.setUserId(employee.getBody().getEmployeeId());
+		jwtModel.setLastLoginTime(employee.getBody().getLastLoginTime());
+		return ResponseEntity.ok().body(jwtModel);
 
 	}
 

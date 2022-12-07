@@ -21,7 +21,7 @@ import shfl.st.lap.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] WHITE_URLs = { "/registerUser", "/registerMobileUser", "/v2/api-docs",
+	private static final String[] WHITE_URLs = {"/registerUser", "/registerMobileUser", "/v2/api-docs",
 			"/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**",
 			"/h2-console/**" };
 
@@ -53,6 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll().antMatchers(WHITE_URLs).permitAll().anyRequest().authenticated().and().exceptionHandling()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		http.headers().frameOptions().disable();
+		http.cors();
 	}
 }

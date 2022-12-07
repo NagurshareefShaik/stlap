@@ -58,11 +58,8 @@ public class EmployeeService {
 		return msg;
 	}
 
-	public ResponseEntity<EmployeeModel> getEmployeeData() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
+	public ResponseEntity<EmployeeModel> getEmployeeData(String userId) {
 			EmployeeModel employeeModel = new EmployeeModel();
-			String userId = ((UserDetails) principal).getUsername();
 			if(mobileNumberChecker.check(userId)) {
 				MobileUser mobileUser=mobileRepo.findByMobileNumber(userId);
 				employeeModel.setEmployeeId(mobileUser.getUserName());
@@ -70,12 +67,9 @@ public class EmployeeService {
 				return ResponseEntity.status(HttpStatus.OK).body(employeeModel);
 			}
 			Employee employee = employeeRepo.findByEmployeeId(userId);
-			employeeModel.setEmployeeId(employee.getEmployeeId());
+			employeeModel.setEmployeeId(employee.getEmployeeName());
 			employeeModel.setLastLoginTime(employee.getLastLoginTime());
 			return ResponseEntity.status(HttpStatus.OK).body(employeeModel);
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(null);
-		}
 	}
 
 }
