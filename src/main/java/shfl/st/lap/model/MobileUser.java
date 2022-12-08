@@ -24,7 +24,7 @@ public class MobileUser {
 	private String branch;
 	private int otpCount;
 	private int isActive;
-	private Date lastLoginTime;
+	private String lastLoginTime;
 	private int currenltyLoggedIn;
 
 }

@@ -8,6 +8,6 @@ import lombok.Data;
 public class EmployeeModel {
 	
 	private String employeeId;
-	private Date lastLoginTime;
+	private String lastLoginTime;
 
 }
