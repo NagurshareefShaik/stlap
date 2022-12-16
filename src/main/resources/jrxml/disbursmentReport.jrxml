@@ -306,7 +306,7 @@
 				<textFieldExpression><![CDATA[$P{entityName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="247" width="114" height="20" uuid="0a7d7c2f-cafc-4067-ba5b-41044d36acfb"/>
+				<reportElement style="Table_CH" x="5" y="247" width="114" height="20" uuid="0a7d7c2f-cafc-4067-ba5b-41044d36acfb"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.1" lineStyle="Solid"/>
 				</box>

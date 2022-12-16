@@ -1,5 +1,6 @@
 package shfl.st.lap.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,21 +11,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "role")
+@Table(name = "ROLE_MASTER")
 public class Role {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "role_id")
 	private int roleId;
+	@Column(name = "role_name")
 	private String roleName;
-	/*
-	 * @OneToMany(targetEntity = MenuMaster.class, mappedBy = "role", cascade =
-	 * CascadeType.ALL, fetch = FetchType.EAGER)
-	 * 
-	 * @EqualsAndHashCode.Exclude Set<MenuMaster> menuList;
-	 * 
-	 * @Override public String toString() { return "Role [roleId=" + roleId +
-	 * ", roleName=" + roleName + ", menuList=" + menuList + "]"; }
-	 */
 
 }
