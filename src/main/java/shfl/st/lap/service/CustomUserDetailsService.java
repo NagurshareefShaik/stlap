@@ -37,11 +37,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if(checker.check(username)) {
 			MobileUser mobileUser = mobileRepo.findByMobileNumber(username);
 			return new org.springframework.security.core.userdetails.User(mobileUser.getMobileNumber(), mobileUser.getOtp(),
-					Collections.singleton(new SimpleGrantedAuthority(mobileUser.getRole())));
+					Collections.singleton(new SimpleGrantedAuthority("Sales")));
 		}
 		
 		Employee employeeMaster = employeeRepo.findByEmployeeId(username);
 		return new org.springframework.security.core.userdetails.User(employeeMaster.getEmployeeId(), employeeMaster.getPassword(),
-				Collections.singleton(new SimpleGrantedAuthority(employeeMaster.getRole())));
+				Collections.singleton(new SimpleGrantedAuthority("Sales")));
 	}
 }
