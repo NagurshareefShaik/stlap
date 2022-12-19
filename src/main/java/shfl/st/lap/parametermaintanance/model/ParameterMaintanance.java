@@ -20,24 +20,24 @@ public class ParameterMaintanance {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "PARAMETER_ID")
+	@Column(name = "parameter_id")
 	private int parameterId;
-	@Column(name = "MINIMUM_DISBURSEMENT_AMOUNT")
+	@Column(name = "minimum_disbursement_amount")
 	private int minimumDisbursementAmount;
-	@Column(name = "PAYMENT_MODE")
+	@Column(name = "payment_mode")
 	private String paymentMode;
-	@Column(name = "MAXIMUM_ALLOWABLE_CASH_RECEIPT")
+	@Column(name = "maximum_allowable_cash_receipt")
 	private int maximumAllowableCashReceipt;
-	@Column(name = "CHEQUE_STALE_DAYS")
+	@Column(name = "cheque_stale_days")
 	private int chequeStaleDays;
-	@Column(name = "CREATED_BY")
+	@Column(name = "created_by")
 	private String createdBy;
-	@Column(name = "CREATED_DATE_TIME")
+	@Column(name = "created_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDateTime;
-	@Column(name = "MODIFIED_BY")
+	@Column(name = "modified_by")
 	private String modifiedBy;
-	@Column(name = "MODIFIED_DATE_TIME")
+	@Column(name = "modified_date_time")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDateTime;
 
