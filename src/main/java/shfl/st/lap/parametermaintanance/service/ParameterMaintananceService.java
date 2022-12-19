@@ -3,6 +3,7 @@ package shfl.st.lap.parametermaintanance.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import shfl.st.lap.authentication.util.LoggedUserData;
+import shfl.st.lap.parametermaintanance.model.Parameter;
 import shfl.st.lap.parametermaintanance.model.ParameterMaintanance;
 import shfl.st.lap.parametermaintanance.repo.ParameterMaintananceRepo;
 
@@ -46,6 +48,15 @@ public class ParameterMaintananceService {
 			return ResponseEntity.ok().body("Parameter Updated Successfully");
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter Not Updated");
+		}
+	}
+
+	public ResponseEntity<ParameterMaintanance> getParameterById(Parameter parameter) {
+		Optional<ParameterMaintanance> parameterMaintanance=parameterMaintananceRepo.findById(parameter.getParameterId());
+		if(Objects.nonNull(parameterMaintanance)) {
+			return ResponseEntity.ok().body(parameterMaintanance.get());
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ParameterMaintanance());
 		}
 	}
 
