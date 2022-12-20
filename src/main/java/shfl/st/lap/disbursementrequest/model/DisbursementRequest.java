@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "DISBURSEMENT_REQUEST")
-
 public class DisbursementRequest {
 
 	@Id
@@ -27,7 +26,7 @@ public class DisbursementRequest {
 	@Column(name = "application_number")
 	private String applicationNumber;
 	@Column(name = "customer_id")
-	private int customrId;
+	private int customerId;
 	@Column(name = "customer_name")
 	private String customerName;
 	@Column(name = "rate_of_interest")

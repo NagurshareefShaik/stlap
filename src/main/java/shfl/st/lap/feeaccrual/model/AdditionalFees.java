@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,13 +15,12 @@ import lombok.Data;
 public class AdditionalFees {
 
 	@Id
-	@GeneratedValue
+	@Column(name = "application_number")
+	private String applicationNumber;
 	@Column(name = "reference_no")
 	private String referenceNo;
 	@Column(name = "disbursement_branch")
 	private String disbursementBranch;
-	@Column(name = "application_number")
-	private String applicationNumber;
 	@Column(name = "reference_date")
 	private Date referenceDate;
 	@Column(name = "customer_data")
