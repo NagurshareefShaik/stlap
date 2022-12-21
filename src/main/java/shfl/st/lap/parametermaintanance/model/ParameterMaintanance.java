@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.Data;
 
@@ -23,30 +21,31 @@ public class ParameterMaintanance {
 	@Column(name = "parameter_id")
 	private int parameterId;
 	
-	@Column(name = "minimum_disbursement_amount")
-	private int minimumDisbursementAmount;
+	@Column(name = "parameter_name")
+	private String parameterName;
 	
-	@Column(name = "payment_mode")
-	private String paymentMode;
+	@Column(name = "parameter_value")
+	private String parameterValue;
 	
-	@Column(name = "maximum_allowable_cash_receipt")
-	private int maximumAllowableCashReceipt;
+	@Column(name = "parameter_data_type")
+	private String parameterDataType;
 	
-	@Column(name = "cheque_stale_days")
-	private int chequeStaleDays;
+	@Column(name = "parameter_effective_start_date")
+	private Date parameterEffectiveStartDate;
+	
+	@Column(name = "parameter_effective_end_date")
+	private Date parameterEffectiveEndDate;
 	
 	@Column(name = "created_by")
 	private String createdBy;
 	
 	@Column(name = "created_date_time")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDateTime;
 	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
 	@Column(name = "modified_date_time")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedDateTime;
 
 }
