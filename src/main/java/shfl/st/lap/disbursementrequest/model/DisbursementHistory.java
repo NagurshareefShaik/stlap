@@ -11,8 +11,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_DISB_HYSTORY")
-public class DisbursementHystory {
+@Table(name = "ST_TB_LMS_DISB_HISTORY")
+public class DisbursementHistory {
 	
 	@Id
 	@Column(name = "tanscation_id")
@@ -26,11 +26,24 @@ public class DisbursementHystory {
 	@Column(name = "application_number")
 	private String applicationNumber;
 	
+	@Column(name = "disb_amt")
+	private float disbAmt;
+
+	@Column(name = "total_disb_amt")
+	private float totalDisbAmt;
+	
+	@Column(name = "request_status")
+	private String requestStatus;
+	
+	@Column(name = "remarks")
+	private String remarks;
+	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
 	@Column(name = "modified_date")
 	private LocalDateTime modifiedDate;
+	
 	
 
 }

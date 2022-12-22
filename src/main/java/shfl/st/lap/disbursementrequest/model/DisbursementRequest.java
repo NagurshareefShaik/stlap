@@ -61,8 +61,8 @@ public class DisbursementRequest {
 	@Column(name = "remarks")
 	private String remarks;
 	
-	@Column(name = "edit_log")
-	private boolean editLog;
+	@Column(name = "edit_lock")
+	private boolean editLock;
 
 	@Column(name = "created_by")
 	private String createdBy;

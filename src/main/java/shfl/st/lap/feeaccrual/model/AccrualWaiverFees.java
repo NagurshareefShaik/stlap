@@ -47,8 +47,8 @@ public class AccrualWaiverFees {
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
-	@Column(name = "edit_log")
-	private boolean editLog;
+	@Column(name = "edit_lock")
+	private boolean editLock;
 
 	@Column(name = "modified_date_time")
 	private LocalDateTime modidiedDateTime;
