@@ -14,28 +14,28 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_PARAMETER_MAINT")
+@Table(name = "ST_TB_LMS_PARAM_MAINT")
 public class ParameterMaintanance {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "parameter_id")
-	private int parameterId;
+	@Column(name = "param_id")
+	private int paramId;
 	
-	@Column(name = "parameter_name")
-	private String parameterName;
+	@Column(name = "param_name")
+	private String paramName;
 	
-	@Column(name = "parameter_value")
-	private String parameterValue;
+	@Column(name = "param_value")
+	private String paramValue;
 	
-	@Column(name = "parameter_data_type")
-	private String parameterDataType;
+	@Column(name = "param_data_type")
+	private String paramDataType;
 	
-	@Column(name = "parameter_eff_start_dt")
-	private Date parameterEffStartDt;
+	@Column(name = "param_eff_start_dt")
+	private Date paramEffStartDt;
 	
-	@Column(name = "parameter_eff_end_dt")
-	private Date parameterEffEndDt;
+	@Column(name = "param_eff_end_dt")
+	private Date paramEffEndDt;
 	
 	@Column(name = "created_by")
 	private String createdBy;

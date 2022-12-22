@@ -19,9 +19,13 @@ public class AccrualWaiverFeesDescAmt {
 	@Column(name = "application_number")
 	private String applicationNumber;
 
-	//second key
+	// key
 	@Column(name = "fee_description")
 	private String feeDescription;
+	
+	// key
+	@Column(name = "addtnl_fee_type")
+	private String addtnlFeeType;
 
 	@Column(name = "addtnl_fee_amount")
 	private float addtnlFeeAmount;
@@ -29,8 +33,7 @@ public class AccrualWaiverFeesDescAmt {
 	@Column(name = "oustanding_amount")
 	private float oustandingAmount;
 	
-	@Column(name = "addtnl_fee_type")
-	private String addtnlFeeType;
+	
 	
 	
 
