@@ -1,5 +1,6 @@
 package shfl.st.lap.disbursementrequest.model;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -26,12 +27,27 @@ public class DisbursementHistory {
 	@Column(name = "application_number")
 	private String applicationNumber;
 	
+	@Column(name = "earlier_disb_amt")
+	private float earlierDisbAmt;
+	
 	@Column(name = "disb_amt")
 	private float disbAmt;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;
 	
+	@Column(name = "date_of_disb")
+	private Date dateOfDisb;
+
+	@Column(name = "billing_day")
+	private Date billingDay;
+
+	@Column(name = "billing_date")
+	private Date billingDate;
+	
+	@Column(name = "emi_comm_date")
+	private Date emiCommDate;
+
 	@Column(name = "request_status")
 	private String requestStatus;
 	
