@@ -12,62 +12,42 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "DISBURSEMENT_REQUEST")
+@Table(name = "ST_TB_LMS_DISB_REQ")
 public class DisbursementRequest {
 
 	@Id
-	@GeneratedValue
-	@Column(name = "disbursement_number")
-	private int disbursementNumber;
-
-	@Column(name = "request_number")
-	private String requestNumber;
-
-	@Column(name = "disbursement_branch")
-	private String disbursementBranch;
+	@Column(name = "disb_request_id")
+	private String disbRequestId;
 
 	// foreign key
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
 
-	@Column(name = "customer_id")
-	private int customerId;
+	// foreign key
+	//auto generate
+	@Column(name = "transcationId", nullable = false)
+	private int transcationId;
 
-	@Column(name = "customer_name")
-	private String customerName;
+	@Column(name = "earlier_disb_amt")
+	private float earlierDisbAmt;
 
-	@Column(name = "rate_of_interest")
-	private Float rateOfInterest;
+	@Column(name = "disb_amt")
+	private float disbAmt;
 
-	@Column(name = "loan_amount")
-	private int loanAmount;
+	@Column(name = "total_disb_amt")
+	private float totalDisbAmt;
 
-	@Column(name = "sanction_amount")
-	private int sanctionAmount;
+	@Column(name = "date_of_disb")
+	private Date dateOfDisb;
 
-	@Column(name = "effective_date")
-	private Date effectiveDate;
+	@Column(name = "billing_day")
+	private Date billingDay;
 
-	@Column(name = "number_of_disbursement")
-	private int numberOfDisbursement;
+	@Column(name = "billing_date")
+	private Date billingDate;
 
-	@Column(name = "earlier_disbursement_amount")
-	private int earlierDisbursementAmount;
-
-	@Column(name = "current_disbursement_amount")
-	private int currentDisbursementAmount;
-
-	@Column(name = "total_disbursement_amount")
-	private int totalDisbursementAmount;
-
-	@Column(name = "date_of_disbursement")
-	private Date dateOfDisbursement;
-
-	@Column(name = "voucher_date")
-	private Date voucherDate;
-
-	@Column(name = "emi_commencement_date")
-	private Date emiCommencementDate;
+	@Column(name = "emi_comm_date")
+	private Date emiCommDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;
@@ -75,52 +55,16 @@ public class DisbursementRequest {
 	@Column(name = "payment_mode")
 	private String paymentMode;
 
-	@Column(name = "ifsc_code")
-	private String ifscCode;
-
-	@Column(name = "bank_name")
-	private String bankName;
-
-	@Column(name = "bank_branch_name")
-	private String bankBranchName;
-
-	@Column(name = "bank_account_number")
-	private int bankAccountNumber;
-
-	@Column(name = "bank_account_type")
-	private String bankAccountType;
-
 	@Column(name = "shfl_bank")
 	private String shflBank;
 
 	@Column(name = "remarks")
 	private String remarks;
 
-	@Column(name = "memo_due")
-	private double memoDue;
-
-	@Column(name = "memo_paid")
-	private double memoPaid;
-
-	@Column(name = "memo_waived")
-	private double memoWaived;
-
-	@Column(name = "memo_outsanding")
-	private double memoOutsanding;
-
-	@Column(name = "memo_deduction")
-	private double memoDeduction;
-
 	@Column(name = "created_by")
 	private String createdBy;
 
 	@Column(name = "created_date_time")
 	private Date createdDateTime;
-
-	@Column(name = "modified_by")
-	private String modifiedBy;
-
-	@Column(name = "modified_date_time")
-	private Date modidiedDateTime;
 
 }

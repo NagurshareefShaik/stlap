@@ -1,6 +1,7 @@
 package shfl.st.lap.parametermaintanance.model;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "PARAMETER_MAINTANANCE")
+@Table(name = "ST_TB_LMS_PARAMETER_MAINT")
 public class ParameterMaintanance {
 
 	@Id
@@ -30,22 +31,22 @@ public class ParameterMaintanance {
 	@Column(name = "parameter_data_type")
 	private String parameterDataType;
 	
-	@Column(name = "parameter_effective_start_date")
-	private Date parameterEffectiveStartDate;
+	@Column(name = "parameter_eff_start_dt")
+	private Date parameterEffStartDt;
 	
-	@Column(name = "parameter_effective_end_date")
-	private Date parameterEffectiveEndDate;
+	@Column(name = "parameter_eff_end_dt")
+	private Date parameterEffEndDt;
 	
 	@Column(name = "created_by")
 	private String createdBy;
 	
 	@Column(name = "created_date_time")
-	private Date createdDateTime;
+	private LocalDateTime createdDateTime;
 	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
 	@Column(name = "modified_date_time")
-	private Date modifiedDateTime;
+	private LocalDateTime modifiedDateTime;
 
 }

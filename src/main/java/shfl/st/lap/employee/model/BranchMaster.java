@@ -11,13 +11,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "BRANCH_MASTER")
+@Table(name = "ST_TB_LOS_BRANCH_MASTER")
 public class BranchMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "branch_id")
 	private int branchId;
+	
 	@Column(name = "branch_name")
 	private String branchName;
 

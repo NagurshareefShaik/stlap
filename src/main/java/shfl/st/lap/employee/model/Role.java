@@ -11,13 +11,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ROLE_MASTER")
+@Table(name = "ST_TB_LOS_ROLE_MASTER")
 public class Role {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "role_id")
 	private int roleId;
+	
 	@Column(name = "role_name")
 	private String roleName;
 
