@@ -20,8 +20,8 @@ public class DisbursementHistory {
 	
 	//second key
 	//auto generate
-	@Column(name = "disb_hystory_id")
-	private int disbHystoryId;
+	@Column(name = "disb_history_id")
+	private int disbHistoryId;
 	
 	@Column(name = "application_number")
 	private String applicationNumber;
