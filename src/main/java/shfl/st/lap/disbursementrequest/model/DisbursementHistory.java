@@ -51,6 +51,12 @@ public class DisbursementHistory {
 	@Column(name = "request_status")
 	private String requestStatus;
 	
+	@Column(name = "payment_mode")
+	private String paymentMode;
+
+	@Column(name = "shfl_bank")
+	private String shflBank;
+	
 	@Column(name = "remarks")
 	private String remarks;
 	
