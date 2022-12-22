@@ -1,5 +1,7 @@
 package shfl.st.lap.parametermaintanance.service;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,8 +39,6 @@ public class ParameterMaintananceService {
 	 * @return
 	 */
 	public ResponseEntity<String> insertParameterData(ParameterMaintanance parameterMaintanance) {
-		parameterMaintanance.setCreatedBy(loggedUserData.getUserName());
-		parameterMaintanance.setCreatedDateTime(new Date());
 		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
 		if (Objects.nonNull(maintanance)) {
 			return ResponseEntity.ok().body("Parameter Created Successfully");
@@ -64,8 +64,6 @@ public class ParameterMaintananceService {
 	 * @return ResponseEntity<String>
 	 */
 	public ResponseEntity<String> updateParameterData(ParameterMaintanance parameterMaintanance) {
-		parameterMaintanance.setModifiedBy(loggedUserData.getUserName());
-		parameterMaintanance.setModifiedDateTime(new Date());
 		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
 		if (Objects.nonNull(maintanance)) {
 			return ResponseEntity.ok().body("Parameter Updated Successfully");
