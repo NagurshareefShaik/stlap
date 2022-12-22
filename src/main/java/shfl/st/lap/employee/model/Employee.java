@@ -37,15 +37,15 @@ public class Employee {
 	@Column(name = "branch_id")
 	private int branchId;
 	
+	//forign key
+	@Column(name = "access_id")
+	private int accessId;
+	
 	@Column(name = "is_active")
 	private boolean isActive;
 	
 	@Column(name = "last_login_time")
 	private LocalDateTime lastLoginTime;
 	
-	//One to many Mapping
-	//forign key
-	@Column(name = "access_id")
-	private int accessId;
 	
 }

@@ -63,7 +63,7 @@ public class EmployeeService {
 			}
 			Employee employee = employeeRepo.findByEmployeeId(userId);
 			employeeModel.setEmployeeId(employee.getEmployeeName());
-			employeeModel.setLastLoginTime(employee.getLastLoginTime());
+			employeeModel.setLastLoginTime(employee.getLastLoginTime().toString());
 			return ResponseEntity.status(HttpStatus.OK).body(employeeModel);
 	}
 
