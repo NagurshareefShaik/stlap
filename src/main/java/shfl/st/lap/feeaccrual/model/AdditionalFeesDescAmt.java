@@ -12,8 +12,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_ACC_WAV_FEES_DESC_AMT")
-public class AccrualWaiverFeesDescAmt {
+@Table(name = "ST_TB_LMS_ADDTNL_FEES_DESC_AMT")
+public class AdditionalFeesDescAmt {
 
 	@Id
 	@Column(name = "application_number")

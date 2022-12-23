@@ -34,6 +34,9 @@ public class DisbursementRequest {
 
 	@Column(name = "disb_amt")
 	private float disbAmt;
+	
+	@Column(name="disb_no")
+	private int disbNo;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;
