@@ -16,8 +16,8 @@ import lombok.Data;
 public class DisbursementHistory {
 	
 	@Id
-	@Column(name = "tanscation_id")
-	private int tanscationId;
+	@Column(name = "transaction_id")
+	private int transactionId;
 	
 	//second key
 	//auto generate

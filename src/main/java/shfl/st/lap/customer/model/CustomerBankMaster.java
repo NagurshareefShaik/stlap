@@ -24,8 +24,8 @@ public class CustomerBankMaster {
 	
 	//foreign key
 	//one to many relation
-	@Column(name = "bank_account_number")
-	private String bankAccountNumber;
+	@Column(name = "bank_acc_number")
+	private String bankAccNumber;
 	
 	@Column(name = "created_by")
 	private String createdBy;

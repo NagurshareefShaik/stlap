@@ -26,8 +26,8 @@ public class DisbursementRequest {
 
 	// foreign key
 	//auto generate
-	@Column(name = "transcationId", nullable = false)
-	private int transcationId;
+	@Column(name = "transaction_id", nullable = false)
+	private int transactionId;
 
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;
