@@ -22,23 +22,10 @@ public class CustomerBankMaster {
 	@Column(name = "customer_name")
 	private String customerName;
 	
-	@Column(name = "ifsc_code")
-	private String ifscCode;
-	
-	@Column(name = "bank_name")
-	private String bankName;
-	
-	@Column(name = "bank_branch_name")
-	private String bankBranchName;
-	
-	@Column(name = "bank_acc_number")
-	private int bankAccountNumber;
-	
-	@Column(name = "bank_acc_type")
-	private String bankAccountType;
-	
-	@Column(name = "micr_code")
-	private String micrCode;
+	//foreign key
+	//one to many relation
+	@Column(name = "bank_account_number")
+	private String bankAccountNumber;
 	
 	@Column(name = "created_by")
 	private String createdBy;

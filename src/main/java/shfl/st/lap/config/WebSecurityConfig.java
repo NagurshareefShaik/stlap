@@ -21,7 +21,7 @@ import shfl.st.lap.employee.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] WHITE_URLs = {"/registerUser", "/registerMobileUser", "/v2/api-docs",
+	private static final String[] WHITE_URLs = {"/authenticate","/parameter/insert","/generateOtp","/registerUser", "/registerMobileUser", "/v2/api-docs",
 			"/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**",
 			"/h2-console/**" };
 
@@ -49,8 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers("/generateOtp")
-				.permitAll().antMatchers(WHITE_URLs).permitAll().anyRequest().authenticated().and().exceptionHandling()
+		http.csrf().disable().authorizeRequests().antMatchers(WHITE_URLs).permitAll().anyRequest().authenticated().and().exceptionHandling()
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		http.headers().frameOptions().disable();
