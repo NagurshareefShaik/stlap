@@ -37,7 +37,7 @@ public class Employee {
 	@Column(name = "branch_id")
 	private int branchId;
 	
-	//forign key
+	//foreign key
 	@Column(name = "access_id")
 	private int accessId;
 	
