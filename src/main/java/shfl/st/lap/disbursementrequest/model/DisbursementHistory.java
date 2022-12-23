@@ -63,8 +63,8 @@ public class DisbursementHistory {
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
-	@Column(name = "modified_date")
-	private LocalDateTime modifiedDate;
+	@Column(name = "modified_date_time")
+	private LocalDateTime modifiedDateTime;
 	
 	
 
