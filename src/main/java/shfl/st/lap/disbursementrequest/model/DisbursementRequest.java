@@ -1,6 +1,7 @@
 package shfl.st.lap.disbursementrequest.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,6 +69,6 @@ public class DisbursementRequest {
 	private String createdBy;
 
 	@Column(name = "created_date_time")
-	private Date createdDateTime;
+	private LocalDateTime createdDateTime;
 
 }
