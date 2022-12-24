@@ -16,7 +16,7 @@ public class EmployeeType {
 	@Column(name = "employee_type")
 	private String employeeType;
 
-	@Column(name = "module_id")
-	private String moduleId;
+	@Column(name = "mod_id")
+	private String modId;
 
 }
