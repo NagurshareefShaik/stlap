@@ -36,8 +36,8 @@ public class MobileUser {
 	private int branchId;
 
 	// foreign key
-	@Column(name = "access_id")
-	private int accessId;
+	@Column(name = "employee_type")
+	private String employeeType;
 
 	@Column(name = "otp_count")
 	private int otpCount;

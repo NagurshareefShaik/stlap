@@ -38,8 +38,8 @@ public class Employee {
 	private int branchId;
 	
 	//foreign key
-	@Column(name = "access_id")
-	private int accessId;
+	@Column(name ="employee_type")
+	private String employeeType;
 	
 	@Column(name = "is_active")
 	private boolean isActive;
