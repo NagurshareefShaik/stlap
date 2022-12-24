@@ -9,19 +9,22 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="ST_TB_LMS_EMP_ACCESS")
-public class EmployeeAccess {
-	
+@Table(name = "ST_TB_LMS_MOD")
+public class Module {
+
 	@Id
-	@Column(name = "access_id")
-	private int accessId;
-	
-	//second key
-	@Column(name = "screen_name")
-	private String screenName;
+	@Column(name = "mod_id")
+	private String modId;
+
+	@Column(name = "mod_name")
+	private String modName;
 	
 	@Column(name = "editable")
 	private boolean editable;
-	
+
+	// foreign key
+	// one to many mapping
+	@Column(name = "mod_param_id")
+	private int modParamId;
 
 }

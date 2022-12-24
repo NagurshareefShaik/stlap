@@ -16,13 +16,7 @@ public class EmployeeType {
 	@Column(name = "employee_type")
 	private String employeeType;
 
-	// foreign key
-	@Column(name = "access_id")
-	private int accessId;
-
-	// foreign key
-	// one to many mapping
-	@Column(name = "emp_param_id")
-	private int empParamId;
+	@Column(name = "module_id")
+	private String moduleId;
 
 }
