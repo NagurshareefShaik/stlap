@@ -11,13 +11,17 @@ import lombok.Data;
 @Entity
 @Table(name = "ST_TB_LMS_EMP_TYPE")
 public class EmployeeType {
-	
+
 	@Id
-	@Column(name ="employee_type")
+	@Column(name = "employee_type")
 	private String employeeType;
-	
-	//foreign key
-	//one to many mapping
+
+	// foreign key
+	@Column(name = "access_id")
+	private int accessId;
+
+	// foreign key
+	// one to many mapping
 	@Column(name = "emp_param_id")
 	private int empParamId;
 
