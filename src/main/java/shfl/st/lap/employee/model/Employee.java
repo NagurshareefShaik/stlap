@@ -41,6 +41,10 @@ public class Employee {
 	@Column(name = "access_id")
 	private int accessId;
 	
+	//foreign key
+	@Column(name ="employee_type")
+	private String employeeType;
+	
 	@Column(name = "is_active")
 	private boolean isActive;
 	
