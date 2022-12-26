@@ -1,4 +1,4 @@
-package shfl.st.lap.customer.model;
+package shfl.st.lap.loscustomer.model;
 
 
 import java.time.LocalDateTime;
@@ -12,20 +12,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_CUS_BANK_MSTR")
-public class CustomerBankMaster {
+@Table(name = "ST_TB_LOS_BRANCH_MSTR")
+public class BranchMaster {
 
 	@Id
-	@Column(name = "application_number")
-	private String applicationNumber;
+	@Column(name = "branch_id")
+	private int branchId;
 	
-	@Column(name = "customer_name")
-	private String customerName;
+	@Column(name = "branch_name")
+	private String branchName;
 	
-	//foreign key
-	//one to many relation
-	@Column(name = "bank_acc_number")
-	private int bankAccNumber;
+	@Column(name = "branch_location")
+	private String branchLocation;
 	
 	@Column(name = "created_by")
 	private String createdBy;

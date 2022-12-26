@@ -1,4 +1,4 @@
-package shfl.st.lap.customer.model;
+package shfl.st.lap.loscustomer.model;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class LosCustomer {
 	private String customerType;
 	
 	@Column(name = "rate_of_interest")
-	private String rateOfInterest;
+	private float rateOfInterest;
 	
 	@Column(name = "application_date")
 	private Date applicationDate;
