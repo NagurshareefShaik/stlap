@@ -8,5 +8,4 @@ import shfl.st.lap.loscustomer.model.LosCustomer;
 @Repository
 public interface LosCustomerRepo extends JpaRepository<LosCustomer, String>{
 	
-
 }

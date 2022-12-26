@@ -16,6 +16,9 @@ public class CustomerDepandantBankDetails {
 	@Column(name = "bank_acc_number")
 	private int bankAccountNumber;
 	
+	@Column(name = "application_number")
+	private String applicationNumber;
+	
 	@Column(name = "acc_holdr_name")
 	private String accHoldrName;
 	

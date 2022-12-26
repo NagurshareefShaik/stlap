@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shfl.st.lap.loscustomer.model.CustomerAppNumber;
+import shfl.st.lap.loscustomer.model.CustomerDepandantBankDetails;
 import shfl.st.lap.loscustomer.model.LosCustomer;
+import shfl.st.lap.loscustomer.service.CustomerDepBankDetailsService;
 import shfl.st.lap.loscustomer.service.LosCustomerService;
 
 @RestController
@@ -20,6 +22,9 @@ public class LosCustomerController {
 	
 	@Autowired
 	LosCustomerService losCustomerService;
+	
+	@Autowired
+	CustomerDepBankDetailsService bankDetailsService;
 	
 	@PostMapping("/insert")
 	public ResponseEntity<String> insertSanctionData(@RequestBody LosCustomer losCustomer){
@@ -34,6 +39,16 @@ public class LosCustomerController {
 	@PostMapping("/getCustomerDataByAppNum")
 	public ResponseEntity<LosCustomer> getCustomerDataByAppnum(@RequestBody CustomerAppNumber customerAppNumber){
 		return losCustomerService.getCustomerDataByAppNum(customerAppNumber.getApplicationNumber());
+	}
+	
+	@PostMapping("/insertCusBankDetails")
+	public ResponseEntity<String> insertCusBankDetails(@RequestBody CustomerDepandantBankDetails customerDepandantBankDetails){
+		return bankDetailsService.insertCusBankDetails(customerDepandantBankDetails);
+	}
+	
+	@PostMapping("/getCustBankDetailsByAppNum")
+	public ResponseEntity<List<CustomerDepandantBankDetails>> getCustBankDetailsByAppNum(@RequestBody CustomerAppNumber customerAppNumber){
+		return bankDetailsService.getCustBankDetailsByAppNum(customerAppNumber.getApplicationNumber());
 	}
 
 }
