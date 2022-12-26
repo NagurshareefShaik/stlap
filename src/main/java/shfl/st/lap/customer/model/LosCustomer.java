@@ -49,23 +49,11 @@ public class LosCustomer {
 	@Column(name = "sanction_amount")
 	private float sanctionAmount;
 	
-	@Column(name = "approved_amount")
-	private float approvedAmount;
-	
-	@Column(name = "disbursed_amount")
-	private float disbursedAmount;
-	
-	@Column(name = "number_of_disp")
-	private int numberOfDisbursement;
-	
 	@Column(name = "effective_date")
 	private Date effectiveDate;
 	
 	@Column(name = "los_status")
 	private String losStatus;
-	
-	@Column(name = "lms_status")
-	private String lmsStatus;
 	
 	@Column(name = "legal_app_date")
 	private Date legalApprovedDate;

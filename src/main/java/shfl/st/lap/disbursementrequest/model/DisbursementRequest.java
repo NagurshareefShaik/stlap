@@ -52,6 +52,12 @@ public class DisbursementRequest {
 
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;
+	
+	@Column(name = "first_emi_due_date")
+	private Date firstEmiDueDate;
+	
+	@Column(name = "effective_date")
+	private Date effectiveDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;
