@@ -9,13 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_REQ")
-public class DisbursementRequest {
+public class DisbursementRequest extends Auditable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -75,11 +81,5 @@ public class DisbursementRequest {
 	
 	@Column(name = "edit_lock")
 	private boolean editLock;
-
-	@Column(name = "created_by")
-	private String createdBy;
-
-	@Column(name = "created_date_time")
-	private LocalDateTime createdDateTime;
 
 }

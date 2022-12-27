@@ -11,11 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_HISTORY")
-public class DisbursementHistory {
+public class DisbursementHistory extends Auditable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -64,12 +65,4 @@ public class DisbursementHistory {
 	@Column(name = "remarks")
 	private String remarks;
 	
-	@Column(name = "modified_by")
-	private String modifiedBy;
-	
-	@Column(name = "modified_date_time")
-	private LocalDateTime modifiedDateTime;
-	
-	
-
 }

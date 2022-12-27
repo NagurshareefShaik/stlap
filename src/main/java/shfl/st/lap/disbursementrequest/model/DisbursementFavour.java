@@ -6,11 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_FAV")
-public class DisbursementFavour {
+public class DisbursementFavour extends Auditable{
 	
 	@Id
 	@Column(name = "bank_acc_number", nullable = false)
