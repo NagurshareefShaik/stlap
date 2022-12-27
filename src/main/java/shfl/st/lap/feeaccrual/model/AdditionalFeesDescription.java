@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_ADDTNL_FEE_DESC")
+@Table(name = "ST_TB_LMS_TEMP_ADDTNL_FEE_DESC")
 public class AdditionalFeesDescription {
 	
 	@Id
