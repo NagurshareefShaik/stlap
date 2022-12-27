@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,6 +81,15 @@ public class DisbursementService {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
+	}
+	
+	/**
+	 * 
+	 * @return disbursementRequestList
+	 */
+	public ResponseEntity<List<DisbursementRequest>> getAllDisbursementData() {
+		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll();
+		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
 	/**
@@ -194,10 +202,6 @@ public class DisbursementService {
 		});
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
 		return disbursementModel;
-	}
-
-
-
-
+	}	
 
 }
