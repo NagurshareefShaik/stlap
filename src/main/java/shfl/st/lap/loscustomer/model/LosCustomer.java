@@ -1,6 +1,5 @@
 package shfl.st.lap.loscustomer.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_TEMP_CUSTOMER")
-public class LosCustomer {
+public class LosCustomer extends Auditable{
 	
 	@Id
 	@Column(name = "application_number")
@@ -94,16 +94,4 @@ public class LosCustomer {
 	@Column(name = "email_id")
 	private String emailId;
 	
-	@Column(name = "created_by")
-	private String createdBy;
-
-	@Column(name = "created_date_time")
-	private LocalDateTime createdDateTime;
-	
-	@Column(name = "modified_by")
-	private String modifiedBy;
-	
-	@Column(name = "modified_date_time")
-	private LocalDateTime modidiedDateTime;
-
 }
