@@ -1,7 +1,6 @@
 package shfl.st.lap.disbursementrequest.model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
 import shfl.st.lap.auditlog.Auditable;

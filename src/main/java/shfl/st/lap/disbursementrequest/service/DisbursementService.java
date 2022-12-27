@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,7 @@ public class DisbursementService {
 	 * @param disbursementModel
 	 * @return ResponseEntity
 	 */
+	@Transactional
 	public ResponseEntity<DisbursementModel> insertDisbursementData(DisbursementModel disbursementModel) {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
@@ -48,7 +51,6 @@ public class DisbursementService {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
 	}
-	
 	/**
 	 * 
 	 * @param customerDisbNumber

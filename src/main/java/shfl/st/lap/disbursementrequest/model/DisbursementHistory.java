@@ -1,13 +1,13 @@
 package shfl.st.lap.disbursementrequest.model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -16,18 +16,21 @@ import shfl.st.lap.auditlog.Auditable;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_HISTORY")
+@IdClass(DisbHistoryKeys.class)
 public class DisbursementHistory extends Auditable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "disb_history_id")
-	private int disbHistoryId;
+	@Column(name = "disb_hist_id")
+	private int disbHistId;
 	
-	@Column(name = "transaction_id")
-	private int transactionId;
-	
+	@Id
 	@Column(name = "application_number")
 	private String applicationNumber;
+	
+	@Id
+	@Column(name = "transaction_id")
+	private int transactionId;
 	
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;
