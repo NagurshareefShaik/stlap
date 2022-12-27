@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_CUS_BANK_MSTR")
+@Table(name = "ST_TB_LMS_TEMP_CUS_BANK_MSTR")
 public class CustomerBankMaster {
 
 	@Id
