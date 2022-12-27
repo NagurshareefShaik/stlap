@@ -3,6 +3,7 @@ package shfl.st.lap.loscustomer.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -10,12 +11,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_TEMP_CUST_DEP_BANK_DTL")
+@IdClass(CustomerDepBankKeys.class)
 public class CustomerDepandantBankDetails {
 	
 	@Id
 	@Column(name = "bank_acc_number")
 	private int bankAccountNumber;
 	
+	@Id
 	@Column(name = "application_number")
 	private String applicationNumber;
 	
