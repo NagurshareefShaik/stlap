@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_EMPLOYEE")
+@Table(name = "ST_TB_LMS_TEMP_EMPLOYEE")
 public class Employee {
 	@Id
 	@Column(name = "employee_id")

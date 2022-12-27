@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_BRANCH_MSTR")
+@Table(name = "ST_TB_LMS_TEMP_BRANCH_MSTR")
 public class BranchMaster {
 
 	@Id

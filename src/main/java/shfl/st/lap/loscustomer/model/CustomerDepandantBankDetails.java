@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_CUST_DEP_BANK_DTL")
+@Table(name = "ST_TB_LMS_TEMP_CUST_DEP_BANK_DTL")
 public class CustomerDepandantBankDetails {
 	
 	@Id

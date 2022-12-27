@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LOS_MOBILE_USR")
+@Table(name = "ST_TB_LMS_TEMP_MOBILE_USR")
 public class MobileUser {
 
 	@Id
