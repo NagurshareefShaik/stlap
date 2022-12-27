@@ -7,6 +7,6 @@ import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
 
 
 @Repository
-public interface DisbursementRepo extends JpaRepository<DisbursementRequest, String>{
+public interface DisbursementRequestRepo extends JpaRepository<DisbursementRequest, Integer>{
 
 }

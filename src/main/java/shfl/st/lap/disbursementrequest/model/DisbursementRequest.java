@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,15 +18,16 @@ import lombok.Data;
 public class DisbursementRequest {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "disb_request_id")
-	private String disbRequestId;
+	private int disbRequestId;
 
 	// foreign key
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
 
 	// foreign key
-	//auto generate
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "transaction_id", nullable = false)
 	private int transactionId;
 

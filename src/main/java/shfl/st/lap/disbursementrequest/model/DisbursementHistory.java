@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,13 +18,12 @@ import lombok.Data;
 public class DisbursementHistory {
 	
 	@Id
-	@Column(name = "transaction_id")
-	private int transactionId;
-	
-	//second key
-	//auto generate
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "disb_history_id")
 	private int disbHistoryId;
+	
+	@Column(name = "transaction_id")
+	private int transactionId;
 	
 	@Column(name = "application_number")
 	private String applicationNumber;
@@ -47,6 +48,9 @@ public class DisbursementHistory {
 	
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;
+	
+	@Column(name = "first_emi_due_date")
+	private Date firstEmiDueDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;

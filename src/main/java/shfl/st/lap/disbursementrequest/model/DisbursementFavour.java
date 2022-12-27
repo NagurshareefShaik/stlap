@@ -13,12 +13,11 @@ import lombok.Data;
 public class DisbursementFavour {
 	
 	@Id
-	@Column(name = "application_number")
-	private String applicationNumber;
-	
-	// secondary key
 	@Column(name = "bank_acc_number", nullable = false)
 	private int bankAccNumber;
+	
+	@Column(name = "application_number")
+	private String applicationNumber;
 	
 	@Column(name = "dist_no")
 	private int distNo;
