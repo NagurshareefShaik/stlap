@@ -10,7 +10,6 @@ public class DisbursementModel {
 	
 	private int disbRequestId;
 	private String applicationNumber;
-	private int transactionId;
 	private float earlierDisbAmt;
 	private float disbAmt;
 	private int disbNo;

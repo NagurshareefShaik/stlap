@@ -4,10 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -16,21 +13,18 @@ import shfl.st.lap.auditlog.Auditable;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_HISTORY")
-@IdClass(DisbHistoryKeys.class)
 public class DisbursementHistory extends Auditable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "disb_hist_id")
 	private int disbHistId;
 	
-	@Id
+	//foreign key
+	@Column(name = "disb_request_id")
+	private int disbRequestId;
+	
 	@Column(name = "application_number")
 	private String applicationNumber;
-	
-	@Id
-	@Column(name = "transaction_id")
-	private int transactionId;
 	
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;

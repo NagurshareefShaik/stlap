@@ -4,8 +4,6 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,18 +16,11 @@ import shfl.st.lap.auditlog.Auditable;
 public class DisbursementRequest extends Auditable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "disb_request_id")
 	private int disbRequestId;
 
-	// foreign key
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
-
-	// foreign key
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "transaction_id", nullable = false)
-	private int transactionId;
 
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import shfl.st.lap.authentication.util.DateConversion;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
@@ -34,27 +36,34 @@ public class DisbursementService {
 	@Autowired
 	DisbursementFavourRepo disbursementFavourRepo;
 	
+	@Autowired
+	DateConversion dateConversion;
+	
 	/**
+	 * insertDisbursementData method is used to insert value to corresponding table
 	 * 
 	 * @param disbursementModel
-	 * @return ResponseEntity
+	 * @return disbursementModelData
 	 */
 	@Transactional
 	public ResponseEntity<DisbursementModel> insertDisbursementData(DisbursementModel disbursementModel) {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData);
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
+			int DisbursementReqId = disbursementRequestData.getDisbRequestId();
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel, DisbursementReqId);
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);	
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
 	}
+	
 	/**
-	 * 
+	 * getDisbursementData method is used to get single disbursed value from the table
+	 *  
 	 * @param customerDisbNumber
-	 * @return ResponseEntity
+	 * @return disbModel
 	 */
 	public ResponseEntity<DisbursementModel> getDisbursementData(CustomerDisbNumber customerDisbNumber) {
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo.findById(customerDisbNumber.getDisbRequestId());
@@ -69,15 +78,16 @@ public class DisbursementService {
 	}
 	
 	/**
+	 * updateDisbursementData method is used to update the disbursement value to table
 	 * 
 	 * @param disbursementModel
-	 * @return ResponseEntity
+	 * @return disbursementModelData
 	 */
 	public ResponseEntity<DisbursementModel> updateDisbursementData(DisbursementModel disbursementModel) {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData);
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel, disbursementModel.getDisbRequestId());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);	
 		} else {
@@ -86,6 +96,7 @@ public class DisbursementService {
 	}
 	
 	/**
+	 * getAllDisbursementData method is used to get all the disbursement creation
 	 * 
 	 * @return disbursementRequestList
 	 */
@@ -95,12 +106,16 @@ public class DisbursementService {
 	}
 
 	/**
+	 * setDisbursementRequestData method is used to form the DisbursementRequest entity and insert the table
 	 * 
 	 * @param disbursementModel
 	 * @return disbursementRequest
 	 */
 	private DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
 		DisbursementRequest disbursementRequest = new DisbursementRequest();
+		if (disbursementModel.getScreenMode().equals("CREATE")) {
+			disbursementRequest.setDisbRequestId(ThreadLocalRandom.current().nextInt());
+		}
 		if (disbursementModel.getScreenMode().equals("UPDATE")) {
 			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
 		}
@@ -124,13 +139,15 @@ public class DisbursementService {
 	}
 	
 	/**
+	 * setDisbursementHistoryData method is used to form the DisbursementHistory entity and insert the table
 	 * 
 	 * @param disbursementRequestData
 	 * @return disbursementHistory
 	 */
 	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData) {
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
-		disbursementHistory.setTransactionId(disbursementRequestData.getTransactionId());
+		disbursementHistory.setDisbHistId(ThreadLocalRandom.current().nextInt());
+		disbursementHistory.setDisbRequestId(disbursementRequestData.getDisbRequestId());
 		disbursementHistory.setApplicationNumber(disbursementRequestData.getApplicationNumber());
 		disbursementHistory.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementHistory.setDisbAmt(disbursementRequestData.getDisbAmt());
@@ -149,15 +166,18 @@ public class DisbursementService {
 	
 
 	/**
+	 * setDisbursementFavourData method is used to form the DisbursementFavour entity and insert the table
 	 * 
 	 * @param disbursementModel
+	 * @param disbursementReqId
 	 * @return disbursementFavoursList
 	 */
-	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel) {
+	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbursementReqId) {
 		List<DisbursementFavour> disbursementFavoursList=new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour->{
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
 			disbursementFavour.setBankAccNumber(favour.getBankAccNumber());
+			disbursementFavour.setDisbRequestId(disbursementReqId);
 			disbursementFavour.setApplicationNumber(disbursementModel.getApplicationNumber());
 			disbursementFavour.setDistNo(disbursementModel.getDisbNo());
 			disbursementFavour.setDisbAmount(favour.getDisbAmount());
@@ -167,6 +187,7 @@ public class DisbursementService {
 	}
 	
 	/**
+	 * getDisbursementModelData method is used to form the DisbursementModel entity
 	 * 
 	 * @param disbursementRequestData
 	 * @param disbursementFavourDataList
@@ -177,7 +198,6 @@ public class DisbursementService {
 		DisbursementModel disbursementModel = new DisbursementModel();
 		disbursementModel.setDisbRequestId(disbursementRequestData.getDisbRequestId());
 		disbursementModel.setApplicationNumber(disbursementRequestData.getApplicationNumber());
-		disbursementModel.setTransactionId(disbursementRequestData.getTransactionId());
 		disbursementModel.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementModel.setDisbAmt(disbursementRequestData.getDisbAmt());
 		disbursementModel.setDisbNo(disbursementRequestData.getDisbNo());
