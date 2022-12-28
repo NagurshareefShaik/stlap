@@ -58,12 +58,12 @@ public class EmployeeService {
 			if(mobileNumberChecker.check(userId)) {
 				MobileUser mobileUser=mobileRepo.findByMobileNumber(userId);
 				employeeModel.setEmployeeId(mobileUser.getUserName());
-				employeeModel.setLastLoginTime(mobileUser.getLastLoginTime().toString());
+				employeeModel.setLastLoginTime(mobileUser.getLastLoginTime());
 				return ResponseEntity.status(HttpStatus.OK).body(employeeModel);
 			}
 			Employee employee = employeeRepo.findByEmployeeId(userId);
 			employeeModel.setEmployeeId(employee.getEmployeeName());
-			employeeModel.setLastLoginTime(employee.getLastLoginTime().toString());
+			employeeModel.setLastLoginTime(employee.getLastLoginTime());
 			return ResponseEntity.status(HttpStatus.OK).body(employeeModel);
 	}
 

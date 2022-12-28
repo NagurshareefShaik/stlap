@@ -1,6 +1,6 @@
 package shfl.st.lap.employee.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import lombok.Data;
 public class EmployeeModel {
 	
 	private String employeeId;
-	private String lastLoginTime;
+	private LocalDateTime lastLoginTime;
 
 }

@@ -1,5 +1,13 @@
 package shfl.st.lap.authentication.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +46,13 @@ public class AuthService {
 		ResponseEntity<EmployeeModel> employee=employeeService.getEmployeeData(authentication.getName());
 		jwtModel.setJwToken(jwtUtil.generateToken(authentication));
 		jwtModel.setUserId(employee.getBody().getEmployeeId());
-		jwtModel.setLastLoginTime(employee.getBody().getLastLoginTime());
+
+        ZonedDateTime zdt = ZonedDateTime.of(employee.getBody().getLastLoginTime(), ZoneId.systemDefault());
+        long zoneDate = zdt.toInstant().toEpochMilli();
+        Date date = new Date(zoneDate);
+        DateFormat  sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:aa");
+        String strDate = sdf.format(date);
+		jwtModel.setLastLoginTime(strDate);
 		return ResponseEntity.ok().body(jwtModel);
 
 	}

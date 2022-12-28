@@ -1,7 +1,5 @@
 package shfl.st.lap.authentication.model;
 
-import java.sql.Date;
-
 import lombok.Data;
 
 @Data
