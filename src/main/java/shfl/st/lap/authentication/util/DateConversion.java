@@ -15,7 +15,7 @@ public class DateConversion {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
-		return day+"/"+month+"/"+year;
+		return month+"/"+date+"/"+year;
 	}
 
 }
