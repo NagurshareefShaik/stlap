@@ -7,9 +7,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggedUserData {
 	
+	/**
+	 * getUsername method is used to get the current logged username
+	 * 
+	 * @return String
+	 */
 	public String getUserName() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return auth.getPrincipal().toString();
+		return auth.getName();
 	}
 
 }

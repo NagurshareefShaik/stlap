@@ -1,7 +1,6 @@
 package shfl.st.lap.disbursementrequest.model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,20 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_HISTORY")
-public class DisbursementHistory {
+public class DisbursementHistory extends Auditable{
 	
 	@Id
-	@Column(name = "transaction_id")
-	private int transactionId;
+	@Column(name = "disb_hist_id")
+	private int disbHistId;
 	
-	//second key
-	//auto generate
-	@Column(name = "disb_history_id")
-	private int disbHistoryId;
+	//foreign key
+	@Column(name = "disb_request_id")
+	private int disbRequestId;
 	
 	@Column(name = "application_number")
 	private String applicationNumber;
@@ -47,6 +46,9 @@ public class DisbursementHistory {
 	
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;
+	
+	@Column(name = "first_emi_due_date")
+	private Date firstEmiDueDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;
@@ -60,12 +62,4 @@ public class DisbursementHistory {
 	@Column(name = "remarks")
 	private String remarks;
 	
-	@Column(name = "modified_by")
-	private String modifiedBy;
-	
-	@Column(name = "modified_date_time")
-	private LocalDateTime modifiedDateTime;
-	
-	
-
 }

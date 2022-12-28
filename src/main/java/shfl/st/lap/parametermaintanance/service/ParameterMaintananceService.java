@@ -1,17 +1,26 @@
 package shfl.st.lap.parametermaintanance.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import shfl.st.lap.authentication.util.DateConversion;
 import shfl.st.lap.authentication.util.LoggedUserData;
 import shfl.st.lap.parametermaintanance.model.Parameter;
 import shfl.st.lap.parametermaintanance.model.ParameterMaintanance;
+import shfl.st.lap.parametermaintanance.model.ParameterMaintananceResponse;
 import shfl.st.lap.parametermaintanance.repo.ParameterMaintananceRepo;
 
 /**
@@ -28,19 +37,24 @@ public class ParameterMaintananceService {
 
 	@Autowired
 	ParameterMaintananceRepo parameterMaintananceRepo;
+	
+	@Autowired
+	DateConversion dateConversion;
 
 	/**
-	 * insertParameterData is used to insert parameterMaintanance Data
+	 * insertorUpdateParameterData is used to insert/update parameterMaintanance Data
 	 * 
 	 * @param parameterMaintanance
-	 * @return
+	 * @return ResponseEntity<ParameterMaintanance>
 	 */
-	public ResponseEntity<String> insertParameterData(ParameterMaintanance parameterMaintanance) {
+	public ResponseEntity<ParameterMaintananceResponse> insertorUpdateParameterData(ParameterMaintanance parameterMaintanance) {
 		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
+		
 		if (Objects.nonNull(maintanance)) {
-			return ResponseEntity.ok().body("Parameter Created Successfully");
+			ParameterMaintananceResponse response=convertToResponse(maintanance);
+			return ResponseEntity.ok().body(response);
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter Not Created");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
 
@@ -49,24 +63,14 @@ public class ParameterMaintananceService {
 	 * 
 	 * @return ResponseEntity<List<ParameterMaintanance>>
 	 */
-	public ResponseEntity<List<ParameterMaintanance>> getParameterData() {
+	public ResponseEntity<List<ParameterMaintananceResponse>> getParameterData() {
 		List<ParameterMaintanance> parameterMaintanancesList = parameterMaintananceRepo.findAll();
-		return ResponseEntity.ok().body(parameterMaintanancesList);
-	}
-
-	/**
-	 * updateParameterData is used to update the ParameterMaintanance data
-	 * 
-	 * @param parameterMaintanance
-	 * @return ResponseEntity<String>
-	 */
-	public ResponseEntity<String> updateParameterData(ParameterMaintanance parameterMaintanance) {
-		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
-		if (Objects.nonNull(maintanance)) {
-			return ResponseEntity.ok().body("Parameter Updated Successfully");
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter Not Updated");
-		}
+		List<ParameterMaintananceResponse> parameterMaintananceResponseList=new ArrayList<>();
+		parameterMaintanancesList.stream().forEach(maintanance->{
+			ParameterMaintananceResponse response=convertToResponse(maintanance);
+			parameterMaintananceResponseList.add(response);
+		});
+		return ResponseEntity.ok().body(parameterMaintananceResponseList);
 	}
 
 	/**
@@ -75,14 +79,26 @@ public class ParameterMaintananceService {
 	 * @param parameter
 	 * @return ParameterMaintanance
 	 */
-	public ResponseEntity<ParameterMaintanance> getParameterById(Parameter parameter) {
+	public ResponseEntity<ParameterMaintananceResponse> getParameterById(Parameter parameter) {
 		Optional<ParameterMaintanance> parameterMaintanance = parameterMaintananceRepo
 				.findById(parameter.getParameterId());
 		if (Objects.nonNull(parameterMaintanance)) {
-			return ResponseEntity.ok().body(parameterMaintanance.get());
+			return ResponseEntity.ok().body(convertToResponse(parameterMaintanance.get()));
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ParameterMaintanance());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-
+	
+	public ParameterMaintananceResponse convertToResponse(ParameterMaintanance parameterMaintanance) {
+		ParameterMaintananceResponse response=new ParameterMaintananceResponse();
+		response.setParamDataType(parameterMaintanance.getParamDataType());
+		response.setParamId(parameterMaintanance.getParamId());
+		response.setParamEffEndDt(dateConversion.convertDate(parameterMaintanance.getParamEffEndDt()));
+		response.setParamEffStartDt(dateConversion.convertDate(parameterMaintanance.getParamEffStartDt()));
+		response.setParamName(parameterMaintanance.getParamName());
+		response.setParamValue(parameterMaintanance.getParamValue());
+		return response;
+		
+	}
+	
 }

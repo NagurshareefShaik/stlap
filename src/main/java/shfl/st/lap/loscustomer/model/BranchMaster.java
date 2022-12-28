@@ -1,4 +1,4 @@
-package shfl.st.lap.customer.model;
+package shfl.st.lap.loscustomer.model;
 
 
 import java.time.LocalDateTime;

@@ -1,33 +1,26 @@
 package shfl.st.lap.disbursementrequest.model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_REQ")
-public class DisbursementRequest {
+public class DisbursementRequest extends Auditable{
 
 	@Id
 	@Column(name = "disb_request_id")
-	private String disbRequestId;
+	private int disbRequestId;
 
-	// foreign key
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
-
-	// foreign key
-	//auto generate
-	@Column(name = "transaction_id", nullable = false)
-	private int transactionId;
 
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;
@@ -52,6 +45,12 @@ public class DisbursementRequest {
 
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;
+	
+	@Column(name = "first_emi_due_date")
+	private Date firstEmiDueDate;
+	
+	@Column(name = "effective_date")
+	private Date effectiveDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;
@@ -67,11 +66,5 @@ public class DisbursementRequest {
 	
 	@Column(name = "edit_lock")
 	private boolean editLock;
-
-	@Column(name = "created_by")
-	private String createdBy;
-
-	@Column(name = "created_date_time")
-	private LocalDateTime createdDateTime;
 
 }
