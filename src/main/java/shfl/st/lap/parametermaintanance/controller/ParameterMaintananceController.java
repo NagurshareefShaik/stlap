@@ -21,15 +21,9 @@ public class ParameterMaintananceController {
 	@Autowired
 	ParameterMaintananceService parameterMaintananceService;
 	
-	@PostMapping("/insert")
-	public ResponseEntity<String> insertParameterData(@RequestBody ParameterMaintanance parameterMaintanance) {
-		return parameterMaintananceService.insertParameterData(parameterMaintanance);
-		
-	}
-	
-	@PostMapping("/update")
-	public ResponseEntity<String> updateParameterData(@RequestBody ParameterMaintanance parameterMaintanance) {
-		return parameterMaintananceService.updateParameterData(parameterMaintanance);
+	@PostMapping("/insertOrUpdate")
+	public ResponseEntity<ParameterMaintanance> insertParameterData(@RequestBody ParameterMaintanance parameterMaintanance) {
+		return parameterMaintananceService.insertorUpdateParameterData(parameterMaintanance);
 		
 	}
 	

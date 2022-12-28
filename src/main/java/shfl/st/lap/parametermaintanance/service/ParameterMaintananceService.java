@@ -30,17 +30,17 @@ public class ParameterMaintananceService {
 	ParameterMaintananceRepo parameterMaintananceRepo;
 
 	/**
-	 * insertParameterData is used to insert parameterMaintanance Data
+	 * insertorUpdateParameterData is used to insert/update parameterMaintanance Data
 	 * 
 	 * @param parameterMaintanance
-	 * @return
+	 * @return ResponseEntity<ParameterMaintanance>
 	 */
-	public ResponseEntity<String> insertParameterData(ParameterMaintanance parameterMaintanance) {
+	public ResponseEntity<ParameterMaintanance> insertorUpdateParameterData(ParameterMaintanance parameterMaintanance) {
 		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
 		if (Objects.nonNull(maintanance)) {
-			return ResponseEntity.ok().body("Parameter Created Successfully");
+			return ResponseEntity.ok().body(maintanance);
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter Not Created");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
 
@@ -52,21 +52,6 @@ public class ParameterMaintananceService {
 	public ResponseEntity<List<ParameterMaintanance>> getParameterData() {
 		List<ParameterMaintanance> parameterMaintanancesList = parameterMaintananceRepo.findAll();
 		return ResponseEntity.ok().body(parameterMaintanancesList);
-	}
-
-	/**
-	 * updateParameterData is used to update the ParameterMaintanance data
-	 * 
-	 * @param parameterMaintanance
-	 * @return ResponseEntity<String>
-	 */
-	public ResponseEntity<String> updateParameterData(ParameterMaintanance parameterMaintanance) {
-		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
-		if (Objects.nonNull(maintanance)) {
-			return ResponseEntity.ok().body("Parameter Updated Successfully");
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Parameter Not Updated");
-		}
 	}
 
 	/**
