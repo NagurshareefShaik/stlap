@@ -13,7 +13,7 @@ public class DateConversion {
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
 		cal.setTime(date);
 		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
+		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		return month+"/"+day+"/"+year;
 	}
