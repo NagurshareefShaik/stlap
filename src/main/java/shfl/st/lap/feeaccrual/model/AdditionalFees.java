@@ -1,6 +1,5 @@
 package shfl.st.lap.feeaccrual.model;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,19 +18,16 @@ public class AdditionalFees {
 	@Column(name = "application_number")
 	private String applicationNumber;
 
-	//secondary key
+	// secondary key
 	@Column(name = "reference_no")
 	private String referenceNo;
 
 	@Column(name = "reference_date")
-	private Date referenceDate;
+	private String referenceDate;
 
 	@Column(name = "addtnl_fee_ded_type")
 	private String addtnlFeeDedType;
 
-	@Column(name = "addtnl_fee_ded_amount")
-	private float addtnlFeeDedAmount;
-	
 	@Column(name = "reason")
 	private String reason;
 
@@ -46,7 +42,7 @@ public class AdditionalFees {
 
 	@Column(name = "modified_by")
 	private String modifiedBy;
-	
+
 	@Column(name = "edit_lock")
 	private boolean editLock;
 
