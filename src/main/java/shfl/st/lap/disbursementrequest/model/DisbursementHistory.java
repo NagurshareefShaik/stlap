@@ -39,10 +39,10 @@ public class DisbursementHistory extends Auditable{
 	private Date dateOfDisb;
 
 	@Column(name = "billing_day")
-	private Date billingDay;
+	private String billingDay;
 
 	@Column(name = "billing_date")
-	private Date billingDate;
+	private String billingDate;
 	
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;

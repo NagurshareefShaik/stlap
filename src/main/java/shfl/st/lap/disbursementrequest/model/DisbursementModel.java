@@ -16,8 +16,8 @@ public class DisbursementModel {
 	private int rateOfInterest;
 	private float totalDisbAmt;
 	private Date dateOfDisb;
-	private Date billingDay;
-	private Date billingDate;
+	private String billingDay;
+	private String billingDate;
 	private Date emiCommDate;
 	private Date firstEmiDueDate;
 	private Date effectiveDate;
