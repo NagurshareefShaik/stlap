@@ -13,7 +13,7 @@ public class DisbursementModel {
 	private float earlierDisbAmt;
 	private float disbAmt;
 	private int disbNo;
-	private int rateOfInterest;
+	private float rateOfInterest;
 	private float totalDisbAmt;
 	private Date dateOfDisb;
 	private String billingDay;

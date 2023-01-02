@@ -32,7 +32,7 @@ public class DisbursementRequest extends Auditable{
 	private int disbNo;
 	
 	@Column(name="rate_of_insterest")
-	private int rateOfInterest;
+	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;
