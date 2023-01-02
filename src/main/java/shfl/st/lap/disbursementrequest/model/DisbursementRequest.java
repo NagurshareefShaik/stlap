@@ -30,6 +30,9 @@ public class DisbursementRequest extends Auditable{
 	
 	@Column(name="disb_no")
 	private int disbNo;
+	
+	@Column(name="rate_of_insterest")
+	private int rateOfInterest;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;

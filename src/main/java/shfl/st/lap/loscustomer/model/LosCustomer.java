@@ -31,6 +31,9 @@ public class LosCustomer extends Auditable{
 	@Column(name = "customer_name")
 	private String customerName;
 	
+	@Column(name="disb_no")
+	private int disbNo;
+	
 	@Column(name = "co_applicant_name")
 	private String coApplicantName;
 	
