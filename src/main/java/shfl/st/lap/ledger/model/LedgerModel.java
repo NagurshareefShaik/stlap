@@ -9,11 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_LEDGER")
-public class LedgerModel {
+public class LedgerModel extends Auditable{
 
 	@Id
 	@GeneratedValue
