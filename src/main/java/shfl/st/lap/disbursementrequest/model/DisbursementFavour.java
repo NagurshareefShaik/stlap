@@ -27,7 +27,7 @@ public class DisbursementFavour extends Auditable{
 	@Column(name = "dist_no")
 	private int distNo;
 	
-	@Column(name = "disbamount")
+	@Column(name = "disb_amount")
 	private float disbAmount;
 	
 }
