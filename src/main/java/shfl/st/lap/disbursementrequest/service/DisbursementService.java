@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 
 import shfl.st.lap.authentication.util.DateConversion;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
+import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
 import shfl.st.lap.disbursementrequest.model.DisbursementModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
+import shfl.st.lap.disbursementrequest.repo.DisbursementBillingDayRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementFavourRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementHistoryRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementRequestRepo;
@@ -34,6 +36,9 @@ public class DisbursementService {
 
 	@Autowired
 	DisbursementFavourRepo disbursementFavourRepo;
+
+	@Autowired
+	DisbursementBillingDayRepo disbursementBillingDayRepo;
 
 	@Autowired
 	DateConversion dateConversion;
@@ -248,6 +253,33 @@ public class DisbursementService {
 		});
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
 		return disbursementModel;
+	}
+
+	/**
+	 * registerBillingDay method is used to register the day for billing
+	 * 
+	 * @param disbursementBillingDay
+	 * @return msg
+	 */
+	public String registerBillingDay(DisbursementBillingDay disbursementBillingDay) {
+		String msg = "";
+		DisbursementBillingDay billingData = disbursementBillingDayRepo.save(disbursementBillingDay);
+		if (Objects.nonNull(billingData)) {
+			msg = "Billing Day Registration successfull";
+		} else {
+			msg = "Billing Day Registration Not Successfull";
+		}
+		return msg;
+	}
+
+	/**
+	 * getAllDisbursementBillingDayData method is used to get all the billing day
+	 * 
+	 * @return disbursementBillingDayDataList
+	 */
+	public ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
+		List<DisbursementBillingDay> disbursementBillingDayDataList = disbursementBillingDayRepo.findAll();
+		return ResponseEntity.ok().body(disbursementBillingDayDataList);
 	}
 
 }

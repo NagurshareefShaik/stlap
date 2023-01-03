@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
+import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
 import shfl.st.lap.disbursementrequest.service.DisbursementService;
@@ -39,6 +40,16 @@ public class DisbursementController {
 	@GetMapping("/getAllDisbursementData")
 	private ResponseEntity<List<DisbursementRequest>> getAllDisbursementData() {
 		return disbursementService.getAllDisbursementData();
+	}
+	
+	@PostMapping("/registerBillingDay")
+	private String registerBillingDay(@RequestBody DisbursementBillingDay disbursementBillingDay) {
+		return disbursementService.registerBillingDay(disbursementBillingDay);
+	}
+	
+	@GetMapping("/getAllDisbursementBillingDayData")
+	private ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
+		return disbursementService.getAllDisbursementBillingDayData();
 	}
 
 }

@@ -20,8 +20,8 @@ public class DisbursementModel {
 	private Date dateOfDisb;
 	private String billingDay;
 	private String billingDate;
-	private Date emiCommDate;
-	private Date firstEmiDueDate;
+	private String emiCommDate;
+	private String firstEmiDueDate;
 	private Date effectiveDate;
 	private String requestStatus;
 	private String paymentMode;
