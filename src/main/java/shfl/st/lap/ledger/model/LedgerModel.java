@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_LEDG")
+@Table(name = "ST_TB_LMS_LEDGER")
 public class LedgerModel {
 
 	@Id
