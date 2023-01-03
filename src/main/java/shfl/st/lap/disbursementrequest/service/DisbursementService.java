@@ -133,6 +133,8 @@ public class DisbursementService {
 			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
 		}
 		disbursementRequest.setApplicationNumber(disbursementModel.getApplicationNumber());
+		disbursementRequest.setBranch(disbursementModel.getBranch());
+		disbursementRequest.setApplicantName(disbursementModel.getApplicantName());
 		disbursementRequest.setEarlierDisbAmt(disbursementModel.getEarlierDisbAmt());
 		disbursementRequest.setDisbAmt(disbursementModel.getDisbAmt());
 		disbursementRequest.setDisbNo(disbursementModel.getDisbNo());
@@ -164,8 +166,11 @@ public class DisbursementService {
 		disbursementHistory.setDisbHistId(ThreadLocalRandom.current().nextInt());
 		disbursementHistory.setDisbRequestId(disbursementRequestData.getDisbRequestId());
 		disbursementHistory.setApplicationNumber(disbursementRequestData.getApplicationNumber());
+		disbursementHistory.setBranch(disbursementRequestData.getBranch());
+		disbursementHistory.setApplicantName(disbursementRequestData.getApplicantName());
 		disbursementHistory.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementHistory.setDisbAmt(disbursementRequestData.getDisbAmt());
+		disbursementHistory.setRateOfInterest(disbursementRequestData.getRateOfInterest());
 		disbursementHistory.setTotalDisbAmt(disbursementRequestData.getTotalDisbAmt());
 		disbursementHistory.setDateOfDisb(disbursementRequestData.getDateOfDisb());
 		disbursementHistory.setBillingDay(disbursementRequestData.getBillingDay());
@@ -214,6 +219,8 @@ public class DisbursementService {
 		DisbursementModel disbursementModel = new DisbursementModel();
 		disbursementModel.setDisbRequestId(disbursementRequestData.getDisbRequestId());
 		disbursementModel.setApplicationNumber(disbursementRequestData.getApplicationNumber());
+		disbursementModel.setBranch(disbursementRequestData.getBranch());
+		disbursementModel.setApplicantName(disbursementRequestData.getApplicantName());
 		disbursementModel.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementModel.setDisbAmt(disbursementRequestData.getDisbAmt());
 		disbursementModel.setDisbNo(disbursementRequestData.getDisbNo());

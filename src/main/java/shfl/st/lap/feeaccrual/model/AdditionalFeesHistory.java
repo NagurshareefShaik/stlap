@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_ADDTNL_FEES_HISTORY")
-@IdClass(AdditionalFeesPkey.class)
+@IdClass(AdditionalFeesHistoryPkey.class)
 public class AdditionalFeesHistory {
 
 	@Id
