@@ -21,7 +21,7 @@ public class DisbursementHistory extends Auditable{
 	
 	//foreign key
 	@Column(name = "disb_request_id")
-	private int disbRequestId;
+	private String disbRequestId;
 	
 	@Column(name = "application_number")
 	private String applicationNumber;
@@ -54,10 +54,10 @@ public class DisbursementHistory extends Auditable{
 	private String billingDate;
 	
 	@Column(name = "emi_comm_date")
-	private Date emiCommDate;
+	private String emiCommDate;
 	
 	@Column(name = "first_emi_due_date")
-	private Date firstEmiDueDate;
+	private String firstEmiDueDate;
 
 	@Column(name = "request_status")
 	private String requestStatus;

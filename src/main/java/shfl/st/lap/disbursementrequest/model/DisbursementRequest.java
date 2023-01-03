@@ -17,7 +17,7 @@ public class DisbursementRequest extends Auditable{
 
 	@Id
 	@Column(name = "disb_request_id")
-	private int disbRequestId;
+	private String disbRequestId;
 
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
@@ -53,10 +53,10 @@ public class DisbursementRequest extends Auditable{
 	private String billingDate;
 
 	@Column(name = "emi_comm_date")
-	private Date emiCommDate;
+	private String emiCommDate;
 	
 	@Column(name = "first_emi_due_date")
-	private Date firstEmiDueDate;
+	private String firstEmiDueDate;
 	
 	@Column(name = "effective_date")
 	private Date effectiveDate;
