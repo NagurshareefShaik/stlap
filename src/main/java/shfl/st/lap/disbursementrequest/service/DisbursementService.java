@@ -138,8 +138,8 @@ public class DisbursementService {
 			try {
 				secureRandom = SecureRandom.getInstance("SHA1PRNG");
 				int randomValue = secureRandom.nextInt();
-				if(randomValue < 0) {
-					disbursementRequest.setDisbRequestId("URN-" + (randomValue*-1));
+				if (randomValue < 0) {
+					disbursementRequest.setDisbRequestId("URN-" + (randomValue * -1));
 				} else {
 					disbursementRequest.setDisbRequestId("URN-" + randomValue);
 				}
@@ -294,6 +294,18 @@ public class DisbursementService {
 	public ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
 		List<DisbursementBillingDay> disbursementBillingDayDataList = disbursementBillingDayRepo.findAll();
 		return ResponseEntity.ok().body(disbursementBillingDayDataList);
+	}
+
+	/**
+	 * searchAllDisbBranchData method is used to search branch in disbursement
+	 * details
+	 * 
+	 * @param brnach
+	 * @return disbursementRequestList
+	 */
+	public ResponseEntity<List<DisbursementRequest>> searchAllDisbBranchData(String branch) {
+		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findByBranch(branch);
+		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
 }
