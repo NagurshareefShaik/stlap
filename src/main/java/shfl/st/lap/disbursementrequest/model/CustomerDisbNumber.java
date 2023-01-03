@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CustomerDisbNumber {
 	
-	private int disbRequestId;
+	private String disbRequestId;
 	//VIEW or MODIFY or CANCEL
 	private String screenMode;
 

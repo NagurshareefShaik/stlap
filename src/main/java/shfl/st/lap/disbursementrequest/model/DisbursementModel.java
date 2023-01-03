@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class DisbursementModel {
 	
-	private int disbRequestId;
+	private String disbRequestId;
 	private String applicationNumber;
 	private String branch;
 	private String applicantName;

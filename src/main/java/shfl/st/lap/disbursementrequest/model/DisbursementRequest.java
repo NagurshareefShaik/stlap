@@ -17,7 +17,7 @@ public class DisbursementRequest extends Auditable{
 
 	@Id
 	@Column(name = "disb_request_id")
-	private int disbRequestId;
+	private String disbRequestId;
 
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
