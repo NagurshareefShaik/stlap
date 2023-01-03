@@ -13,10 +13,11 @@ public class DisbursementModel {
 	private float earlierDisbAmt;
 	private float disbAmt;
 	private int disbNo;
+	private float rateOfInterest;
 	private float totalDisbAmt;
 	private Date dateOfDisb;
-	private Date billingDay;
-	private Date billingDate;
+	private String billingDay;
+	private String billingDate;
 	private Date emiCommDate;
 	private Date firstEmiDueDate;
 	private Date effectiveDate;
@@ -25,6 +26,7 @@ public class DisbursementModel {
 	private String shflBank;
 	private String remarks;
 	private boolean editLock;
+	//CREATE or UPDATE
 	private String screenMode;
 	private List<DisbursementFavour> disbursementFavours;
 

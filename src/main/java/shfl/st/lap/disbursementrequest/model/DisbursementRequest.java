@@ -30,6 +30,9 @@ public class DisbursementRequest extends Auditable{
 	
 	@Column(name="disb_no")
 	private int disbNo;
+	
+	@Column(name="rate_of_insterest")
+	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;
@@ -38,10 +41,10 @@ public class DisbursementRequest extends Auditable{
 	private Date dateOfDisb;
 
 	@Column(name = "billing_day")
-	private Date billingDay;
+	private String billingDay;
 
 	@Column(name = "billing_date")
-	private Date billingDate;
+	private String billingDate;
 
 	@Column(name = "emi_comm_date")
 	private Date emiCommDate;

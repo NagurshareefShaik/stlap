@@ -8,20 +8,21 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_TEMP_ADDTNL_FEE_DESC")
 @IdClass(AdditionalFeesDescriptionPkey.class)
 public class AdditionalFeesDescription {
-
+	
 	@Id
 	@Column(name = "application_number")
 	private String applicationNumber;
-
+	
 	@Id
 	@Column(name = "reference_number")
 	private String referenceNumber;
-
+	
 	@Id
 	@Column(name = "fee_description")
 	private String feeDescription;
@@ -34,11 +35,15 @@ public class AdditionalFeesDescription {
 
 	@Column(name = "earlier_waiver")
 	private Integer earlierWaiver;
+	
+	@Column(name = "additional_accrual")
+	private Integer additionalAccrual;
 
 	@Column(name = "outst_amount")
 	private Integer outstAmount;
 
 	@Column(name = "deductions")
 	private Integer deductions;
+	
 
 }

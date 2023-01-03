@@ -1,15 +1,9 @@
 package shfl.st.lap.parametermaintanance.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +31,7 @@ public class ParameterMaintananceService {
 
 	@Autowired
 	ParameterMaintananceRepo parameterMaintananceRepo;
-	
+
 	@Autowired
 	DateConversion dateConversion;
 
@@ -47,11 +41,12 @@ public class ParameterMaintananceService {
 	 * @param parameterMaintanance
 	 * @return ResponseEntity<ParameterMaintanance>
 	 */
-	public ResponseEntity<ParameterMaintananceResponse> insertorUpdateParameterData(ParameterMaintanance parameterMaintanance) {
+	public ResponseEntity<ParameterMaintananceResponse> insertorUpdateParameterData(
+			ParameterMaintanance parameterMaintanance) {
 		ParameterMaintanance maintanance = parameterMaintananceRepo.save(parameterMaintanance);
-		
+
 		if (Objects.nonNull(maintanance)) {
-			ParameterMaintananceResponse response=convertToResponse(maintanance);
+			ParameterMaintananceResponse response = convertToResponse(maintanance);
 			return ResponseEntity.ok().body(response);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -65,9 +60,9 @@ public class ParameterMaintananceService {
 	 */
 	public ResponseEntity<List<ParameterMaintananceResponse>> getParameterData() {
 		List<ParameterMaintanance> parameterMaintanancesList = parameterMaintananceRepo.findAll();
-		List<ParameterMaintananceResponse> parameterMaintananceResponseList=new ArrayList<>();
-		parameterMaintanancesList.stream().forEach(maintanance->{
-			ParameterMaintananceResponse response=convertToResponse(maintanance);
+		List<ParameterMaintananceResponse> parameterMaintananceResponseList = new ArrayList<>();
+		parameterMaintanancesList.stream().forEach(maintanance -> {
+			ParameterMaintananceResponse response = convertToResponse(maintanance);
 			parameterMaintananceResponseList.add(response);
 		});
 		return ResponseEntity.ok().body(parameterMaintananceResponseList);
@@ -88,17 +83,19 @@ public class ParameterMaintananceService {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
+
 	public ParameterMaintananceResponse convertToResponse(ParameterMaintanance parameterMaintanance) {
-		ParameterMaintananceResponse response=new ParameterMaintananceResponse();
+		ParameterMaintananceResponse response = new ParameterMaintananceResponse();
 		response.setParamDataType(parameterMaintanance.getParamDataType());
 		response.setParamId(parameterMaintanance.getParamId());
-		response.setParamEffEndDt(dateConversion.convertDate(parameterMaintanance.getParamEffEndDt()));
-		response.setParamEffStartDt(dateConversion.convertDate(parameterMaintanance.getParamEffStartDt()));
+		response.setParamEffEndDt(dateConversion.convertDateTimeToDate(parameterMaintanance.getParamEffEndDt()));
+		response.setParamEffStartDt(dateConversion.convertDateTimeToDate(parameterMaintanance.getParamEffStartDt()));
 		response.setParamName(parameterMaintanance.getParamName());
-		response.setParamValue(parameterMaintanance.getParamValue());
+		response.setParamValue((parameterMaintanance.getParamDataType().equals("Date")
+				? dateConversion.convertStringToDate(parameterMaintanance.getParamValue())
+				: parameterMaintanance.getParamValue()));
 		return response;
-		
+
 	}
-	
+
 }
