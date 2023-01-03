@@ -26,11 +26,20 @@ public class DisbursementHistory extends Auditable{
 	@Column(name = "application_number")
 	private String applicationNumber;
 	
+	@Column(name = "branch")
+	private String branch;
+	
+	@Column(name = "applicant_name")
+	private String applicantName;
+	
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;
 	
 	@Column(name = "disb_amt")
 	private float disbAmt;
+	
+	@Column(name="rate_of_interest")
+	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
 	private float totalDisbAmt;

@@ -21,6 +21,12 @@ public class DisbursementRequest extends Auditable{
 
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
+	
+	@Column(name = "branch")
+	private String branch;
+	
+	@Column(name = "applicant_name")
+	private String applicantName;
 
 	@Column(name = "earlier_disb_amt")
 	private float earlierDisbAmt;
@@ -31,7 +37,7 @@ public class DisbursementRequest extends Auditable{
 	@Column(name="disb_no")
 	private int disbNo;
 	
-	@Column(name="rate_of_insterest")
+	@Column(name="rate_of_interest")
 	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
