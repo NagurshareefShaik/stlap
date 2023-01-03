@@ -1,5 +1,7 @@
 package shfl.st.lap.disbursementrequest.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,10 +17,12 @@ import org.springframework.stereotype.Service;
 
 import shfl.st.lap.authentication.util.DateConversion;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
+import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
 import shfl.st.lap.disbursementrequest.model.DisbursementModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
+import shfl.st.lap.disbursementrequest.repo.DisbursementBillingDayRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementFavourRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementHistoryRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementRequestRepo;
@@ -36,6 +40,9 @@ public class DisbursementService {
 	DisbursementFavourRepo disbursementFavourRepo;
 
 	@Autowired
+	DisbursementBillingDayRepo disbursementBillingDayRepo;
+
+	@Autowired
 	DateConversion dateConversion;
 
 	/**
@@ -49,7 +56,7 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData);
-			int DisbursementReqId = disbursementRequestData.getDisbRequestId();
+			String DisbursementReqId = disbursementRequestData.getDisbRequestId();
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
 					DisbursementReqId);
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
@@ -127,7 +134,19 @@ public class DisbursementService {
 	private DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
 		DisbursementRequest disbursementRequest = new DisbursementRequest();
 		if (disbursementModel.getScreenMode().equals("CREATE")) {
-			disbursementRequest.setDisbRequestId(ThreadLocalRandom.current().nextInt());
+			SecureRandom secureRandom;
+			try {
+				secureRandom = SecureRandom.getInstance("SHA1PRNG");
+				int randomValue = secureRandom.nextInt();
+				if (randomValue < 0) {
+					disbursementRequest.setDisbRequestId("URN-" + (randomValue * -1));
+				} else {
+					disbursementRequest.setDisbRequestId("URN-" + randomValue);
+				}
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (disbursementModel.getScreenMode().equals("UPDATE")) {
 			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
@@ -193,7 +212,7 @@ public class DisbursementService {
 	 * @return disbursementFavoursList
 	 */
 	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel,
-			int disbursementReqId) {
+			String disbursementReqId) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
@@ -248,6 +267,45 @@ public class DisbursementService {
 		});
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
 		return disbursementModel;
+	}
+
+	/**
+	 * registerBillingDay method is used to register the day for billing
+	 * 
+	 * @param disbursementBillingDay
+	 * @return msg
+	 */
+	public String registerBillingDay(DisbursementBillingDay disbursementBillingDay) {
+		String msg = "";
+		DisbursementBillingDay billingData = disbursementBillingDayRepo.save(disbursementBillingDay);
+		if (Objects.nonNull(billingData)) {
+			msg = "Billing Day Registration successfull";
+		} else {
+			msg = "Billing Day Registration Not Successfull";
+		}
+		return msg;
+	}
+
+	/**
+	 * getAllDisbursementBillingDayData method is used to get all the billing day
+	 * 
+	 * @return disbursementBillingDayDataList
+	 */
+	public ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
+		List<DisbursementBillingDay> disbursementBillingDayDataList = disbursementBillingDayRepo.findAll();
+		return ResponseEntity.ok().body(disbursementBillingDayDataList);
+	}
+
+	/**
+	 * searchAllDisbBranchData method is used to search branch in disbursement
+	 * details
+	 * 
+	 * @param brnach
+	 * @return disbursementRequestList
+	 */
+	public ResponseEntity<List<DisbursementRequest>> searchAllDisbBranchData(String branch) {
+		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findByBranch(branch);
+		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
 }
