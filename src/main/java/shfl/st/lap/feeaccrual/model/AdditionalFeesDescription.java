@@ -7,21 +7,18 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import lombok.Data;
+import shfl.st.lap.loscustomer.model.CustomerDepBankKeys;
 
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_TEMP_ADDTNL_FEE_DESC")
+@Table(name = "ST_TB_LMS_ADDTNL_FEE_DESC")
 @IdClass(AdditionalFeesDescriptionPkey.class)
 public class AdditionalFeesDescription {
 	
 	@Id
 	@Column(name = "application_number")
 	private String applicationNumber;
-	
-	@Id
-	@Column(name = "reference_number")
-	private String referenceNumber;
 	
 	@Id
 	@Column(name = "fee_description")
