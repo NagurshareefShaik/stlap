@@ -148,7 +148,7 @@ public class DisbursementService {
 				e.printStackTrace();
 			}
 		}
-		if (disbursementModel.getScreenMode().equals("UPDATE")) {
+		if (!disbursementModel.getScreenMode().equals("CREATE")) {
 			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
 		}
 		disbursementRequest.setApplicationNumber(disbursementModel.getApplicationNumber());
