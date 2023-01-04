@@ -26,6 +26,9 @@ public class ParameterMaintanance extends Auditable{
 
 	@Column(name = "param_value")
 	private String paramValue;
+	
+	@Column(name = "module")
+	private String module;
 
 	@Column(name = "param_data_type")
 	private String paramDataType;

@@ -148,7 +148,7 @@ public class DisbursementService {
 				e.printStackTrace();
 			}
 		}
-		if (disbursementModel.getScreenMode().equals("UPDATE")) {
+		if (!disbursementModel.getScreenMode().equals("CREATE")) {
 			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
 		}
 		disbursementRequest.setApplicationNumber(disbursementModel.getApplicationNumber());
@@ -306,6 +306,23 @@ public class DisbursementService {
 	public ResponseEntity<List<DisbursementRequest>> searchAllDisbBranchData(String branch) {
 		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findByBranch(branch);
 		return ResponseEntity.ok().body(disbursementRequestList);
+	}
+
+	/**
+	 * editLockUpdate method is used to user close the window without click submit
+	 * button edit lock will be false
+	 * 
+	 * @param customerDisbNumber
+	 * @return DisbursementRequest
+	 */
+	public ResponseEntity<DisbursementRequest> editLockUpdate(CustomerDisbNumber customerDisbNumber) {
+		Optional<DisbursementRequest> disbRequestData = disbursementRequestRepo
+				.findById(customerDisbNumber.getDisbRequestId());
+		if (disbRequestData.isPresent()) {
+			disbRequestData.get().setEditLock(false);
+			disbursementRequestRepo.save(disbRequestData.get());
+		}
+		return ResponseEntity.ok().body(disbRequestData.get());
 	}
 
 }

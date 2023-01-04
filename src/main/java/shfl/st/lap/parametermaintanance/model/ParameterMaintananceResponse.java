@@ -10,6 +10,8 @@ public class ParameterMaintananceResponse{
 	private String paramName;
 
 	private String paramValue;
+	
+	private String module;
 
 	private String paramDataType;
 

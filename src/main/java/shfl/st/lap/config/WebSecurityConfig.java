@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] WHITE_URLs = {"/losCustomer/*","/authenticate","/generateOtp","/registerUser", "/registerMobileUser", "/v2/api-docs",
 			"/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**",
-			"/h2-console/**","/disbursement/*","/ledger/*","/status/*" };
+			"/h2-console/**","/disbursement/*","/ledger/*","/status/*","/parameter/*" };
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
