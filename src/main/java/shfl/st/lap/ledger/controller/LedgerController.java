@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import shfl.st.lap.ledger.model.LedgerModel;
+import shfl.st.lap.ledger.model.LedgerMain;
 import shfl.st.lap.ledger.service.LedgerService;
 
 @RestController
@@ -18,7 +18,7 @@ public class LedgerController {
 	LedgerService ledgerService;
 	
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertLedgerData(@RequestBody LedgerModel ledgerModel){
+	public ResponseEntity<String> insertLedgerData(@RequestBody LedgerMain ledgerModel){
 		return ledgerService.insertLedgerData(ledgerModel);
 	}
 

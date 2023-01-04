@@ -28,14 +28,6 @@ public class MobileUser {
 	private String otp;
 
 	// foreign key
-	@Column(name = "role_id")
-	private int roleId;
-
-	// foreign key
-	@Column(name = "branch_id")
-	private int branchId;
-
-	// foreign key
 	@Column(name = "employee_type")
 	private String employeeType;
 
