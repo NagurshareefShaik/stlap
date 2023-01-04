@@ -308,4 +308,21 @@ public class DisbursementService {
 		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
+	/**
+	 * editLockUpdate method is used to user close the window without click submit
+	 * button edit lock will be false
+	 * 
+	 * @param customerDisbNumber
+	 * @return DisbursementRequest
+	 */
+	public ResponseEntity<DisbursementRequest> editLockUpdate(CustomerDisbNumber customerDisbNumber) {
+		Optional<DisbursementRequest> disbRequestData = disbursementRequestRepo
+				.findById(customerDisbNumber.getDisbRequestId());
+		if (disbRequestData.isPresent()) {
+			disbRequestData.get().setEditLock(false);
+			disbursementRequestRepo.save(disbRequestData.get());
+		}
+		return ResponseEntity.ok().body(disbRequestData.get());
+	}
+
 }
