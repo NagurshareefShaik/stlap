@@ -23,7 +23,7 @@ public class LedgerModel extends Auditable{
 
 	// foreign key 
 	@Column(name = "disb_request_id")
-	private int disbRequestId;
+	private String disbRequestId;
 
 	@Column(name = "application_number")
 	private String applicationNumber;
