@@ -48,12 +48,12 @@ public class StlapDashboardService {
 	    Date endDate=c.getTime();
 		
 		List<DisbursementRequest> disbReqList=disbursementRequestRepo.findAll();
-		Double approvedAmount=disbReqList.stream().filter(disb->disb.getRequestStatus().equals("REQUEST"))
+		Double approvedAmount=disbReqList.stream().filter(disb->disb.getRequestStatus().equalsIgnoreCase("approved"))
 				.map(paid->paid.getDisbAmt()).collect(Collectors.summingDouble(Float::floatValue));
 		
 	    
 		List<LosCustomer> losCustomerList=losCustomerRepo.findAll();
-		Map<java.sql.Date, List<DisbursementRequest>> disbursmentData = disbReqList.stream().filter(disb->disb.getRequestStatus().equals("REQUEST"))
+		Map<java.sql.Date, List<DisbursementRequest>> disbursmentData = disbReqList.stream().filter(disb->disb.getRequestStatus().equalsIgnoreCase("requested"))
 				.collect(Collectors.groupingBy(DisbursementRequest::getDateOfDisb));
 		List<LosCustomer> monthCustomerList=losCustomerList.stream().filter(cust->cust.getCreatedDate().after(startDate))
 				.filter(cust->cust.getCreatedDate().before(endDate)).collect(Collectors.toList());
@@ -66,8 +66,8 @@ public class StlapDashboardService {
 		});
 		Map<String,Object> returnMap = new HashMap<>();
 		returnMap.put("sanctioned", losCustomerRepo.count());
-		returnMap.put("requested", getStatusCount("REQUEST",disbReqList));
-		returnMap.put("approved", getStatusCount("PAID",disbReqList));
+		returnMap.put("requested", getStatusCount("requested",disbReqList));
+		returnMap.put("approved", getStatusCount("approved",disbReqList));
 		returnMap.put("cancelled", getStatusCount("CANCEL",disbReqList));
 		returnMap.put("approvedAmount", approvedAmount);
 		returnMap.put("oneMonth", getOneMonthData(disbursmentData));
@@ -76,7 +76,7 @@ public class StlapDashboardService {
 	}
 	
 	public long getStatusCount(String status, List<DisbursementRequest> disbList) {
-		return disbList.stream().filter(disb->disb.getRequestStatus().equals(status)).count();
+		return disbList.stream().filter(disb->disb.getRequestStatus().equalsIgnoreCase(status)).count();
 	}
 
 	private List<Map<String,Object>> getOneYearData(Map<Integer, Integer> yearData) {
