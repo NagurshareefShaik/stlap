@@ -69,5 +69,8 @@ public class LedgerStage extends Auditable{
 
 	@Column(name = "narration")
 	private String narration;
+	
+	@Column(name = "module_id")
+	private String moduleId;
 
 }
