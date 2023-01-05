@@ -138,7 +138,7 @@ public class FeeAccrualWaiverService {
 		String applicationNumber = getString(dataMap.get("applicationNumber"));
 		String feeType = getString(dataMap.get("feeType"));
 		AtomicInteger count = new AtomicInteger(0);
-		List<AdditionalFeesHistory> fetchedData = feeHistoryRepo.findByApplicationNumberAndFeeType(applicationNumber,feeType);
+		List<AdditionalFeesHistory> fetchedData = feeHistoryRepo.findByApplicationNumberAndFeeTypeOrderByModifiedDateTimeDesc(applicationNumber,feeType);
 		fetchedData.stream().forEach(value->{
 			Map<String,Object> valueMap = new HashMap<>();
 			valueMap.put("id", count.getAndIncrement());

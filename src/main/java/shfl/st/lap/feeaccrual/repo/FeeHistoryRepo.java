@@ -8,6 +8,6 @@ import shfl.st.lap.feeaccrual.model.AdditionalFeesHistory;
 
 public interface FeeHistoryRepo extends JpaRepository<AdditionalFeesHistory, String>{
 
-	List<AdditionalFeesHistory> findByApplicationNumberAndFeeType(String applicationNumber, String feeType);
+	List<AdditionalFeesHistory> findByApplicationNumberAndFeeTypeOrderByModifiedDateTimeDesc(String applicationNumber, String feeType);
 
 }
