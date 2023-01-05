@@ -20,8 +20,8 @@ public class DisbursementHistory extends Auditable {
 	private int disbHistId;
 
 	// foreign key
-	@Column(name = "disb_request_id")
-	private String disbRequestId;
+	@Column(name = "transaction_key")
+	private String transactionKey;
 
 	@Column(name = "application_number")
 	private String applicationNumber;
