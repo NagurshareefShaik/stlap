@@ -62,9 +62,9 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
-			String DisbursementReqId = disbursementRequestData.getDisbRequestId();
+			String transactionKey = disbursementRequestData.getTransactionKey();
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
-					DisbursementReqId);
+					transactionKey);
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -82,7 +82,7 @@ public class DisbursementService {
 	 */
 	public ResponseEntity<DisbursementModel> getDisbursementData(CustomerDisbNumber customerDisbNumber) {
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo
-				.findById(customerDisbNumber.getDisbRequestId());
+				.findById(customerDisbNumber.getTransactionKey());
 		if (disbRequest.isPresent()) {
 			List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
 					.findByApplicationNumber(disbRequest.get().getApplicationNumber());
@@ -111,7 +111,7 @@ public class DisbursementService {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
-					disbursementModel.getDisbRequestId());
+					disbursementModel.getTransactionKey());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -145,9 +145,9 @@ public class DisbursementService {
 				secureRandom = SecureRandom.getInstance("SHA1PRNG");
 				int randomValue = secureRandom.nextInt();
 				if (randomValue < 0) {
-					disbursementRequest.setDisbRequestId("URN-" + (randomValue * -1));
+					disbursementRequest.setTransactionKey(("URN-" + (randomValue * -1)));
 				} else {
-					disbursementRequest.setDisbRequestId("URN-" + randomValue);
+					disbursementRequest.setTransactionKey("URN-" + randomValue);
 				}
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
@@ -155,7 +155,7 @@ public class DisbursementService {
 			}
 		}
 		if (!disbursementModel.getScreenMode().equals("CREATE")) {
-			disbursementRequest.setDisbRequestId(disbursementModel.getDisbRequestId());
+			disbursementRequest.setTransactionKey(disbursementModel.getTransactionKey());
 		}
 		disbursementRequest.setApplicationNumber(disbursementModel.getApplicationNumber());
 		disbursementRequest.setBranch(disbursementModel.getBranch());
@@ -192,7 +192,7 @@ public class DisbursementService {
 			DisbursementModel disbursementModel) {
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
 		disbursementHistory.setDisbHistId(ThreadLocalRandom.current().nextInt());
-		disbursementHistory.setDisbRequestId(disbursementRequestData.getDisbRequestId());
+		disbursementHistory.setTransactionKey(disbursementRequestData.getTransactionKey());
 		disbursementHistory.setApplicationNumber(disbursementRequestData.getApplicationNumber());
 		disbursementHistory.setBranch(disbursementRequestData.getBranch());
 		disbursementHistory.setApplicantName(disbursementRequestData.getApplicantName());
@@ -229,16 +229,16 @@ public class DisbursementService {
 	 * entity and insert the table
 	 * 
 	 * @param disbursementModel
-	 * @param disbursementReqId
+	 * @param transactionKey
 	 * @return disbursementFavoursList
 	 */
 	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel,
-			String disbursementReqId) {
+			String transactionKey) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
 			disbursementFavour.setBankAccNumber(favour.getBankAccNumber());
-			disbursementFavour.setDisbRequestId(disbursementReqId);
+			disbursementFavour.setTransactionKey(transactionKey);
 			disbursementFavour.setApplicationNumber(disbursementModel.getApplicationNumber());
 			disbursementFavour.setDistNo(disbursementModel.getDisbNo());
 			disbursementFavour.setDisbAmount(favour.getDisbAmount());
@@ -257,7 +257,7 @@ public class DisbursementService {
 	private DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
 			List<DisbursementFavour> disbursementFavourDataList) {
 		DisbursementModel disbursementModel = new DisbursementModel();
-		disbursementModel.setDisbRequestId(disbursementRequestData.getDisbRequestId());
+		disbursementModel.setTransactionKey(disbursementRequestData.getTransactionKey());
 		disbursementModel.setApplicationNumber(disbursementRequestData.getApplicationNumber());
 		disbursementModel.setBranch(disbursementRequestData.getBranch());
 		disbursementModel.setApplicantName(disbursementRequestData.getApplicantName());
@@ -338,7 +338,7 @@ public class DisbursementService {
 	 */
 	public ResponseEntity<DisbursementRequest> editLockUpdate(CustomerDisbNumber customerDisbNumber) {
 		Optional<DisbursementRequest> disbRequestData = disbursementRequestRepo
-				.findById(customerDisbNumber.getDisbRequestId());
+				.findById(customerDisbNumber.getTransactionKey());
 		if (disbRequestData.isPresent()) {
 			disbRequestData.get().setEditLock(false);
 			disbursementRequestRepo.save(disbRequestData.get());

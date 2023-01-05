@@ -16,8 +16,8 @@ import shfl.st.lap.auditlog.Auditable;
 public class DisbursementRequest extends Auditable {
 
 	@Id
-	@Column(name = "disb_request_id")
-	private String disbRequestId;
+	@Column(name = "transaction_key")
+	private String transactionKey;
 
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
