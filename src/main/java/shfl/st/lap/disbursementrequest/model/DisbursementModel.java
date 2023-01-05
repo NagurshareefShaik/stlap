@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class DisbursementModel {
-	
+
 	private String disbRequestId;
 	private String applicationNumber;
 	private String branch;
@@ -28,7 +28,7 @@ public class DisbursementModel {
 	private String shflBank;
 	private String remarks;
 	private boolean editLock;
-	//CREATE or UPDATE
+	// CREATE or UPDATE OR CANCEL OR APPROVED
 	private String screenMode;
 	private List<DisbursementFavour> disbursementFavours;
 

@@ -30,6 +30,12 @@ import shfl.st.lap.disbursementrequest.repo.DisbursementRequestRepo;
 @Service
 public class DisbursementService {
 
+	private static final String MODULEID = "MD001";
+	private static final String CREATEMODULEID = "MD001C";
+	private static final String MODIFYMODULEID = "MD001M";
+	private static final String CANCELMODULEID = "MD001D";
+	private static final String APPROVEDMODULEID = "MD001A";
+
 	@Autowired
 	DisbursementRequestRepo disbursementRequestRepo;
 
@@ -55,7 +61,7 @@ public class DisbursementService {
 	public ResponseEntity<DisbursementModel> insertDisbursementData(DisbursementModel disbursementModel) {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
-			setDisbursementHistoryData(disbursementRequestData);
+			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
 			String DisbursementReqId = disbursementRequestData.getDisbRequestId();
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
 					DisbursementReqId);
@@ -103,7 +109,7 @@ public class DisbursementService {
 	public ResponseEntity<DisbursementModel> updateDisbursementData(DisbursementModel disbursementModel) {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
-			setDisbursementHistoryData(disbursementRequestData);
+			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
 					disbursementModel.getDisbRequestId());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
@@ -170,6 +176,7 @@ public class DisbursementService {
 		disbursementRequest.setShflBank(disbursementModel.getShflBank());
 		disbursementRequest.setRemarks(disbursementModel.getRemarks());
 		disbursementRequest.setEditLock(false);
+		disbursementRequest.setModuleId(MODULEID);
 		return disbursementRequestRepo.save(disbursementRequest);
 	}
 
@@ -178,9 +185,11 @@ public class DisbursementService {
 	 * entity and insert the table
 	 * 
 	 * @param disbursementRequestData
+	 * @param disbursementModel
 	 * @return disbursementHistory
 	 */
-	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData) {
+	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
+			DisbursementModel disbursementModel) {
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
 		disbursementHistory.setDisbHistId(ThreadLocalRandom.current().nextInt());
 		disbursementHistory.setDisbRequestId(disbursementRequestData.getDisbRequestId());
@@ -200,6 +209,18 @@ public class DisbursementService {
 		disbursementHistory.setPaymentMode(disbursementRequestData.getPaymentMode());
 		disbursementHistory.setShflBank(disbursementRequestData.getShflBank());
 		disbursementHistory.setRemarks(disbursementRequestData.getRemarks());
+		if (disbursementModel.getScreenMode().equals("CREATE")) {
+			disbursementHistory.setModuleId(CREATEMODULEID);
+		}
+		if (disbursementModel.getScreenMode().equals("MODIFY")) {
+			disbursementHistory.setModuleId(MODIFYMODULEID);
+		}
+		if (disbursementModel.getScreenMode().equals("CANCEL")) {
+			disbursementHistory.setModuleId(CANCELMODULEID);
+		}
+		if (disbursementModel.getScreenMode().equals("APPROVED")) {
+			disbursementHistory.setModuleId(APPROVEDMODULEID);
+		}
 		return disbursementHistoryRepo.save(disbursementHistory);
 	}
 

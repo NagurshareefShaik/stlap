@@ -13,7 +13,7 @@ import shfl.st.lap.auditlog.Auditable;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DISB_REQ")
-public class DisbursementRequest extends Auditable{
+public class DisbursementRequest extends Auditable {
 
 	@Id
 	@Column(name = "disb_request_id")
@@ -21,10 +21,10 @@ public class DisbursementRequest extends Auditable{
 
 	@Column(name = "application_number", nullable = false)
 	private String applicationNumber;
-	
+
 	@Column(name = "branch")
 	private String branch;
-	
+
 	@Column(name = "applicant_name")
 	private String applicantName;
 
@@ -33,11 +33,11 @@ public class DisbursementRequest extends Auditable{
 
 	@Column(name = "disb_amt")
 	private float disbAmt;
-	
-	@Column(name="disb_no")
+
+	@Column(name = "disb_no")
 	private int disbNo;
-	
-	@Column(name="rate_of_interest")
+
+	@Column(name = "rate_of_interest")
 	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
@@ -54,10 +54,10 @@ public class DisbursementRequest extends Auditable{
 
 	@Column(name = "emi_comm_date")
 	private String emiCommDate;
-	
+
 	@Column(name = "first_emi_due_date")
 	private String firstEmiDueDate;
-	
+
 	@Column(name = "effective_date")
 	private Date effectiveDate;
 
@@ -72,8 +72,11 @@ public class DisbursementRequest extends Auditable{
 
 	@Column(name = "remarks")
 	private String remarks;
-	
+
 	@Column(name = "edit_lock")
 	private boolean editLock;
+
+	@Column(name = "module_id")
+	private String moduleId;
 
 }
