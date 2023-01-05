@@ -13,8 +13,8 @@ import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_LEDGER")
-public class LedgerModel extends Auditable{
+@Table(name = "ST_TB_LMS_LEDGER_STAGE")
+public class LedgerStage extends Auditable{
 
 	@Id
 	@GeneratedValue
@@ -40,14 +40,14 @@ public class LedgerModel extends Auditable{
 	@Column(name = "charset")
 	private String charset;
 
-	@Column(name = "reff_number")
-	private String reffNumber;
+	@Column(name = "ref_no")
+	private String refNo;
 	
-	@Column(name = "reff_type")
-	private String reffType;
+	@Column(name = "ref_type")
+	private String refType;
 
-	@Column(name = "voucher_number")
-	private String voucherNumber;
+	@Column(name = "voucher_no")
+	private String voucherNo;
 
 	@Column(name = "request_date")
 	private Date requestDate;
@@ -55,19 +55,22 @@ public class LedgerModel extends Auditable{
 	@Column(name = "voucher_date")
 	private Date voucherDate;
 
-	@Column(name = "voucher_eff_st_date")
-	private Date voucherEffStDate;
+	@Column(name = "eff_date")
+	private Date effDate;
 
-	@Column(name = "trans_acc")
-	private String transAcc;
+	@Column(name = "txn_account")
+	private String txnAccount;
 
-	@Column(name = "tran_amt")
-	private float tranAmt;
+	@Column(name = "txn_code")
+	private float txnCode;
 	
-	@Column(name = "trans_code")
-	private int transCode;
+	@Column(name = "txn_amount")
+	private int txnAmount;
 
-	@Column(name = "remarks")
-	private String remarks;
+	@Column(name = "narration")
+	private String narration;
+	
+	@Column(name = "module_id")
+	private String moduleId;
 
 }
