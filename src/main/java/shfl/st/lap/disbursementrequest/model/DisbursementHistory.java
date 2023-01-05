@@ -12,19 +12,22 @@ import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_DISB_HISTORY")
+@Table(name = "ST_TB_LMS_DISB_REQ_HDR_H")
 public class DisbursementHistory extends Auditable {
 
 	@Id
-	@Column(name = "disb_hist_id")
-	private int disbHistId;
+	@Column(name = "disb_hist_key")
+	private int disbHistoryKey;
 
 	// foreign key
-	@Column(name = "transaction_key")
-	private String transactionKey;
+	@Column(name = "disb_hdr_key")
+	private Number disbHeaderKey;
 
-	@Column(name = "application_number")
-	private String applicationNumber;
+	@Column(name = "trans_key")
+	private Number transactionKey;
+
+	@Column(name = "application_num")
+	private String applicationNum;
 
 	@Column(name = "branch")
 	private String branch;
@@ -33,22 +36,25 @@ public class DisbursementHistory extends Auditable {
 	private String applicantName;
 
 	@Column(name = "earlier_disb_amt")
-	private float earlierDisbAmt;
+	private Number earlierDisbAmt;
 
 	@Column(name = "disb_amt")
-	private float disbAmt;
+	private Number disbAmt;
+
+	@Column(name = "disb_num")
+	private int disbNum;
 
 	@Column(name = "rate_of_interest")
 	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
-	private float totalDisbAmt;
+	private Number totalDisbAmt;
 
 	@Column(name = "date_of_disb")
 	private Date dateOfDisb;
 
-	@Column(name = "billing_day")
-	private String billingDay;
+	@Column(name = "bill_day")
+	private Number billDay;
 
 	@Column(name = "billing_date")
 	private String billingDate;
@@ -65,13 +71,16 @@ public class DisbursementHistory extends Auditable {
 	@Column(name = "payment_mode")
 	private String paymentMode;
 
-	@Column(name = "shfl_bank")
-	private String shflBank;
-
 	@Column(name = "remarks")
 	private String remarks;
 
 	@Column(name = "module_id")
 	private String moduleId;
+
+	@Column(name = "disb_emi_amt")
+	private Number disbEmiAmt;
+
+	@Column(name = "total_ded_amt")
+	private Number totalDeductionAmt;
 
 }

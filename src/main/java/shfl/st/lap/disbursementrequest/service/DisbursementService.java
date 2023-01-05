@@ -62,9 +62,7 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
-			String transactionKey = disbursementRequestData.getTransactionKey();
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
-					transactionKey);
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -82,10 +80,12 @@ public class DisbursementService {
 	 */
 	public ResponseEntity<DisbursementModel> getDisbursementData(CustomerDisbNumber customerDisbNumber) {
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo
-				.findById(customerDisbNumber.getTransactionKey());
+				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequest.isPresent()) {
+			//List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
+					//.findByApplicationNum(disbRequest.get().getApplicationNum());
 			List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
-					.findByApplicationNumber(disbRequest.get().getApplicationNumber());
+					.findByDisbHeaderKey(disbRequest.get().getDisbHeaderKey());
 			DisbursementModel disbModel = getDisbursementModelData(disbRequest.get(), disbursementFavourList);
 			if ((customerDisbNumber.getScreenMode().equals("MODIFY")
 					|| customerDisbNumber.getScreenMode().equals("CANCEL")) && !(disbModel.isEditLock())) {
@@ -110,8 +110,7 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
-					disbursementModel.getTransactionKey());
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -143,11 +142,26 @@ public class DisbursementService {
 			SecureRandom secureRandom;
 			try {
 				secureRandom = SecureRandom.getInstance("SHA1PRNG");
-				int randomValue = secureRandom.nextInt();
-				if (randomValue < 0) {
-					disbursementRequest.setTransactionKey(("URN-" + (randomValue * -1)));
+				int disbRandomValue = secureRandom.nextInt();
+				if (disbRandomValue < 0) {
+					disbursementRequest.setDisbHeaderKey(disbRandomValue * -1);
 				} else {
-					disbursementRequest.setTransactionKey("URN-" + randomValue);
+					disbursementRequest.setDisbHeaderKey(disbRandomValue);
+				}
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (disbursementModel.getScreenMode().equals("CREATE")) {
+			SecureRandom secureRandom;
+			try {
+				secureRandom = SecureRandom.getInstance("SHA1PRNG");
+				int transRandomValue = secureRandom.nextInt();
+				if (transRandomValue < 0) {
+					disbursementRequest.setTransactionKey(transRandomValue * -1);
+				} else {
+					disbursementRequest.setTransactionKey(transRandomValue);
 				}
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
@@ -155,28 +169,30 @@ public class DisbursementService {
 			}
 		}
 		if (!disbursementModel.getScreenMode().equals("CREATE")) {
+			disbursementRequest.setDisbHeaderKey(disbursementModel.getDisbHeaderKey());
 			disbursementRequest.setTransactionKey(disbursementModel.getTransactionKey());
 		}
-		disbursementRequest.setApplicationNumber(disbursementModel.getApplicationNumber());
+		disbursementRequest.setApplicationNum(disbursementModel.getApplicationNum());
 		disbursementRequest.setBranch(disbursementModel.getBranch());
 		disbursementRequest.setApplicantName(disbursementModel.getApplicantName());
 		disbursementRequest.setEarlierDisbAmt(disbursementModel.getEarlierDisbAmt());
 		disbursementRequest.setDisbAmt(disbursementModel.getDisbAmt());
-		disbursementRequest.setDisbNo(disbursementModel.getDisbNo());
+		disbursementRequest.setDisbNum(disbursementModel.getDisbNum());
 		disbursementRequest.setRateOfInterest(disbursementModel.getRateOfInterest());
 		disbursementRequest.setTotalDisbAmt(disbursementModel.getTotalDisbAmt());
 		disbursementRequest.setDateOfDisb(disbursementModel.getDateOfDisb());
-		disbursementRequest.setBillingDay(disbursementModel.getBillingDay());
+		disbursementRequest.setBillDay(disbursementModel.getBillDay());
 		disbursementRequest.setBillingDate(disbursementModel.getBillingDate());
 		disbursementRequest.setEmiCommDate(disbursementModel.getEmiCommDate());
 		disbursementRequest.setFirstEmiDueDate(disbursementModel.getFirstEmiDueDate());
 		disbursementRequest.setEffectiveDate(disbursementModel.getEffectiveDate());
 		disbursementRequest.setRequestStatus(disbursementModel.getRequestStatus());
 		disbursementRequest.setPaymentMode(disbursementModel.getPaymentMode());
-		disbursementRequest.setShflBank(disbursementModel.getShflBank());
 		disbursementRequest.setRemarks(disbursementModel.getRemarks());
 		disbursementRequest.setEditLock(false);
 		disbursementRequest.setModuleId(MODULEID);
+		disbursementRequest.setDisbEmiAmt(disbursementModel.getDisbAmt());
+		disbursementRequest.setTotalDeductionAmt(disbursementModel.getTotalDeductionAmt());
 		return disbursementRequestRepo.save(disbursementRequest);
 	}
 
@@ -191,23 +207,24 @@ public class DisbursementService {
 	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
 			DisbursementModel disbursementModel) {
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
-		disbursementHistory.setDisbHistId(ThreadLocalRandom.current().nextInt());
+		disbursementHistory.setDisbHistoryKey(ThreadLocalRandom.current().nextInt());
+		disbursementHistory.setDisbHeaderKey(disbursementRequestData.getDisbHeaderKey());
 		disbursementHistory.setTransactionKey(disbursementRequestData.getTransactionKey());
-		disbursementHistory.setApplicationNumber(disbursementRequestData.getApplicationNumber());
+		disbursementHistory.setApplicationNum(disbursementRequestData.getApplicationNum());
 		disbursementHistory.setBranch(disbursementRequestData.getBranch());
 		disbursementHistory.setApplicantName(disbursementRequestData.getApplicantName());
 		disbursementHistory.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementHistory.setDisbAmt(disbursementRequestData.getDisbAmt());
+		disbursementHistory.setDisbNum(disbursementRequestData.getDisbNum());
 		disbursementHistory.setRateOfInterest(disbursementRequestData.getRateOfInterest());
 		disbursementHistory.setTotalDisbAmt(disbursementRequestData.getTotalDisbAmt());
 		disbursementHistory.setDateOfDisb(disbursementRequestData.getDateOfDisb());
-		disbursementHistory.setBillingDay(disbursementRequestData.getBillingDay());
+		disbursementHistory.setBillDay(disbursementRequestData.getBillDay());
 		disbursementHistory.setBillingDate(disbursementRequestData.getBillingDate());
 		disbursementHistory.setEmiCommDate(disbursementRequestData.getEmiCommDate());
 		disbursementHistory.setFirstEmiDueDate(disbursementRequestData.getFirstEmiDueDate());
 		disbursementHistory.setRequestStatus(disbursementRequestData.getRequestStatus());
 		disbursementHistory.setPaymentMode(disbursementRequestData.getPaymentMode());
-		disbursementHistory.setShflBank(disbursementRequestData.getShflBank());
 		disbursementHistory.setRemarks(disbursementRequestData.getRemarks());
 		if (disbursementModel.getScreenMode().equals("CREATE")) {
 			disbursementHistory.setModuleId(CREATEMODULEID);
@@ -221,6 +238,8 @@ public class DisbursementService {
 		if (disbursementModel.getScreenMode().equals("APPROVED")) {
 			disbursementHistory.setModuleId(APPROVEDMODULEID);
 		}
+		disbursementHistory.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
+		disbursementHistory.setTotalDeductionAmt(disbursementRequestData.getTotalDeductionAmt());
 		return disbursementHistoryRepo.save(disbursementHistory);
 	}
 
@@ -229,19 +248,18 @@ public class DisbursementService {
 	 * entity and insert the table
 	 * 
 	 * @param disbursementModel
-	 * @param transactionKey
 	 * @return disbursementFavoursList
 	 */
-	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel,
-			String transactionKey) {
+	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
-			disbursementFavour.setBankAccNumber(favour.getBankAccNumber());
-			disbursementFavour.setTransactionKey(transactionKey);
-			disbursementFavour.setApplicationNumber(disbursementModel.getApplicationNumber());
-			disbursementFavour.setDistNo(disbursementModel.getDisbNo());
-			disbursementFavour.setDisbAmount(favour.getDisbAmount());
+			disbursementFavour.setBankAccountNum(favour.getBankAccountNum());
+			disbursementFavour.setDisbHeaderKey(favour.getDisbHeaderKey());
+			disbursementFavour.setApplicationNum(favour.getApplicationNum());
+			disbursementFavour.setDisbNum(favour.getDisbNum());
+			disbursementFavour.setDisbAmt(favour.getDisbAmt());
+			disbursementFavour.setUtrNum(favour.getUtrNum());
 			disbursementFavoursList.add(disbursementFavour);
 		});
 		return disbursementFavourRepo.saveAll(disbursementFavoursList);
@@ -257,36 +275,40 @@ public class DisbursementService {
 	private DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
 			List<DisbursementFavour> disbursementFavourDataList) {
 		DisbursementModel disbursementModel = new DisbursementModel();
+		disbursementModel.setDisbHeaderKey(disbursementRequestData.getDisbHeaderKey());
 		disbursementModel.setTransactionKey(disbursementRequestData.getTransactionKey());
-		disbursementModel.setApplicationNumber(disbursementRequestData.getApplicationNumber());
+		disbursementModel.setApplicationNum(disbursementRequestData.getApplicationNum());
 		disbursementModel.setBranch(disbursementRequestData.getBranch());
 		disbursementModel.setApplicantName(disbursementRequestData.getApplicantName());
 		disbursementModel.setEarlierDisbAmt(disbursementRequestData.getEarlierDisbAmt());
 		disbursementModel.setDisbAmt(disbursementRequestData.getDisbAmt());
-		disbursementModel.setDisbNo(disbursementRequestData.getDisbNo());
+		disbursementModel.setDisbNum(disbursementRequestData.getDisbNum());
 		disbursementModel.setRateOfInterest(disbursementRequestData.getRateOfInterest());
 		disbursementModel.setTotalDisbAmt(disbursementRequestData.getTotalDisbAmt());
 		disbursementModel.setDateOfDisb(disbursementRequestData.getDateOfDisb());
-		disbursementModel.setBillingDay(disbursementRequestData.getBillingDay());
+		disbursementModel.setBillDay(disbursementRequestData.getBillDay());
 		disbursementModel.setBillingDate(disbursementRequestData.getBillingDate());
 		disbursementModel.setEmiCommDate(disbursementRequestData.getEmiCommDate());
 		disbursementModel.setFirstEmiDueDate(disbursementRequestData.getFirstEmiDueDate());
 		disbursementModel.setEffectiveDate(disbursementRequestData.getEffectiveDate());
 		disbursementModel.setRequestStatus(disbursementRequestData.getRequestStatus());
 		disbursementModel.setPaymentMode(disbursementRequestData.getPaymentMode());
-		disbursementModel.setShflBank(disbursementRequestData.getShflBank());
 		disbursementModel.setRemarks(disbursementRequestData.getRemarks());
 		disbursementModel.setEditLock(disbursementRequestData.isEditLock());
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementFavourDataList.stream().forEach(data -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
-			disbursementFavour.setApplicationNumber(data.getApplicationNumber());
-			disbursementFavour.setBankAccNumber(data.getBankAccNumber());
-			disbursementFavour.setDistNo(data.getDistNo());
-			disbursementFavour.setDisbAmount(data.getDisbAmount());
+			disbursementFavour.setBankAccountNum(data.getBankAccountNum());
+			disbursementFavour.setDisbHeaderKey(data.getDisbHeaderKey());
+			disbursementFavour.setApplicationNum(data.getApplicationNum());
+			disbursementFavour.setDisbNum(data.getDisbNum());
+			disbursementFavour.setDisbAmt(data.getDisbAmt());
+			disbursementFavour.setUtrNum(data.getUtrNum());
 			disbursementFavoursList.add(disbursementFavour);
 		});
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
+		disbursementModel.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
+		disbursementModel.setTotalDeductionAmt(disbursementRequestData.getTotalDeductionAmt());
 		return disbursementModel;
 	}
 
@@ -338,7 +360,7 @@ public class DisbursementService {
 	 */
 	public ResponseEntity<DisbursementRequest> editLockUpdate(CustomerDisbNumber customerDisbNumber) {
 		Optional<DisbursementRequest> disbRequestData = disbursementRequestRepo
-				.findById(customerDisbNumber.getTransactionKey());
+				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequestData.isPresent()) {
 			disbRequestData.get().setEditLock(false);
 			disbursementRequestRepo.save(disbRequestData.get());

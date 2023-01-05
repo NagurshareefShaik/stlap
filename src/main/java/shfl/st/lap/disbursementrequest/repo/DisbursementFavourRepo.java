@@ -10,6 +10,8 @@ import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 @Repository
 public interface DisbursementFavourRepo extends JpaRepository<DisbursementFavour, Integer>{
 
-	List<DisbursementFavour> findByApplicationNumber(String applicationNumber);
+	List<DisbursementFavour> findByDisbHeaderKey(Number disbHeaderKey);
+
+	//List<DisbursementFavour> findByApplicationNum(String applicationNumber);
 
 }

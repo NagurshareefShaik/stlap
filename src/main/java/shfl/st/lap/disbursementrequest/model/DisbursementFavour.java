@@ -10,24 +10,29 @@ import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
-@Table(name = "ST_TB_LMS_DISB_FAV")
+@Table(name = "ST_TB_LMS_DISB_REQ_DTL")
 public class DisbursementFavour extends Auditable {
 
 	@Id
-	@Column(name = "bank_acc_number", nullable = false)
-	private int bankAccNumber;
+	@Column(name = "bank_acc_num", nullable = false)
+	private int bankAccountNum;
 
 	// foreign key
-	@Column(name = "transaction_key")
-	private String transactionKey;
+	@Column(name = "disb_hdr_key")
+	private Number disbHeaderKey;
 
-	@Column(name = "application_number")
-	private String applicationNumber;
+	@Column(name = "application_num")
+	private String applicationNum;
 
-	@Column(name = "dist_no")
-	private int distNo;
+	@Column(name = "disb_num")
+	private int disbNum;
 
-	@Column(name = "disb_amount")
-	private float disbAmount;
+	@Column(name = "disb_amt")
+	private Number disbAmt;
+
+	// First disbursement empty once disb approved utr number shown in bank detail
+	// grid
+	@Column(name = "utr_num")
+	private Number utrNum;
 
 }

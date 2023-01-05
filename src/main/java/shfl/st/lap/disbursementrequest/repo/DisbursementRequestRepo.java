@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
 
 @Repository
-public interface DisbursementRequestRepo extends JpaRepository<DisbursementRequest, String> {
+public interface DisbursementRequestRepo extends JpaRepository<DisbursementRequest, Number> {
 
 	List<DisbursementRequest> findByBranch(String branch);
 
