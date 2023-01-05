@@ -88,6 +88,7 @@ public class ParameterMaintananceService {
 		ParameterMaintananceResponse response = new ParameterMaintananceResponse();
 		response.setParamDataType(parameterMaintanance.getParamDataType());
 		response.setParamId(parameterMaintanance.getParamId());
+		response.setModule(parameterMaintanance.getModule());
 		response.setParamEffEndDt(dateConversion.convertDateTimeToDate(parameterMaintanance.getParamEffEndDt()));
 		response.setParamEffStartDt(dateConversion.convertDateTimeToDate(parameterMaintanance.getParamEffStartDt()));
 		response.setParamName(parameterMaintanance.getParamName());

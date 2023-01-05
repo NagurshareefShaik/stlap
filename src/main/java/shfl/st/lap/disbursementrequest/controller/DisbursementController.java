@@ -59,4 +59,9 @@ public class DisbursementController {
 		return disbursementService.searchAllDisbBranchData(disbursementBranch.getBranch());
 	}
 
+	@PostMapping("/editLockUpdate")
+	private ResponseEntity<DisbursementRequest> editLockUpdate(@RequestBody CustomerDisbNumber customerDisbNumber) {
+		return disbursementService.editLockUpdate(customerDisbNumber);
+	}
+
 }
