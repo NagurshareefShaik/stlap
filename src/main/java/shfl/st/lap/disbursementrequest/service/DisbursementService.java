@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import shfl.st.lap.authentication.util.DateConversion;
+import shfl.st.lap.util.DateConversion;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;

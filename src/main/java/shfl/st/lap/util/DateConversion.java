@@ -1,4 +1,4 @@
-package shfl.st.lap.authentication.util;
+package shfl.st.lap.util;
 
 import java.time.Instant;
 import java.util.Calendar;
