@@ -85,4 +85,7 @@ public class DisbursementRequest extends Auditable {
 	@Column(name = "total_ded_amt")
 	private Number totalDeductionAmt;
 
+	@Column(name = "approval_remarks")
+	private String approvalRemarks;
+
 }

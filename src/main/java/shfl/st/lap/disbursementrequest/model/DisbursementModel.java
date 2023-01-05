@@ -33,5 +33,6 @@ public class DisbursementModel {
 	private List<DisbursementFavour> disbursementFavours;
 	private Number disbEmiAmt;
 	private Number totalDeductionAmt;
+	private String approvalRemarks;
 
 }

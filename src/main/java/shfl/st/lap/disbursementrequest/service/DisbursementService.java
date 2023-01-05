@@ -82,8 +82,8 @@ public class DisbursementService {
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo
 				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequest.isPresent()) {
-			//List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
-					//.findByApplicationNum(disbRequest.get().getApplicationNum());
+			// List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
+			// .findByApplicationNum(disbRequest.get().getApplicationNum());
 			List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
 					.findByDisbHeaderKey(disbRequest.get().getDisbHeaderKey());
 			DisbursementModel disbModel = getDisbursementModelData(disbRequest.get(), disbursementFavourList);
@@ -193,6 +193,7 @@ public class DisbursementService {
 		disbursementRequest.setModuleId(MODULEID);
 		disbursementRequest.setDisbEmiAmt(disbursementModel.getDisbAmt());
 		disbursementRequest.setTotalDeductionAmt(disbursementModel.getTotalDeductionAmt());
+		disbursementRequest.setApprovalRemarks(disbursementModel.getApprovalRemarks());
 		return disbursementRequestRepo.save(disbursementRequest);
 	}
 
@@ -240,6 +241,7 @@ public class DisbursementService {
 		}
 		disbursementHistory.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
 		disbursementHistory.setTotalDeductionAmt(disbursementRequestData.getTotalDeductionAmt());
+		disbursementHistory.setApprovalRemarks(disbursementRequestData.getApprovalRemarks());
 		return disbursementHistoryRepo.save(disbursementHistory);
 	}
 
@@ -309,6 +311,7 @@ public class DisbursementService {
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
 		disbursementModel.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
 		disbursementModel.setTotalDeductionAmt(disbursementRequestData.getTotalDeductionAmt());
+		disbursementModel.setApprovalRemarks(disbursementRequestData.getApprovalRemarks());
 		return disbursementModel;
 	}
 
