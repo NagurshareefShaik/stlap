@@ -1,5 +1,6 @@
 package shfl.st.lap.feeaccrual.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class FeeAccrualWaiverController {
 	public ResponseEntity<Map<String,Object>>getHistoryData(@RequestBody Map<String,Object> datamap){
 		return feeAccrualWaiverService.getHistoryData(datamap);
 	}
-	
+	@PostMapping("/getApplicationNumber")
+	public ResponseEntity<List<Map<String,String>>>getApplicationNumber(@RequestBody Map<String,Object> datamap){
+		return feeAccrualWaiverService.getApplicationNumber(datamap);
+	}
 	
 }
