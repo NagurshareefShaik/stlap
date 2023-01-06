@@ -9,12 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_DC_FNMVT_DTL_STG")
+@AllArgsConstructor
+@NoArgsConstructor
 public class LedgerStage extends Auditable {
 
 	@Id
@@ -59,7 +63,7 @@ public class LedgerStage extends Auditable {
 	private String txnAccount;
 
 	@Column(name = "txn_code")
-	private float txnCode;
+	private int txnCode;
 
 	@Column(name = "txn_amt")
 	private int txnAmt;

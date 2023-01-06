@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import shfl.st.lap.ledger.model.LedgerMain;
 
 @Repository
-public interface LedgerRepo extends JpaRepository<LedgerMain, Integer>{
+public interface LedgerMainRepo extends JpaRepository<LedgerMain, Integer>{
 
 }
