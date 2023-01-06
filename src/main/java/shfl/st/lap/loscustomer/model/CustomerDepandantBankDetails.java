@@ -16,7 +16,7 @@ public class CustomerDepandantBankDetails {
 	
 	@Id
 	@Column(name = "bank_acc_number")
-	private int bankAccountNumber;
+	private String bankAccountNumber;
 	
 	@Id
 	@Column(name = "application_number")
