@@ -163,8 +163,8 @@ public class FeeAccrualWaiverService {
 		List<LosCustomer> listOfCustomer = losCustomerRepo.findByBranch(getString(datamap.get("branchName")));
 		listOfCustomer.stream().forEach(branch->{
 			Map<String,String> branchmap = new HashMap<>();
-			branchmap.put("label", branch.getApplicationNumber());
-			branchmap.put("value", branch.getApplicationNumber());
+			branchmap.put("label", branch.getApplicationNum());
+			branchmap.put("value", branch.getApplicationNum());
 			branchList.add(branchmap);
 		});
 		return ResponseEntity.ok().body(branchList);
