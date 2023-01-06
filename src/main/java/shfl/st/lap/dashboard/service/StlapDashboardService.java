@@ -54,7 +54,7 @@ public class StlapDashboardService {
 		
 		List<DisbursementRequest> disbReqList=disbursementRequestRepo.findAll();
 		Double approvedAmount=disbReqList.stream().filter(disb->disb.getRequestStatus().equalsIgnoreCase("approved"))
-				.map(paid->paid.getDisbAmt()).collect(Collectors.summingDouble(Float::floatValue));
+				.map(paid->paid.getDisbAmt()).collect(Collectors.summingDouble(Integer::intValue));
 		
 	    
 		List<LosCustomer> losCustomerList=losCustomerRepo.findAll();
@@ -78,7 +78,7 @@ public class StlapDashboardService {
 		returnMap.put("oneMonth", getOneMonthData(disbursmentData));
 		returnMap.put("oneYear", getOneYearData(yearData));
 		
-		Set<String> listOfApplicationNumber = losCustomerList.stream().map(map-> map.getApplicationNumber()).collect(Collectors.toSet());
+		Set<String> listOfApplicationNumber = losCustomerList.stream().map(map-> map.getApplicationNum()).collect(Collectors.toSet());
 		if(feeAccrualWaiverRepo.count()==0) {
 			insertData(listOfApplicationNumber);
 		}
