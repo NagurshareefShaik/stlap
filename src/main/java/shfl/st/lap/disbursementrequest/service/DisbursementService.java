@@ -107,7 +107,7 @@ public class DisbursementService {
 			ledgerStageRepo.deleteAll(ledgerStageKeyList);
 			insertLedgerData(ledgerDataList, disbursementRequestData);
 			insertLedgerDeductions(disbursementRequestData);
-		} else if (mode.equals("APPROVED")) {
+		} else if (mode.equals("APPROVE")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			List<LedgerMain> ledgerMainList = convertStageToMain(ledgerStageKeyList);
