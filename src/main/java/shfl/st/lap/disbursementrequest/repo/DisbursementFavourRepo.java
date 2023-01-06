@@ -8,10 +8,8 @@ import org.springframework.stereotype.Repository;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 
 @Repository
-public interface DisbursementFavourRepo extends JpaRepository<DisbursementFavour, String>{
+public interface DisbursementFavourRepo extends JpaRepository<DisbursementFavour, String> {
 
 	List<DisbursementFavour> findByDisbHeaderKey(Integer disbHeaderKey);
-
-	//List<DisbursementFavour> findByApplicationNum(String applicationNumber);
 
 }
