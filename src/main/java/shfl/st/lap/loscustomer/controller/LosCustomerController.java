@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shfl.st.lap.loscustomer.model.CustomerAppNumber;
 import shfl.st.lap.loscustomer.model.CustomerDepandantBankDetails;
 import shfl.st.lap.loscustomer.model.LosCustomer;
+import shfl.st.lap.loscustomer.model.UpdateModel;
 import shfl.st.lap.loscustomer.service.CustomerDepBankDetailsService;
 import shfl.st.lap.loscustomer.service.LosCustomerService;
 
@@ -51,6 +52,11 @@ public class LosCustomerController {
 	public ResponseEntity<List<CustomerDepandantBankDetails>> getCustBankDetailsByAppNum(
 			@RequestBody CustomerAppNumber customerAppNumber) {
 		return bankDetailsService.getCustBankDetailsByAppNum(customerAppNumber.getApplicationNum());
+	}
+
+	@PostMapping("/updateCustomerData")
+	public ResponseEntity<LosCustomer> updateCustomerData(@RequestBody UpdateModel updateModel) {
+		return losCustomerService.updateCustomerData(updateModel);
 	}
 
 }
