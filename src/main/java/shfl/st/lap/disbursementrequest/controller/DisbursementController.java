@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
+import shfl.st.lap.disbursementrequest.model.DisbAppModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementBranch;
 import shfl.st.lap.disbursementrequest.model.DisbursementModel;
@@ -63,5 +64,10 @@ public class DisbursementController {
 	private ResponseEntity<DisbursementRequest> editLockUpdate(@RequestBody CustomerDisbNumber customerDisbNumber) {
 		return disbursementService.editLockUpdate(customerDisbNumber);
 	}
+	
+	@PostMapping("/getFirstDisbByAppNum")
+    private ResponseEntity<List<DisbursementRequest>> getFirstDisbByAppNum(@RequestBody DisbAppModel disbAppModel) {
+        return disbursementService.getFirstDisbByAppNum(disbAppModel);
+    }
 
 }

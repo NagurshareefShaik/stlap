@@ -14,6 +14,9 @@ import shfl.st.lap.auditlog.Auditable;
 public class DisbursementFavour extends Auditable {
 
 	@Id
+	@Column(name = "disb_acc_key")
+	private int disbAccountKey;
+	
 	@Column(name = "bank_acc_num", nullable = false)
 	private String bankAccountNum;
 

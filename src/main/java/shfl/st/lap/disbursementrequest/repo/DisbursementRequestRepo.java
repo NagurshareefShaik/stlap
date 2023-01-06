@@ -12,4 +12,6 @@ public interface DisbursementRequestRepo extends JpaRepository<DisbursementReque
 
 	List<DisbursementRequest> findByBranch(String branch);
 
+	List<DisbursementRequest> findByApplicationNum(String applicationNum);
+
 }
