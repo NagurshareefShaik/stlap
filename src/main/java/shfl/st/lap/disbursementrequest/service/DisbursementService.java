@@ -62,7 +62,8 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
+					disbursementRequestData.getDisbHeaderKey());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -82,8 +83,6 @@ public class DisbursementService {
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo
 				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequest.isPresent()) {
-			// List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
-			// .findByApplicationNum(disbRequest.get().getApplicationNum());
 			List<DisbursementFavour> disbursementFavourList = disbursementFavourRepo
 					.findByDisbHeaderKey(disbRequest.get().getDisbHeaderKey());
 			DisbursementModel disbModel = getDisbursementModelData(disbRequest.get(), disbursementFavourList);
@@ -110,7 +109,8 @@ public class DisbursementService {
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
-			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel);
+			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
+					disbursementRequestData.getDisbHeaderKey());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
@@ -191,7 +191,7 @@ public class DisbursementService {
 		disbursementRequest.setRemarks(disbursementModel.getRemarks());
 		disbursementRequest.setEditLock(false);
 		disbursementRequest.setModuleId(MODULEID);
-		disbursementRequest.setDisbEmiAmt(disbursementModel.getDisbAmt());
+		disbursementRequest.setDisbEmiAmt(disbursementModel.getDisbEmiAmt());
 		disbursementRequest.setTotalDeductionAmt(disbursementModel.getTotalDeductionAmt());
 		disbursementRequest.setApprovalRemarks(disbursementModel.getApprovalRemarks());
 		return disbursementRequestRepo.save(disbursementRequest);
@@ -250,14 +250,15 @@ public class DisbursementService {
 	 * entity and insert the table
 	 * 
 	 * @param disbursementModel
+	 * @param disbHeaderKey
 	 * @return disbursementFavoursList
 	 */
-	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel) {
+	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbHeaderKey) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
 			disbursementFavour.setBankAccountNum(favour.getBankAccountNum());
-			disbursementFavour.setDisbHeaderKey(favour.getDisbHeaderKey());
+			disbursementFavour.setDisbHeaderKey(disbHeaderKey);
 			disbursementFavour.setApplicationNum(favour.getApplicationNum());
 			disbursementFavour.setDisbNum(favour.getDisbNum());
 			disbursementFavour.setDisbAmt(favour.getDisbAmt());
