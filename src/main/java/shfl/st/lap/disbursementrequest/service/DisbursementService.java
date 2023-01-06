@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
+import shfl.st.lap.disbursementrequest.model.DisbAppModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
@@ -386,6 +387,12 @@ public class DisbursementService {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
+			if (disbursementModel.getScreenMode().equals("CREATE")) {
+				disbursementFavour.setDisbAccountKey(ThreadLocalRandom.current().nextInt());
+			}
+			if (!disbursementModel.getScreenMode().equals("CREATE")) {
+				disbursementFavour.setDisbAccountKey(favour.getDisbAccountKey());
+			}
 			disbursementFavour.setBankAccountNum(favour.getBankAccountNum());
 			disbursementFavour.setDisbHeaderKey(disbHeaderKey);
 			disbursementFavour.setApplicationNum(favour.getApplicationNum());
@@ -499,6 +506,20 @@ public class DisbursementService {
 			disbursementRequestRepo.save(disbRequestData.get());
 		}
 		return ResponseEntity.ok().body(disbRequestData.get());
+	}
+
+	/**
+	 * 
+	 * @param disbAppModel
+	 * @return firstDisbData
+	 */
+	public ResponseEntity<List<DisbursementRequest>> getFirstDisbByAppNum(DisbAppModel disbAppModel) {
+		List<DisbursementRequest> firstDisbData = disbursementRequestRepo
+				.findByApplicationNum(disbAppModel.getApplicationNum());
+		if (Objects.nonNull(firstDisbData)) {
+			return ResponseEntity.ok().body(firstDisbData);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
 	}
 
 }
