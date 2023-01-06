@@ -24,13 +24,13 @@ public class LedgerMain extends Auditable {
 
 	// foreign key
 	@Column(name = "header_key")
-	private Number headerKey;
+	private int headerKey;
 
 	@Column(name = "branch_code")
 	private String branchCode;
 
 	@Column(name = "module_code")
-	private Number moduleCode;
+	private int moduleCode;
 
 	// BRANCH or CORPORATE
 	@Column(name = "acc_type")
@@ -47,7 +47,7 @@ public class LedgerMain extends Auditable {
 
 	// generated value in backend
 	@Column(name = "voucher_num")
-	private Number voucherNum;
+	private int voucherNum;
 
 	@Column(name = "voucher_date")
 	private Date voucherDate;
