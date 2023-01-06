@@ -17,6 +17,8 @@ import shfl.st.lap.feeaccrual.model.AdditionalFeesHistory;
 import shfl.st.lap.feeaccrual.repo.AdditionalFeesRepo;
 import shfl.st.lap.feeaccrual.repo.FeeAccrualWaiverRepo;
 import shfl.st.lap.feeaccrual.repo.FeeHistoryRepo;
+import shfl.st.lap.loscustomer.model.LosCustomer;
+import shfl.st.lap.loscustomer.repo.LosCustomerRepo;
 
 @Service
 public class FeeAccrualWaiverService {
@@ -28,6 +30,9 @@ public class FeeAccrualWaiverService {
 	
 	@Autowired
 	FeeHistoryRepo feeHistoryRepo;
+	
+	@Autowired
+	LosCustomerRepo losCustomerRepo;
 
 	public ResponseEntity<String> saveFeeDetails(Map<String, Object> dataMap) {
 		List<Map<String, Object>> gridData = (List<Map<String, Object>>)dataMap.get("gridData");
@@ -151,5 +156,17 @@ public class FeeAccrualWaiverService {
 		});
 		returnMap.put("historyData", historyList);
 		return ResponseEntity.ok().body(returnMap);
+	}
+
+	public ResponseEntity<List<Map<String, String>>> getApplicationNumber(Map<String, Object> datamap) {
+		List<Map<String,String>>branchList = new ArrayList<>();
+		List<LosCustomer> listOfCustomer = losCustomerRepo.findByBranch(getString(datamap.get("branchName")));
+		listOfCustomer.stream().forEach(branch->{
+			Map<String,String> branchmap = new HashMap<>();
+			branchmap.put("label", branch.getApplicationNumber());
+			branchmap.put("value", branch.getApplicationNumber());
+			branchList.add(branchmap);
+		});
+		return ResponseEntity.ok().body(branchList);
 	}
 }
