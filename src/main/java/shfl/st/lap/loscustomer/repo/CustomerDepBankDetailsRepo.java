@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import shfl.st.lap.loscustomer.model.CustomerDepBankKeys;
 import shfl.st.lap.loscustomer.model.CustomerDepandantBankDetails;
 
-public interface CustomerDepBankDetailsRepo extends JpaRepository<CustomerDepandantBankDetails, CustomerDepBankKeys>{
+public interface CustomerDepBankDetailsRepo extends JpaRepository<CustomerDepandantBankDetails, CustomerDepBankKeys> {
 
-	List<CustomerDepandantBankDetails> findByApplicationNumber(String appNum);
+	List<CustomerDepandantBankDetails> findByApplicationNum(String appNum);
 }

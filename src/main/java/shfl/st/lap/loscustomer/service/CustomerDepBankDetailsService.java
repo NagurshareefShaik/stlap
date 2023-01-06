@@ -14,27 +14,26 @@ import shfl.st.lap.loscustomer.repo.CustomerDepBankDetailsRepo;
 
 @Service
 public class CustomerDepBankDetailsService {
-	
+
 	@Autowired
 	CustomerDepBankDetailsRepo bankDetailsRepo;
-	
-	public ResponseEntity<String> insertCusBankDetails(CustomerDepandantBankDetails bankDetails){
-		CustomerDepandantBankDetails losCustomerData=bankDetailsRepo.save(bankDetails);
+
+	public ResponseEntity<String> insertCusBankDetails(CustomerDepandantBankDetails bankDetails) {
+		CustomerDepandantBankDetails losCustomerData = bankDetailsRepo.save(bankDetails);
 		if (Objects.nonNull(losCustomerData)) {
 			return ResponseEntity.ok().body("Customer Depandant Bank Details inserted Successfully");
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer Depandant Bank Details Not inserted");
 		}
 	}
-	
-	public ResponseEntity<List<CustomerDepandantBankDetails>> getCustBankDetailsByAppNum(String AppNumber){
-		List<CustomerDepandantBankDetails> custBankDetailsList=bankDetailsRepo.findByApplicationNumber(AppNumber);
+
+	public ResponseEntity<List<CustomerDepandantBankDetails>> getCustBankDetailsByAppNum(String AppNumber) {
+		List<CustomerDepandantBankDetails> custBankDetailsList = bankDetailsRepo.findByApplicationNum(AppNumber);
 		if (Objects.nonNull(custBankDetailsList)) {
 			return ResponseEntity.ok().body(custBankDetailsList);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
 		}
 	}
-	
 
 }

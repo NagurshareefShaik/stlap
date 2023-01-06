@@ -3,6 +3,7 @@ package shfl.st.lap.disbursementrequest.service;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import shfl.st.lap.util.DateConversion;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
@@ -26,6 +28,11 @@ import shfl.st.lap.disbursementrequest.repo.DisbursementBillingDayRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementFavourRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementHistoryRepo;
 import shfl.st.lap.disbursementrequest.repo.DisbursementRequestRepo;
+import shfl.st.lap.ledger.model.LedgerMain;
+import shfl.st.lap.ledger.model.LedgerStage;
+import shfl.st.lap.ledger.repo.LedgerMainRepo;
+import shfl.st.lap.ledger.repo.LedgerStageRepo;
+import shfl.st.lap.ledger.util.LedgerData;
 
 @Service
 public class DisbursementService {
@@ -50,6 +57,12 @@ public class DisbursementService {
 
 	@Autowired
 	DateConversion dateConversion;
+	
+	@Autowired
+	LedgerStageRepo ledgerStageRepo;
+	
+	@Autowired
+	LedgerMainRepo ledgerMainRepo;
 
 	/**
 	 * insertDisbursementData method is used to insert value to corresponding table
@@ -64,12 +77,69 @@ public class DisbursementService {
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
 					disbursementRequestData.getDisbHeaderKey());
+			setLedgerData(disbursementRequestData,disbursementModel.getScreenMode());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
+	}
+
+	private void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
+		LedgerData ledgerData=new LedgerData();
+		List<LedgerStage> ledgerDataList=ledgerData.getLedgerData();
+		if(mode.equals("CREATE")) {
+			insertLedgerData(ledgerDataList,disbursementRequestData);
+		}else if(mode.equals("MODIFY")) {
+			List<LedgerStage> ledgerStageKeyList=ledgerStageRepo.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
+			ledgerStageRepo.deleteAll(ledgerStageKeyList);
+			insertLedgerData(ledgerDataList,disbursementRequestData);
+		}else if(mode.equals("APPROVE")) {
+			List<LedgerStage> ledgerStageKeyList=ledgerStageRepo.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
+			List<LedgerMain> ledgerMainList=convertStageToMain(ledgerStageKeyList);
+			ledgerStageRepo.deleteAll(ledgerStageKeyList);
+			ledgerMainRepo.saveAll(ledgerMainList);
+		}
+		
+	}
+
+	private List<LedgerMain> convertStageToMain(List<LedgerStage> ledgerStageKeyList) {
+		List<LedgerMain> ledgerMainList=new ArrayList<>();
+		ledgerStageKeyList.stream().forEach(ledger->{
+			LedgerMain ledgerMain=new LedgerMain();
+			ledgerMain.setAccountingType(ledger.getAccountingType());
+			ledgerMain.setBranchCode(ledger.getBranchCode());
+			ledgerMain.setCharset(ledger.getCharset());
+			ledgerMain.setEffectiveDate(ledger.getEffectiveDate());
+			ledgerMain.setHeaderKey(ledger.getHeaderKey());
+			ledgerMain.setModuleCode(ledger.getModuleCode());
+			ledgerMain.setModuleId(ledger.getModuleId());
+			ledgerMain.setNarration(ledger.getNarration());
+			ledgerMain.setReferenceNum(ledger.getReferenceNum());
+			ledgerMain.setReferenceType(ledger.getReferenceType());
+			ledgerMain.setTxnAccount(ledger.getTxnAccount());
+			ledgerMain.setTxnAmt(ledger.getTxnAmt());
+			ledgerMain.setVoucherDate(ledger.getVoucherDate());
+			ledgerMain.setVoucherNum(ledger.getVoucherNum());
+			ledgerMainList.add(ledgerMain);
+		});
+		return ledgerMainList;
+	}
+
+	private void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData) {
+		ledgerDataList.stream().forEach(ledger->{
+			ledger.setBranchCode(disbursementRequestData.getBranch());
+			ledger.setHeaderKey(disbursementRequestData.getDisbHeaderKey());
+			ledger.setCharset("DISBCREATE001");
+			ledger.setEffectiveDate(new Date());
+			ledger.setModuleId(MODULEID);
+			ledger.setReferenceNum("REF001");
+			ledger.setNarration("narration");
+			ledger.setTxnAmt(disbursementRequestData.getDisbAmt());
+			ledger.setVoucherDate(new Date());
+		});
+		ledgerStageRepo.saveAll(ledgerDataList);
 	}
 
 	/**
@@ -111,6 +181,7 @@ public class DisbursementService {
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
 			List<DisbursementFavour> disbursementFavourDataList = setDisbursementFavourData(disbursementModel,
 					disbursementRequestData.getDisbHeaderKey());
+			setLedgerData(disbursementRequestData,disbursementModel.getScreenMode());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
 			return ResponseEntity.ok().body(disbursementModelData);

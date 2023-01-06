@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CustomerAppNumber {
-	
-	private String applicationNumber;
+
+	private String applicationNum;
 
 }

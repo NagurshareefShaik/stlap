@@ -13,30 +13,30 @@ import lombok.Data;
 @Table(name = "ST_TB_LMS_TEMP_CUST_DEP_BANK_DTL")
 @IdClass(CustomerDepBankKeys.class)
 public class CustomerDepandantBankDetails {
-	
+
 	@Id
 	@Column(name = "bank_acc_number")
-	private String bankAccountNumber;
-	
+	private String bankAccountNum;
+
 	@Id
 	@Column(name = "application_number")
-	private String applicationNumber;
-	
+	private String applicationNum;
+
 	@Column(name = "acc_holdr_name")
 	private String accHoldrName;
-	
+
 	@Column(name = "bank_name")
 	private String bankName;
-	
+
 	@Column(name = "bank_branch_name")
 	private String bankBranchName;
-	
+
 	@Column(name = "bank_acc_type")
 	private String bankAccountType;
-	
+
 	@Column(name = "micr_code")
 	private String micrCode;
-	
+
 	@Column(name = "ifsc_code")
 	private String ifscCode;
 
