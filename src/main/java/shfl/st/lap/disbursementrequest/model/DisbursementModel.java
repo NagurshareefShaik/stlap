@@ -8,18 +8,18 @@ import lombok.Data;
 @Data
 public class DisbursementModel {
 
-	private Number disbHeaderKey;
-	private Number transactionKey;
+	private int disbHeaderKey;
+	private int transactionKey;
 	private String applicationNum;
 	private String branch;
 	private String applicantName;
-	private Number earlierDisbAmt;
-	private Number disbAmt;
+	private int earlierDisbAmt;
+	private int disbAmt;
 	private int disbNum;
 	private float rateOfInterest;
-	private Number totalDisbAmt;
+	private int totalDisbAmt;
 	private Date dateOfDisb;
-	private Number billDay;
+	private int billDay;
 	private String billingDate;
 	private String emiCommDate;
 	private String firstEmiDueDate;
@@ -31,8 +31,8 @@ public class DisbursementModel {
 	// CREATE or UPDATE OR CANCEL OR APPROVED
 	private String screenMode;
 	private List<DisbursementFavour> disbursementFavours;
-	private Number disbEmiAmt;
-	private Number totalDeductionAmt;
+	private int disbEmiAmt;
+	private int totalDeductionAmt;
 	private String approvalRemarks;
 
 }

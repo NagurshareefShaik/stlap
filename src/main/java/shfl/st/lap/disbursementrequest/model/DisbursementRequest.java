@@ -17,10 +17,10 @@ public class DisbursementRequest extends Auditable {
 
 	@Id
 	@Column(name = "disb_hdr_key")
-	private Number disbHeaderKey;
+	private int disbHeaderKey;
 
 	@Column(name = "trans_key")
-	private Number transactionKey;
+	private int transactionKey;
 
 	@Column(name = "application_num", nullable = false)
 	private String applicationNum;
@@ -32,10 +32,10 @@ public class DisbursementRequest extends Auditable {
 	private String applicantName;
 
 	@Column(name = "earlier_disb_amt")
-	private Number earlierDisbAmt;
+	private int earlierDisbAmt;
 
 	@Column(name = "disb_amt")
-	private Number disbAmt;
+	private int disbAmt;
 
 	@Column(name = "disb_num")
 	private int disbNum;
@@ -44,13 +44,13 @@ public class DisbursementRequest extends Auditable {
 	private float rateOfInterest;
 
 	@Column(name = "total_disb_amt")
-	private Number totalDisbAmt;
+	private int totalDisbAmt;
 
 	@Column(name = "date_of_disb")
 	private Date dateOfDisb;
 
 	@Column(name = "bill_day")
-	private Number billDay;
+	private int billDay;
 
 	@Column(name = "billing_date")
 	private String billingDate;
@@ -80,10 +80,10 @@ public class DisbursementRequest extends Auditable {
 	private String moduleId;
 
 	@Column(name = "disb_emi_amt")
-	private Number disbEmiAmt;
+	private int disbEmiAmt;
 
 	@Column(name = "total_ded_amt")
-	private Number totalDeductionAmt;
+	private int totalDeductionAmt;
 
 	@Column(name = "approval_remarks")
 	private String approvalRemarks;
