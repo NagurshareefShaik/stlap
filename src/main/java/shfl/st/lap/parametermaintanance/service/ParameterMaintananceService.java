@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import shfl.st.lap.authentication.util.DateConversion;
-import shfl.st.lap.authentication.util.LoggedUserData;
+import shfl.st.lap.util.DateConversion;
 import shfl.st.lap.parametermaintanance.model.Parameter;
 import shfl.st.lap.parametermaintanance.model.ParameterMaintanance;
 import shfl.st.lap.parametermaintanance.model.ParameterMaintananceResponse;
@@ -25,9 +24,6 @@ import shfl.st.lap.parametermaintanance.repo.ParameterMaintananceRepo;
  */
 @Service
 public class ParameterMaintananceService {
-
-	@Autowired
-	LoggedUserData loggedUserData;
 
 	@Autowired
 	ParameterMaintananceRepo parameterMaintananceRepo;
