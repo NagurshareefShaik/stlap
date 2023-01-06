@@ -15,8 +15,8 @@ public class ParameterMaintananceResponse{
 
 	private String paramDataType;
 
-	private String paramEffStartDt;
+	private String paramEffStartDate;
 
-	private String paramEffEndDt;
+	private String paramEffEndDate;
 
 }

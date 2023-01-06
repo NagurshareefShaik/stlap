@@ -33,10 +33,10 @@ public class ParameterMaintanance extends Auditable{
 	@Column(name = "param_data_type")
 	private String paramDataType;
 
-	@Column(name = "param_eff_start_dt")
-	private Date paramEffStartDt;
+	@Column(name = "param_eff_start_date")
+	private Date paramEffStartDate;
 
-	@Column(name = "param_eff_end_dt")
-	private Date paramEffEndDt;
+	@Column(name = "param_eff_end_date")
+	private Date paramEffEndDate;
 
 }
