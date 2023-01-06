@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
 import shfl.st.lap.disbursementrequest.repo.DisbursementRequestRepo;
+import shfl.st.lap.feeaccrual.model.AdditionalFeesDescription;
+import shfl.st.lap.feeaccrual.repo.FeeAccrualWaiverRepo;
 import shfl.st.lap.loscustomer.model.LosCustomer;
 import shfl.st.lap.loscustomer.repo.LosCustomerRepo;
 
@@ -33,6 +35,9 @@ public class StlapDashboardService {
 	
 	@Autowired
 	LosCustomerRepo losCustomerRepo;
+	
+	@Autowired
+	FeeAccrualWaiverRepo feeAccrualWaiverRepo;
 	
 	public ResponseEntity<Map<String,Object>> getDashBoardData(Map<String, Object> datamap) {
 		
@@ -72,9 +77,84 @@ public class StlapDashboardService {
 		returnMap.put("approvedAmount", approvedAmount);
 		returnMap.put("oneMonth", getOneMonthData(disbursmentData));
 		returnMap.put("oneYear", getOneYearData(yearData));
+		
+		Set<String> listOfApplicationNumber = losCustomerList.stream().map(map-> map.getApplicationNumber()).collect(Collectors.toSet());
+		if(feeAccrualWaiverRepo.count()==0) {
+			insertData(listOfApplicationNumber);
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(returnMap);
 	}
 	
+	private void insertData(Set<String> listOfApplicationNumber) {
+		List<Map<String,Object>>dataMAP=formListMap();
+		List<AdditionalFeesDescription>saveData = new ArrayList<>();
+		listOfApplicationNumber.stream().forEach(appNum->{
+			dataMAP.stream().forEach(data->{
+				AdditionalFeesDescription additionalFeeDescription = new AdditionalFeesDescription();
+				additionalFeeDescription.setApplicationNumber(appNum);
+				additionalFeeDescription.setFeeDescription(String.valueOf(data.get("description")));
+				additionalFeeDescription.setEarlierWaiver(0);
+				additionalFeeDescription.setAdditionalAccrual(0);
+				additionalFeeDescription.setDeductions(0);
+				additionalFeeDescription.setReceivable(Integer.parseInt(data.get("value").toString()));
+				additionalFeeDescription.setReceived(0);
+				saveData.add(additionalFeeDescription);
+			});
+		});
+		feeAccrualWaiverRepo.saveAll(saveData);
+		}
+	private List<Map<String, Object>> formListMap() {
+		List<Map<String,Object>> tempMap = new ArrayList<>();
+//		for(int i =0;i>10;i++) {
+			Map<String,Object> innerMap = new HashMap<>();
+			innerMap.put("description", "Mod Charges");
+			innerMap.put("value", 5000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Legal Charges");
+			innerMap.put("value", 7000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("Technical Assistance Charges", "Fee");
+			innerMap.put("value", 3000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Documentation Charges");
+			innerMap.put("value", 25000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "File Processing Charges");
+			innerMap.put("value", 1000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Application Fee");
+			innerMap.put("value", 8000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Prepayment Charge");
+			innerMap.put("value", 1000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Partial prepayment charge");
+			innerMap.put("value", 10000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Late Fee charge");
+			innerMap.put("value", 500);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Recovery Charge");
+			innerMap.put("value", 5000);
+			tempMap.add(innerMap);
+			innerMap = new HashMap<>();
+			innerMap.put("description", "Insurance Premium Charge");
+			innerMap.put("value", 7000);
+			tempMap.add(innerMap);
+//		}
+		return tempMap;
+	
+	}
+
 	public long getStatusCount(String status, List<DisbursementRequest> disbList) {
 		return disbList.stream().filter(disb->disb.getRequestStatus().equalsIgnoreCase(status)).count();
 	}
