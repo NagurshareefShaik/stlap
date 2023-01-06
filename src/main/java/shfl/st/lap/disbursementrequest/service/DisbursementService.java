@@ -443,6 +443,7 @@ public class DisbursementService {
 			disbursementFavour.setDisbNum(data.getDisbNum());
 			disbursementFavour.setDisbAmt(data.getDisbAmt());
 			disbursementFavour.setUtrNum(data.getUtrNum());
+			disbursementFavour.setDisbAccountKey(data.getDisbAccountKey());
 			disbursementFavoursList.add(disbursementFavour);
 		});
 		disbursementModel.setDisbursementFavours(disbursementFavoursList);
