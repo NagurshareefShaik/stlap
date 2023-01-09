@@ -11,9 +11,18 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +30,7 @@ import org.springframework.util.StringUtils;
 
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
 import shfl.st.lap.disbursementrequest.model.DisbAppModel;
+import shfl.st.lap.disbursementrequest.model.DisbPagenationModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
@@ -251,11 +261,33 @@ public class DisbursementService {
 
 	/**
 	 * getAllDisbursementData method is used to get all the disbursement creation
+	 * @param disbPagenationModel 
 	 * 
 	 * @return disbursementRequestList
 	 */
-	public ResponseEntity<List<DisbursementRequest>> getAllDisbursementData() {
-		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll();
+	public ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(DisbPagenationModel disbPagenationModel) {
+		Pageable pageable=PageRequest.of(disbPagenationModel.getOffset(), disbPagenationModel.getPageSize(),Sort.by("applicationNum").descending());
+		Page<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll(new Specification<DisbursementRequest>() {
+			
+			@Override
+			public Predicate toPredicate(Root<DisbursementRequest> root, CriteriaQuery<?> cq,
+					CriteriaBuilder cb) {
+				Predicate p=cb.conjunction();
+				if(!disbPagenationModel.getBranch().equals("")) {
+					p=cb.and(p,cb.like(root.get("branch"), disbPagenationModel.getBranch()));
+				}
+				if(!disbPagenationModel.getApplicationNum().equals("")) {
+					p=cb.and(p,cb.like(root.get("applicationNum"), disbPagenationModel.getApplicationNum()));
+				}
+				if(!disbPagenationModel.getApplicantName().equals("")) {
+					p=cb.and(p,cb.like(root.get("applicantName"), disbPagenationModel.getApplicantName()));
+				}
+				if(!disbPagenationModel.getDisbursementStatus().equals("")) {
+					p=cb.and(p,cb.like(root.get("disbursementStatus"), disbPagenationModel.getDisbursementStatus()));
+				}
+				return p;
+			}
+		},pageable);
 		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 

@@ -3,6 +3,7 @@ package shfl.st.lap.disbursementrequest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
 import shfl.st.lap.disbursementrequest.model.DisbAppModel;
+import shfl.st.lap.disbursementrequest.model.DisbPagenationModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementBranch;
 import shfl.st.lap.disbursementrequest.model.DisbursementModel;
@@ -39,9 +41,9 @@ public class DisbursementController {
 		return disbursementService.updateDisbursementData(disbursementModel);
 	}
 
-	@GetMapping("/getAllDisbursementData")
-	private ResponseEntity<List<DisbursementRequest>> getAllDisbursementData() {
-		return disbursementService.getAllDisbursementData();
+	@PostMapping("/getAllDisbursementData")
+	private ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(@RequestBody DisbPagenationModel disbPagenationModel) {
+		return disbursementService.getAllDisbursementData(disbPagenationModel);
 	}
 
 	@PostMapping("/registerBillingDay")
