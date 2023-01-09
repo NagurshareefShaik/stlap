@@ -1,7 +1,9 @@
 package shfl.st.lap.parametermaintanance.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -63,6 +65,17 @@ public class ParameterMaintananceService {
 		});
 		return ResponseEntity.ok().body(parameterMaintananceResponseList);
 	}
+	
+	public ResponseEntity<Map<String,Object>> getParameterList() {
+		Map<String,Object> parameterMap=new HashMap<>();
+		List<ParameterMaintanance> parameterMaintanancesList = parameterMaintananceRepo.findAll();
+		parameterMaintanancesList.stream().forEach(maintanance -> {
+			ParameterMaintananceResponse response = convertToResponse(maintanance);
+			parameterMap.put(response.getParamName(), response);
+		});
+		return ResponseEntity.ok().body(parameterMap);
+	}
+	
 
 	/**
 	 * getParameterById used to get the parameter data based on parameterId

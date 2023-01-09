@@ -1,6 +1,7 @@
 package shfl.st.lap.parametermaintanance.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,12 @@ public class ParameterMaintananceController {
 	@GetMapping("/getAllParameterData")
 	public ResponseEntity<List<ParameterMaintananceResponse>> getParameterData() {
 		return parameterMaintananceService.getParameterData();
+		
+	}
+	
+	@GetMapping("/getAllParameterList")
+	public ResponseEntity<Map<String, Object>> getParameterList() {
+		return parameterMaintananceService.getParameterList();
 		
 	}
 	
