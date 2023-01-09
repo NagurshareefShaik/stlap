@@ -19,4 +19,5 @@ public class StlapApplication {
 		SpringApplication.run(StlapApplication.class, args);
 	}
 
+
 }
