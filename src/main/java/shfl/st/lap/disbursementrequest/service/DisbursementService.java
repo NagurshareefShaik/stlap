@@ -120,7 +120,7 @@ public class DisbursementService {
 	private void insertLedgerDeductions(DisbursementRequest disbursementRequestData) {
 		Map<String,Object> dataMap=new HashMap<>();
 		Map<String,String> feeDescBankDataMap=ledgerData.getFeeDescriptionBankData();
-		dataMap.put("applicationNumber", disbursementRequestData.getApplicationNum());
+		dataMap.put("applicationNum", disbursementRequestData.getApplicationNum());
 		dataMap.put("type", "accrual");
 		ResponseEntity<Map<String, Object>> accrualWaiverDataMap=accrualWaiverService.getFeeData(dataMap);
 		List<LedgerStage> ledgerStageList=new ArrayList<>();
@@ -366,7 +366,7 @@ public class DisbursementService {
 		if (disbursementModel.getScreenMode().equals("CANCEL")) {
 			disbursementHistory.setModuleId(CANCELMODULEID);
 		}
-		if (disbursementModel.getScreenMode().equals("APPROVED")) {
+		if (disbursementModel.getScreenMode().equals("APPROVE")) {
 			disbursementHistory.setModuleId(APPROVEDMODULEID);
 		}
 		disbursementHistory.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
