@@ -270,22 +270,22 @@ public class DisbursementService {
 		Page<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll(new Specification<DisbursementRequest>() {
 			
 			@Override
-			public Predicate toPredicate(Root<DisbursementRequest> root, CriteriaQuery<?> cq,
-					CriteriaBuilder cb) {
-				Predicate p=cb.conjunction();
-				if(!disbPagenationModel.getBranch().equals("")) {
-					p=cb.and(p,cb.like(root.get("branch"), disbPagenationModel.getBranch()));
+			public Predicate toPredicate(Root<DisbursementRequest> root, CriteriaQuery<?> critriaQuery,
+					CriteriaBuilder criteriaBuilder) {
+				Predicate predicate=criteriaBuilder.conjunction();
+				if(!disbPagenationModel.getBranch().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("branch"), disbPagenationModel.getBranch()));
 				}
-				if(!disbPagenationModel.getApplicationNum().equals("")) {
-					p=cb.and(p,cb.like(root.get("applicationNum"), disbPagenationModel.getApplicationNum()));
+				if(!disbPagenationModel.getApplicationNum().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("applicationNum"), disbPagenationModel.getApplicationNum()));
 				}
-				if(!disbPagenationModel.getApplicantName().equals("")) {
-					p=cb.and(p,cb.like(root.get("applicantName"), disbPagenationModel.getApplicantName()));
+				if(!disbPagenationModel.getApplicantName().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("applicantName"), disbPagenationModel.getApplicantName()));
 				}
-				if(!disbPagenationModel.getDisbursementStatus().equals("")) {
-					p=cb.and(p,cb.like(root.get("disbursementStatus"), disbPagenationModel.getDisbursementStatus()));
+				if(!disbPagenationModel.getDisbursementStatus().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("disbursementStatus"), disbPagenationModel.getDisbursementStatus()));
 				}
-				return p;
+				return predicate;
 			}
 		},pageable);
 		return ResponseEntity.ok().body(disbursementRequestList);
