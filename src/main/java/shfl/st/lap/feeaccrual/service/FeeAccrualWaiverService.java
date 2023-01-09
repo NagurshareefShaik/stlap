@@ -39,7 +39,7 @@ public class FeeAccrualWaiverService {
 		String type = getString(dataMap.get("type"));
 		Integer refNumber = getInt(dataMap.get("referenceNumber"));
 		String refDate = getString(dataMap.get("refDate"));
-		String applicationNumber = getString(dataMap.get("applicationNumber"));
+		String applicationNumber = getString(dataMap.get("applicationNum"));
 		String userName = getString(dataMap.get("updatedBy"));
 		List<AdditionalFeesDescription> saveData = new ArrayList<>();
 		gridData.stream().forEach(data->{
@@ -84,7 +84,7 @@ public class FeeAccrualWaiverService {
 
 	private void saveOtherDetails(Map<String, Object> dataMap) {
 		AdditionalFees additionalFeesEntity = new AdditionalFees();
-		additionalFeesEntity.setApplicationNumber(getString(dataMap.get("applicationNumber")));
+		additionalFeesEntity.setApplicationNumber(getString(dataMap.get("applicationNum")));
 		additionalFeesEntity.setReferenceNo(getInt(dataMap.get("referenceNumber")));
 		additionalFeesEntity.setFeeType(getString(dataMap.get("type")));
 		additionalFeesEntity.setEditLock(true);
@@ -100,7 +100,7 @@ public class FeeAccrualWaiverService {
 	public ResponseEntity<Map<String, Object>> getFeeData(Map<String, Object> dataMap) {
 		Map<String,Object>returnMap = new HashMap<>();
 		Map<String,Object>otherDetailMap = new HashMap<>();
-		String applicationNumber = getString(dataMap.get("applicationNumber"));
+		String applicationNumber = getString(dataMap.get("applicationNum"));
 		String type = getString(dataMap.get("type"));
 		List<AdditionalFeesDescription>resultData=feeAccrualWaiverRepo.findByApplicationNumber(applicationNumber);
 		List<AdditionalFees> otherDetailsTotalList = additionalFeesRepo.findByApplicationNumberAndFeeTypeOrderByReferenceNoDesc(applicationNumber,type);
@@ -140,7 +140,7 @@ public class FeeAccrualWaiverService {
 	public ResponseEntity<Map<String, Object>> getHistoryData(Map<String, Object> dataMap) {
 		Map<String,Object>returnMap = new HashMap<>();
 		List<Map<String,Object>> historyList = new ArrayList<>();
-		String applicationNumber = getString(dataMap.get("applicationNumber"));
+		String applicationNumber = getString(dataMap.get("applicationNum"));
 		String feeType = getString(dataMap.get("feeType"));
 		AtomicInteger count = new AtomicInteger(0);
 		List<AdditionalFeesHistory> fetchedData = feeHistoryRepo.findByApplicationNumberAndFeeTypeOrderByModifiedDateTimeDesc(applicationNumber,feeType);
