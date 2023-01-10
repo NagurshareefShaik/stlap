@@ -2,6 +2,8 @@ package shfl.st.lap.disbursementrequest.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,16 +13,27 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import shfl.st.lap.disbursementrequest.model.CustomerDisbNumber;
 import shfl.st.lap.disbursementrequest.model.DisbAppModel;
+import shfl.st.lap.disbursementrequest.model.DisbPagenationModel;
 import shfl.st.lap.disbursementrequest.model.DisbursementBillingDay;
 import shfl.st.lap.disbursementrequest.model.DisbursementFavour;
 import shfl.st.lap.disbursementrequest.model.DisbursementHistory;
@@ -251,11 +264,33 @@ public class DisbursementService {
 
 	/**
 	 * getAllDisbursementData method is used to get all the disbursement creation
+	 * @param disbPagenationModel 
 	 * 
 	 * @return disbursementRequestList
 	 */
-	public ResponseEntity<List<DisbursementRequest>> getAllDisbursementData() {
-		List<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll();
+	public ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(DisbPagenationModel disbPagenationModel) {
+		Pageable pageable=PageRequest.of(disbPagenationModel.getOffset(), disbPagenationModel.getPageSize(),Sort.by("applicationNum").descending());
+		Page<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll(new Specification<DisbursementRequest>() {
+			
+			@Override
+			public Predicate toPredicate(Root<DisbursementRequest> root, CriteriaQuery<?> critriaQuery,
+					CriteriaBuilder criteriaBuilder) {
+				Predicate predicate=criteriaBuilder.conjunction();
+				if(!disbPagenationModel.getBranch().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("branch"), disbPagenationModel.getBranch()));
+				}
+				if(!disbPagenationModel.getApplicationNum().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("applicationNum"), disbPagenationModel.getApplicationNum()));
+				}
+				if(!disbPagenationModel.getApplicantName().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("applicantName"), disbPagenationModel.getApplicantName()));
+				}
+				if(!disbPagenationModel.getDisbursementStatus().isEmpty()) {
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("requestStatus"), disbPagenationModel.getDisbursementStatus()));
+				}
+				return predicate;
+			}
+		},pageable);
 		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
@@ -521,6 +556,26 @@ public class DisbursementService {
 			return ResponseEntity.ok().body(firstDisbData);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+	}
+	
+	@Scheduled(cron = "0 0/30 * * * ?")
+	public void unLockBatch() {
+		List<DisbursementRequest> disbursementRequests=disbursementRequestRepo.findByEditLock(Boolean.TRUE);
+		Date currentDateTime=new Date();
+		Instant currentInstant = currentDateTime.toInstant();
+		List<DisbursementRequest> disbursementModRequestList=new ArrayList<>();
+		disbursementRequests.stream().forEach(disbRequest->{
+			Instant disbRequestInstant =disbRequest.getLastModifiedDate().toInstant();
+			Duration duration=Duration.between(disbRequestInstant, currentInstant);
+			long minutes=duration.toMinutes();
+			if(minutes>30) {
+				disbRequest.setEditLock(Boolean.FALSE);
+				disbursementModRequestList.add(disbRequest);
+			}
+		});
+		System.out.println(".........................Batch completed...................................");
+		System.out.println(".........................Batch Complete At" + new Date()+"..................");
+		disbursementRequestRepo.saveAll(disbursementModRequestList);
 	}
 
 }
