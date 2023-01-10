@@ -171,7 +171,7 @@ public class StlapDashboardService {
 		for (int month = 0; month < daysInMonth; month++) {
 			Map<String,Object> dayValueMap = new HashMap<>();
 			dayValueMap.put("name", monthList.get(month));
-			dayValueMap.put("sanctioned", yearData.get(month));
+			dayValueMap.put("requested", yearData.get(month));
 			oneYearData.add(dayValueMap);
 		}
 		return oneYearData;
@@ -211,7 +211,7 @@ public class StlapDashboardService {
 		for (int date = 1; date <= daysInMonth; date++) {
 			Map<String,Object> dayValueMap = new HashMap<>();
 			dayValueMap.put("name", date);
-			dayValueMap.put("sanctioned", findDayWiseDataCount(disbursmentData,date,month,year));
+			dayValueMap.put("requested", findDayWiseDataCount(disbursmentData,date,month,year));
 			oneMonthData.add(dayValueMap);
 		}
 		return oneMonthData;
