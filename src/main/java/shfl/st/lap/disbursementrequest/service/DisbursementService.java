@@ -2,6 +2,8 @@ package shfl.st.lap.disbursementrequest.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -283,7 +286,7 @@ public class DisbursementService {
 					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("applicantName"), disbPagenationModel.getApplicantName()));
 				}
 				if(!disbPagenationModel.getDisbursementStatus().isEmpty()) {
-					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("disbursementStatus"), disbPagenationModel.getDisbursementStatus()));
+					predicate=criteriaBuilder.and(predicate,criteriaBuilder.like(root.get("requestStatus"), disbPagenationModel.getDisbursementStatus()));
 				}
 				return predicate;
 			}
@@ -553,6 +556,26 @@ public class DisbursementService {
 			return ResponseEntity.ok().body(firstDisbData);
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+	}
+	
+	@Scheduled(cron = "0 0/30 * * * ?")
+	public void unLockBatch() {
+		List<DisbursementRequest> disbursementRequests=disbursementRequestRepo.findByEditLock(Boolean.TRUE);
+		Date currentDateTime=new Date();
+		Instant currentInstant = currentDateTime.toInstant();
+		List<DisbursementRequest> disbursementModRequestList=new ArrayList<>();
+		disbursementRequests.stream().forEach(disbRequest->{
+			Instant disbRequestInstant =disbRequest.getLastModifiedDate().toInstant();
+			Duration duration=Duration.between(disbRequestInstant, currentInstant);
+			long minutes=duration.toMinutes();
+			if(minutes>30) {
+				disbRequest.setEditLock(Boolean.FALSE);
+				disbursementModRequestList.add(disbRequest);
+			}
+		});
+		System.out.println(".........................Batch completed...................................");
+		System.out.println(".........................Batch Complete At" + new Date()+"..................");
+		disbursementRequestRepo.saveAll(disbursementModRequestList);
 	}
 
 }

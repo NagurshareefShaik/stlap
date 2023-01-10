@@ -15,4 +15,6 @@ public interface DisbursementRequestRepo extends JpaRepository<DisbursementReque
 
 	List<DisbursementRequest> findByApplicationNum(String applicationNum);
 
+	List<DisbursementRequest> findByEditLock(Boolean editLock);
+
 }
