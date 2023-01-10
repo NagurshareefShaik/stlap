@@ -19,6 +19,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,6 +55,8 @@ import shfl.st.lap.util.DateConversion;
 
 @Service
 public class DisbursementService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(DisbursementService.class);
 
 	private static final String MODULEID = "MD001";
 	private static final String CREATEMODULEID = "MD001C";
@@ -573,8 +577,8 @@ public class DisbursementService {
 				disbursementModRequestList.add(disbRequest);
 			}
 		});
-		System.out.println(".........................Batch completed...................................");
-		System.out.println(".........................Batch Complete At" + new Date()+"..................");
+		logger.info(".........................Batch completed...................................");
+		logger.info(".........................Batch Complete At " + new Date()+"..................");
 		disbursementRequestRepo.saveAll(disbursementModRequestList);
 	}
 
