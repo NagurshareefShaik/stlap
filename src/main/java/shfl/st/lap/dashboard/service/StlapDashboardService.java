@@ -70,9 +70,9 @@ public class StlapDashboardService {
 			yearData.put(key.getMonth(),currentCount+value.size());
 		});
 		Map<String,Object> returnMap = new HashMap<>();
-		returnMap.put("sanctioned", losCustomerRepo.count());
-		returnMap.put("requested", (getStatusCount("requested",disbReqList)-getStatusCount("Cancelled",disbReqList))<0?
-				0:getStatusCount("requested",disbReqList)-getStatusCount("Cancelled",disbReqList));
+		returnMap.put("sanctioned", (losCustomerRepo.count()-getStatusCount("Cancelled",disbReqList))>0
+				?losCustomerRepo.count()-getStatusCount("Cancelled",disbReqList):0);
+		returnMap.put("requested", getStatusCount("requested",disbReqList));
 		returnMap.put("approved", getStatusCount("approved",disbReqList));
 		returnMap.put("cancelled", getStatusCount("Cancelled",disbReqList));
 		returnMap.put("approvedAmount", approvedAmount);
