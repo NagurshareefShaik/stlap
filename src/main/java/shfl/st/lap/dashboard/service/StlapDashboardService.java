@@ -71,9 +71,10 @@ public class StlapDashboardService {
 		});
 		Map<String,Object> returnMap = new HashMap<>();
 		returnMap.put("sanctioned", losCustomerRepo.count());
-		returnMap.put("requested", getStatusCount("requested",disbReqList));
+		returnMap.put("requested", (getStatusCount("requested",disbReqList)-getStatusCount("Cancelled",disbReqList))<0?
+				0:getStatusCount("requested",disbReqList)-getStatusCount("Cancelled",disbReqList));
 		returnMap.put("approved", getStatusCount("approved",disbReqList));
-		returnMap.put("cancelled", getStatusCount("CANCEL",disbReqList));
+		returnMap.put("cancelled", getStatusCount("Cancelled",disbReqList));
 		returnMap.put("approvedAmount", approvedAmount);
 		returnMap.put("oneMonth", getOneMonthData(disbursmentData));
 		returnMap.put("oneYear", getOneYearData(yearData));
