@@ -116,7 +116,7 @@ public class StlapDashboardService {
 			innerMap.put("value", 7000);
 			tempMap.add(innerMap);
 			innerMap = new HashMap<>();
-			innerMap.put("Technical Assistance Charges", "Fee");
+			innerMap.put("description","Technical Assistance Charges");
 			innerMap.put("value", 3000);
 			tempMap.add(innerMap);
 			innerMap = new HashMap<>();
