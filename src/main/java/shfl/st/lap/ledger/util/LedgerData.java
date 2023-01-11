@@ -55,6 +55,7 @@ public class LedgerData {
 		feeBankDetails.put("Partial prepayment charge", "ST012");
 		feeBankDetails.put("Prepayment Charge", "ST013");
 		feeBankDetails.put("Recovery Charge", "ST014");
+		feeBankDetails.put("Technical Assistance Charges", "ST015");
 		return feeBankDetails;
 		
 	}
