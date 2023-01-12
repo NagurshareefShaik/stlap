@@ -39,4 +39,7 @@ public class ParameterMaintanance extends Auditable{
 	@Column(name = "param_eff_end_date")
 	private Date paramEffEndDate;
 
+	@Column(name = "branch")
+	private String branch;
+
 }
