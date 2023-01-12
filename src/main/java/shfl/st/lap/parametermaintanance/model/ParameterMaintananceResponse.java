@@ -19,4 +19,6 @@ public class ParameterMaintananceResponse{
 
 	private String paramEffEndDate;
 
+	private String branch;
+
 }
