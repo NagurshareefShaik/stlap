@@ -37,7 +37,7 @@ public class StLapLogger {
         Map<String, Object> parameters = getParameters(joinPoint);
 
         try {
-            logger.info("==> path(s): {}, method(s): {}, arguments: {} ");
+        	 logger.info("Method Name : "+ signature.getName()+"params"+signature.getParameterNames());
         } catch (Exception e) {
             logger.error("Error while converting", e);
         }
@@ -47,8 +47,7 @@ public class StLapLogger {
     public void logMethodAfter(JoinPoint joinPoint, ResponseEntity<?> entity) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         try {
-            logger.info("<== path(s): {}, method(s): {}, retuning: {}"
-                  );
+            logger.info("Method Name : "+ signature.getName()+"params"+signature.getParameterNames());
         } catch (Exception e) {
             logger.error("Error while converting", e);
         }
