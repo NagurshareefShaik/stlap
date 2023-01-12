@@ -91,6 +91,7 @@ public class ParameterMaintananceService {
 		response.setParamValue((parameterMaintanance.getParamDataType().equals("Date")
 				? dateConversion.convertStringToDate(parameterMaintanance.getParamValue())
 				: parameterMaintanance.getParamValue()));
+		response.setBranch(parameterMaintanance.getBranch());
 		return response;
 
 	}
