@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import shfl.st.lap.nach.model.MandateModel;
 import shfl.st.lap.nach.model.Nach;
+import shfl.st.lap.nach.model.NachResponseModel;
 import shfl.st.lap.nach.service.NachService;
 
 @RestController
@@ -20,6 +22,11 @@ public class NachController {
 	@PostMapping("/register")
 	public ResponseEntity<String> nachRegister(@RequestBody Nach nach){
 		return nachService.registerNach(nach);
+	}
+	
+	@PostMapping("/getNachData")
+	public ResponseEntity<NachResponseModel> getNachData(@RequestBody MandateModel mandateModel){
+		return nachService.getNachDetails(mandateModel);
 	}
 	
 

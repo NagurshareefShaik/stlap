@@ -10,4 +10,6 @@ import shfl.st.lap.loscustomer.model.CustomerDepandantBankDetails;
 public interface CustomerDepBankDetailsRepo extends JpaRepository<CustomerDepandantBankDetails, CustomerDepBankKeys> {
 
 	List<CustomerDepandantBankDetails> findByApplicationNum(String appNum);
+	
+	CustomerDepandantBankDetails findByBankAccountNumAndApplicationNum(String bankAccNum,String appNum);
 }

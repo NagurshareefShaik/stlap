@@ -9,11 +9,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import shfl.st.lap.auditlog.Auditable;
 
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ST_TB_LMS_NACH")
 public class Nach extends Auditable {
 
@@ -21,6 +23,9 @@ public class Nach extends Auditable {
 	@Column(name = "mandate_num")
 	private String mandateNum;
 
+	@Column(name = "bank_account_num")
+	private String bankAccountNum;
+	
 	// foreign key
 	@Column(name = "application_num")
 	private String applicationNum;
