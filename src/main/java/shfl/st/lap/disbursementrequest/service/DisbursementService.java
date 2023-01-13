@@ -190,6 +190,7 @@ public class DisbursementService {
 			ledgerMain.setReferenceType(ledger.getReferenceType());
 			ledgerMain.setTxnAccount(ledger.getTxnAccount());
 			ledgerMain.setTxnAmt(ledger.getTxnAmt());
+			ledgerMain.setTxnCode(ledger.getTxnCode());
 			ledgerMain.setVoucherDate(ledger.getVoucherDate());
 			ledgerMain.setVoucherNum(ledger.getVoucherNum());
 			ledgerMainList.add(ledgerMain);
