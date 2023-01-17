@@ -19,8 +19,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,7 +54,6 @@ import shfl.st.lap.util.DateConversion;
 @Service
 public class DisbursementService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DisbursementService.class);
 
 	private static final String MODULEID = "MD001";
 	private static final String CREATEMODULEID = "MD001C";
@@ -99,7 +96,6 @@ public class DisbursementService {
 	 */
 	@Transactional
 	public ResponseEntity<DisbursementModel> insertDisbursementData(DisbursementModel disbursementModel) {
-		logger.info("insertLedgerData method started");
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
@@ -108,15 +104,13 @@ public class DisbursementService {
 			setLedgerData(disbursementRequestData, disbursementModel.getScreenMode());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
-			logger.info("insertLedgerData method completed");
 			return ResponseEntity.ok().body(disbursementModelData);
 		} else {
-			logger.warn("insertLedgerData method completed with Empty Data");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
 	}
 
-	private void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
+	public void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
 		List<LedgerStage> ledgerDataList = ledgerData.getLedgerData();
 		int voucherNumber=getVouvherNumber(mode,disbursementRequestData.getDisbHeaderKey());
 		if (mode.equals("CREATE")) {
@@ -140,8 +134,7 @@ public class DisbursementService {
 
 	}
 
-	private void insertLedgerDeductions(DisbursementRequest disbursementRequestData, int voucherNumber) {
-		logger.info("insertLedgerDeductions method started++++++++"+disbursementRequestData);
+	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData, int voucherNumber) {
 		Map<String,Object> dataMap=new HashMap<>();
 		Map<String,String> feeDescBankDataMap=ledgerData.getFeeDescriptionBankData();
 		dataMap.put("applicationNum", disbursementRequestData.getApplicationNum());
@@ -170,11 +163,10 @@ public class DisbursementService {
 			ledgerStage.setNarration(feeDed.get("id").toString());
 			ledgerStageList.add(ledgerStage);
 		});
-		logger.info("insertLedgerDeductions method completed");
 		ledgerStageRepo.saveAll(ledgerStageList);
 	}
 
-	private List<LedgerMain> convertStageToMain(List<LedgerStage> ledgerStageKeyList) {
+	public List<LedgerMain> convertStageToMain(List<LedgerStage> ledgerStageKeyList) {
 		List<LedgerMain> ledgerMainList = new ArrayList<>();
 		ledgerStageKeyList.stream().forEach(ledger -> {
 			LedgerMain ledgerMain = new LedgerMain();
@@ -198,8 +190,7 @@ public class DisbursementService {
 		return ledgerMainList;
 	}
 
-	private void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData, int voucherNumber) {
-		logger.info("insertLedgerData method started++++++"+"ledger Data List="+ledgerDataList);
+	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData, int voucherNumber) {
 		ledgerDataList.stream().forEach(ledger -> {
 
 			if (ledger.getAccountingType().equals("BRANCH")) {
@@ -227,10 +218,9 @@ public class DisbursementService {
 		});
 		ledgerStageRepo.saveAll(ledgerDataList);
 		insertLedgerDeductions(disbursementRequestData,voucherNumber);
-		logger.info("insertLedgerData method completed");
 	}
 
-	private int getVouvherNumber(String mode, int disbHdrKey) {
+	public int getVouvherNumber(String mode, int disbHdrKey) {
 		int voucherNumber=0;
 		if(mode.equals("CREATE")) {
 			voucherNumber=ledgerStageRepo.getMaxVoucherNumber()+1;
@@ -248,7 +238,6 @@ public class DisbursementService {
 	 * @return disbModel
 	 */
 	public ResponseEntity<DisbursementModel> getDisbursementData(CustomerDisbNumber customerDisbNumber) {
-		logger.info("getDisbursementData method started++++++++"+customerDisbNumber);
 		Optional<DisbursementRequest> disbRequest = disbursementRequestRepo
 				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequest.isPresent()) {
@@ -264,7 +253,6 @@ public class DisbursementService {
 				return ResponseEntity.ok().body(disbModel);
 			}
 		}
-		logger.info("getDisbursementData method completed");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 	}
 
@@ -276,7 +264,6 @@ public class DisbursementService {
 	 * @return disbursementModelData
 	 */
 	public ResponseEntity<DisbursementModel> updateDisbursementData(DisbursementModel disbursementModel) {
-		logger.info("updateDisbursementData method started+++++++++++++++"+disbursementModel);
 		if (Objects.nonNull(disbursementModel)) {
 			DisbursementRequest disbursementRequestData = setDisbursementRequestData(disbursementModel);
 			setDisbursementHistoryData(disbursementRequestData, disbursementModel);
@@ -285,10 +272,8 @@ public class DisbursementService {
 			setLedgerData(disbursementRequestData, disbursementModel.getScreenMode());
 			DisbursementModel disbursementModelData = getDisbursementModelData(disbursementRequestData,
 					disbursementFavourDataList);
-			logger.info("updateDisbursementData method completed");
 			return ResponseEntity.ok().body(disbursementModelData);
 		} else {
-			logger.warn("updateDisbursementData method completed with Empty Data");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DisbursementModel());
 		}
 	}
@@ -300,7 +285,6 @@ public class DisbursementService {
 	 * @return disbursementRequestList
 	 */
 	public ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(DisbPagenationModel disbPagenationModel) {
-		logger.info("getAllDisbursementData method started+++++++++++++++"+disbPagenationModel);
 		Pageable pageable=PageRequest.of(disbPagenationModel.getOffset(), disbPagenationModel.getPageSize(),Sort.by("applicationNum").descending());
 		Page<DisbursementRequest> disbursementRequestList = disbursementRequestRepo.findAll(new Specification<DisbursementRequest>() {
 			
@@ -323,7 +307,6 @@ public class DisbursementService {
 				return predicate;
 			}
 		},pageable);
-		logger.info("getAllDisbursementData method completed");
 		return ResponseEntity.ok().body(disbursementRequestList);
 	}
 
@@ -334,8 +317,7 @@ public class DisbursementService {
 	 * @param disbursementModel
 	 * @return disbursementRequest
 	 */
-	private DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
-		logger.info("setDisbursementRequestData method started++++++"+disbursementModel);
+	public DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
 		DisbursementRequest disbursementRequest = new DisbursementRequest();
 		if (disbursementModel.getScreenMode().equals("CREATE")) {
 			SecureRandom secureRandom;
@@ -393,7 +375,6 @@ public class DisbursementService {
 		disbursementRequest.setDisbEmiAmt(disbursementModel.getDisbEmiAmt());
 		disbursementRequest.setTotalDeductionAmt(disbursementModel.getTotalDeductionAmt());
 		disbursementRequest.setApprovalRemarks(disbursementModel.getApprovalRemarks());
-		logger.info("setDisbursementRequestData method completed");
 		return disbursementRequestRepo.save(disbursementRequest);
 	}
 
@@ -405,9 +386,8 @@ public class DisbursementService {
 	 * @param disbursementModel
 	 * @return disbursementHistory
 	 */
-	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
+	public DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
 			DisbursementModel disbursementModel) {
-		logger.info("setDisbursementHistoryData method started");
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
 		disbursementHistory.setDisbHistoryKey(ThreadLocalRandom.current().nextInt());
 		disbursementHistory.setDisbHeaderKey(disbursementRequestData.getDisbHeaderKey());
@@ -443,7 +423,6 @@ public class DisbursementService {
 		disbursementHistory.setDisbEmiAmt(disbursementRequestData.getDisbEmiAmt());
 		disbursementHistory.setTotalDeductionAmt(disbursementRequestData.getTotalDeductionAmt());
 		disbursementHistory.setApprovalRemarks(disbursementRequestData.getApprovalRemarks());
-		logger.info("setDisbursementHistoryData method completed");
 		return disbursementHistoryRepo.save(disbursementHistory);
 	}
 
@@ -455,7 +434,7 @@ public class DisbursementService {
 	 * @param disbHeaderKey
 	 * @return disbursementFavoursList
 	 */
-	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbHeaderKey) {
+	public List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbHeaderKey) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
@@ -483,7 +462,7 @@ public class DisbursementService {
 	 * @param disbursementFavourDataList
 	 * @return disbursementModel
 	 */
-	private DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
+	public DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
 			List<DisbursementFavour> disbursementFavourDataList) {
 		DisbursementModel disbursementModel = new DisbursementModel();
 		disbursementModel.setDisbHeaderKey(disbursementRequestData.getDisbHeaderKey());
@@ -572,14 +551,12 @@ public class DisbursementService {
 	 * @return DisbursementRequest
 	 */
 	public ResponseEntity<DisbursementRequest> editLockUpdate(CustomerDisbNumber customerDisbNumber) {
-		logger.info("editLockUpdate method started++++++++++"+customerDisbNumber);
 		Optional<DisbursementRequest> disbRequestData = disbursementRequestRepo
 				.findById(customerDisbNumber.getDisbHeaderKey());
 		if (disbRequestData.isPresent()) {
 			disbRequestData.get().setEditLock(false);
 			disbursementRequestRepo.save(disbRequestData.get());
 		}
-		logger.info("editLockUpdate method completed");
 		return ResponseEntity.ok().body(disbRequestData.get());
 	}
 
@@ -589,13 +566,11 @@ public class DisbursementService {
 	 * @return firstDisbData
 	 */
 	public ResponseEntity<List<DisbursementRequest>> getFirstDisbByAppNum(DisbAppModel disbAppModel) {
-		logger.info("getFirstDisbByAppNum method started++++++++++"+disbAppModel);
 		List<DisbursementRequest> firstDisbData = disbursementRequestRepo
 				.findByApplicationNum(disbAppModel.getApplicationNum());
 		if (Objects.nonNull(firstDisbData)) {
 			return ResponseEntity.ok().body(firstDisbData);
 		}
-		logger.info("getFirstDisbByAppNum method completed");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
 	}
 	
@@ -614,8 +589,6 @@ public class DisbursementService {
 				disbursementModRequestList.add(disbRequest);
 			}
 		});
-		logger.info(".........................Batch completed...................................");
-		logger.info(".........................Batch Complete At " + new Date()+"..................");
 		disbursementRequestRepo.saveAll(disbursementModRequestList);
 	}
 
