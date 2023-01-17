@@ -49,6 +49,9 @@ public class FeeAccrualWaiverService {
 			additionalFeeDescription.setEarlierWaiver(getInt(data.get("earlyWaiver"))+getInt(data.get("additionalWaiver")));
 			additionalFeeDescription.setAdditionalAccrual(getInt(data.get("additionalAccrual")));
 			additionalFeeDescription.setDeductions(getInt(data.get("outstanding")));
+			additionalFeeDescription.setOutstAmount(getInt(data.get("receiveable"))
+					+ getInt(data.get("additionalAccrual")) - getInt(data.get("received"))
+					- getInt(data.get("earlyWaiver")) + getInt(data.get("additionalWaiver")));
 			if("accrual".equals(type)) {
 				additionalFeeDescription.setReceivable(getInt(data.get("receiveable"))+getInt(data.get("additionalAccrual")));
 			}else {
