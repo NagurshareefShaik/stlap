@@ -127,6 +127,7 @@ public class DisbursementService {
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			ledgerStageRepo.deleteAll(ledgerStageKeyList);
 			insertLedgerData(ledgerDataList, disbursementRequestData,voucherNumber);
+			insertLedgerDeductions(disbursementRequestData,voucherNumber);
 		} else if (mode.equals("APPROVE")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
@@ -145,8 +146,9 @@ public class DisbursementService {
 	 * insertLedgerDeductions method is used to insert deduction in ledger table
 	 * 
 	 * @param disbursementRequestData
+	 * @param voucherNumber 
 	 */
-	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData) {
+	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData, int voucherNumber) {
 		Map<String, Object> dataMap = new HashMap<>();
 		Map<String, String> feeDescBankDataMap = ledgerData.getFeeDescriptionBankData();
 		dataMap.put("applicationNum", disbursementRequestData.getApplicationNum());
