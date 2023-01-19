@@ -27,48 +27,48 @@ public class DisbursementController {
 	DisbursementService disbursementService;
 
 	@PostMapping("/insertDisbursement")
-	private ResponseEntity<DisbursementModel> insertDisbursement(@RequestBody DisbursementModel disbursementModel) {
+	public ResponseEntity<DisbursementModel> insertDisbursement(@RequestBody DisbursementModel disbursementModel) {
 		return disbursementService.insertDisbursementData(disbursementModel);
 	}
 
 	@PostMapping("/getDisbursementData")
-	private ResponseEntity<DisbursementModel> getDisbursementData(@RequestBody CustomerDisbNumber customerDisbNumber) {
+	public ResponseEntity<DisbursementModel> getDisbursementData(@RequestBody CustomerDisbNumber customerDisbNumber) {
 		return disbursementService.getDisbursementData(customerDisbNumber);
 	}
 
 	@PostMapping("/updateDisbursement")
-	private ResponseEntity<DisbursementModel> updateDisbursement(@RequestBody DisbursementModel disbursementModel) {
+	public ResponseEntity<DisbursementModel> updateDisbursement(@RequestBody DisbursementModel disbursementModel) {
 		return disbursementService.updateDisbursementData(disbursementModel);
 	}
 
 	@PostMapping("/getAllDisbursementData")
-	private ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(@RequestBody DisbPagenationModel disbPagenationModel) {
+	public ResponseEntity<Page<DisbursementRequest>> getAllDisbursementData(@RequestBody DisbPagenationModel disbPagenationModel) {
 		return disbursementService.getAllDisbursementData(disbPagenationModel);
 	}
 
 	@PostMapping("/registerBillingDay")
-	private String registerBillingDay(@RequestBody DisbursementBillingDay disbursementBillingDay) {
+	public String registerBillingDay(@RequestBody DisbursementBillingDay disbursementBillingDay) {
 		return disbursementService.registerBillingDay(disbursementBillingDay);
 	}
 
 	@GetMapping("/getAllDisbursementBillingDayData")
-	private ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
+	public ResponseEntity<List<DisbursementBillingDay>> getAllDisbursementBillingDayData() {
 		return disbursementService.getAllDisbursementBillingDayData();
 	}
 
 	@PostMapping("/searchAllDisbBranchData")
-	private ResponseEntity<List<DisbursementRequest>> searchAllDisbBranchData(
+	public ResponseEntity<List<DisbursementRequest>> searchAllDisbBranchData(
 			@RequestBody DisbursementBranch disbursementBranch) {
 		return disbursementService.searchAllDisbBranchData(disbursementBranch.getBranch());
 	}
 
 	@PostMapping("/editLockUpdate")
-	private ResponseEntity<DisbursementRequest> editLockUpdate(@RequestBody CustomerDisbNumber customerDisbNumber) {
+	public ResponseEntity<DisbursementRequest> editLockUpdate(@RequestBody CustomerDisbNumber customerDisbNumber) {
 		return disbursementService.editLockUpdate(customerDisbNumber);
 	}
 	
 	@PostMapping("/getFirstDisbByAppNum")
-    private ResponseEntity<List<DisbursementRequest>> getFirstDisbByAppNum(@RequestBody DisbAppModel disbAppModel) {
+	public ResponseEntity<List<DisbursementRequest>> getFirstDisbByAppNum(@RequestBody DisbAppModel disbAppModel) {
         return disbursementService.getFirstDisbByAppNum(disbAppModel);
     }
 
