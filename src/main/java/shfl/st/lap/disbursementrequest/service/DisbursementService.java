@@ -56,8 +56,6 @@ import shfl.st.lap.util.DateConversion;
 @Service
 public class DisbursementService {
 
-	private static final Logger logger = LoggerFactory.getLogger(DisbursementService.class);
-
 	private static final String MODULEID = "MD001";
 	private static final String CREATEMODULEID = "MD001C";
 	private static final String MODIFYMODULEID = "MD001M";
@@ -119,7 +117,7 @@ public class DisbursementService {
 	 * @param disbursementRequestData
 	 * @param mode
 	 */
-	private void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
+	public void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
 		List<LedgerStage> ledgerDataList = ledgerData.getLedgerData();
 		if (mode.equals("CREATE")) {
 			insertLedgerData(ledgerDataList, disbursementRequestData);
@@ -149,7 +147,7 @@ public class DisbursementService {
 	 * 
 	 * @param disbursementRequestData
 	 */
-	private void insertLedgerDeductions(DisbursementRequest disbursementRequestData) {
+	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData) {
 		Map<String, Object> dataMap = new HashMap<>();
 		Map<String, String> feeDescBankDataMap = ledgerData.getFeeDescriptionBankData();
 		dataMap.put("applicationNum", disbursementRequestData.getApplicationNum());
@@ -188,7 +186,7 @@ public class DisbursementService {
 	 * @param ledgerStageKeyList
 	 * @return ledgerMainList
 	 */
-	private List<LedgerMain> convertStageToMain(List<LedgerStage> ledgerStageKeyList) {
+	public List<LedgerMain> convertStageToMain(List<LedgerStage> ledgerStageKeyList) {
 		List<LedgerMain> ledgerMainList = new ArrayList<>();
 		ledgerStageKeyList.stream().forEach(ledger -> {
 			LedgerMain ledgerMain = new LedgerMain();
@@ -218,7 +216,7 @@ public class DisbursementService {
 	 * @param ledgerDataList
 	 * @param disbursementRequestData
 	 */
-	private void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData) {
+	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData) {
 		ledgerDataList.stream().forEach(ledger -> {
 
 			if (ledger.getAccountingType().equals("BRANCH")) {
@@ -341,7 +339,7 @@ public class DisbursementService {
 	 * @param disbursementModel
 	 * @return disbursementRequest
 	 */
-	private DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
+	public DisbursementRequest setDisbursementRequestData(DisbursementModel disbursementModel) {
 		DisbursementRequest disbursementRequest = new DisbursementRequest();
 		if (disbursementModel.getScreenMode().equals("CREATE")) {
 			SecureRandom secureRandom;
@@ -410,7 +408,7 @@ public class DisbursementService {
 	 * @param disbursementModel
 	 * @return disbursementHistory
 	 */
-	private DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
+	public DisbursementHistory setDisbursementHistoryData(DisbursementRequest disbursementRequestData,
 			DisbursementModel disbursementModel) {
 		DisbursementHistory disbursementHistory = new DisbursementHistory();
 		disbursementHistory.setDisbHistoryKey(ThreadLocalRandom.current().nextInt());
@@ -458,7 +456,7 @@ public class DisbursementService {
 	 * @param disbHeaderKey
 	 * @return disbursementFavoursList
 	 */
-	private List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbHeaderKey) {
+	public List<DisbursementFavour> setDisbursementFavourData(DisbursementModel disbursementModel, int disbHeaderKey) {
 		List<DisbursementFavour> disbursementFavoursList = new ArrayList<>();
 		disbursementModel.getDisbursementFavours().stream().forEach(favour -> {
 			DisbursementFavour disbursementFavour = new DisbursementFavour();
@@ -486,7 +484,7 @@ public class DisbursementService {
 	 * @param disbursementFavourDataList
 	 * @return disbursementModel
 	 */
-	private DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
+	public DisbursementModel getDisbursementModelData(DisbursementRequest disbursementRequestData,
 			List<DisbursementFavour> disbursementFavourDataList) {
 		DisbursementModel disbursementModel = new DisbursementModel();
 		disbursementModel.setDisbHeaderKey(disbursementRequestData.getDisbHeaderKey());
