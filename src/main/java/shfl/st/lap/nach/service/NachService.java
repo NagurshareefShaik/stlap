@@ -64,8 +64,6 @@ public class NachService {
 		} else {
 			Nach nach = new Nach();
 			nach.setApplicationNum(appNum);
-			nach.setMandateAmt(25000);
-			nach.setMaximumAmt(50000);
 			nachResponseModel = convertToResponse(nach);
 		}
 		return ResponseEntity.ok(nachResponseModel);
@@ -165,8 +163,6 @@ public class NachService {
 			}else {
 				Nach nach = new Nach();
 				nach.setApplicationNum(disbReq.getApplicationNum());
-				nach.setMandateAmt(25000);
-				nach.setMaximumAmt(50000);
 				nach.setBranch(disbReq.getBranch());
 				nachResponseList.add(convertToResponse(nach));
 			}
