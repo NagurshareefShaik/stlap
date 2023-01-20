@@ -154,7 +154,7 @@ public class NachService {
 	}
 
 	public ResponseEntity<List<NachResponseModel>> getRequestedDisbData() {
-		List<DisbursementRequest> requestedDisbList=disbursementRequestRepo.findByRequestStatus("Requested");
+		List<DisbursementRequest> requestedDisbList=disbursementRequestRepo.findByRequestStatus("Approved");
 		List<NachResponseModel> nachResponseList=new ArrayList<>();
 		requestedDisbList.stream().forEach(disbReq->{
 			Nach nachData=nachRepo.findByBranchAndApplicationNum(disbReq.getBranch(), disbReq.getApplicationNum());
