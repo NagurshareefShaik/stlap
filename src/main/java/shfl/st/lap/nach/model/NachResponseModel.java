@@ -2,8 +2,6 @@ package shfl.st.lap.nach.model;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
-
 import lombok.Data;
 
 @Data
@@ -14,8 +12,6 @@ public class NachResponseModel {
 	private String branch;
 	
 	private String applicationNum;
-	
-	private String headerKey;
 	
 	private String applicationCustomer;
 	
@@ -30,6 +26,8 @@ public class NachResponseModel {
 	private String bankAccountNum;
 	
 	private String bankAccHolderName;
+	
+	private int customerId;
 	
 	private int emiAmt;
 	
@@ -55,7 +53,20 @@ public class NachResponseModel {
 	
 	private String customerEmailId;
 	
-	@Column(name = "status")
 	private String status;
+	
+	private float loanAmount;
+	
+	private String repay;
+	
+	private String repayApplication;
+	
+	private float disbursementAmount;
+	
+	private Date sanctionDate;
+	
+	private String draweePlace;
+	
+	private int umrnNumber;
 	
 }

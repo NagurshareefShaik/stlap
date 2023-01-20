@@ -26,13 +26,12 @@ public class Nach extends Auditable {
 	@Column(name = "bank_account_num")
 	private String bankAccountNum;
 	
+	@Column(name = "branch")
+	private String branch;
+	
 	// foreign key
 	@Column(name = "application_num")
 	private String applicationNum;
-
-	// foreign key
-	@Column(name = "header_key")
-	private String headerKey;
 
 	@Column(name = "nach_amt")
 	private int nachAmt;
@@ -63,6 +62,9 @@ public class Nach extends Auditable {
 
 	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "umrnNumber")
+	private int umrnNumber;
 
 	@Column(name = "edit_lock")
 	private boolean editLock;
