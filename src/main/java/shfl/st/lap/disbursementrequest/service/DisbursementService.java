@@ -119,15 +119,15 @@ public class DisbursementService {
 	 */
 	public void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
 		List<LedgerStage> ledgerDataList = ledgerData.getLedgerData();
+		int voucherNumber=getVouvherNumber(mode,disbursementRequestData.getDisbHeaderKey());
 		if (mode.equals("CREATE")) {
-			insertLedgerData(ledgerDataList, disbursementRequestData);
-			insertLedgerDeductions(disbursementRequestData);
+			insertLedgerData(ledgerDataList, disbursementRequestData,voucherNumber);
 		} else if (mode.equals("MODIFY")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			ledgerStageRepo.deleteAll(ledgerStageKeyList);
-			insertLedgerData(ledgerDataList, disbursementRequestData);
-			insertLedgerDeductions(disbursementRequestData);
+			insertLedgerData(ledgerDataList, disbursementRequestData,voucherNumber);
+			insertLedgerDeductions(disbursementRequestData,voucherNumber);
 		} else if (mode.equals("APPROVE")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
@@ -146,8 +146,9 @@ public class DisbursementService {
 	 * insertLedgerDeductions method is used to insert deduction in ledger table
 	 * 
 	 * @param disbursementRequestData
+	 * @param voucherNumber 
 	 */
-	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData) {
+	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData, int voucherNumber) {
 		Map<String, Object> dataMap = new HashMap<>();
 		Map<String, String> feeDescBankDataMap = ledgerData.getFeeDescriptionBankData();
 		dataMap.put("applicationNum", disbursementRequestData.getApplicationNum());
@@ -172,7 +173,7 @@ public class DisbursementService {
 			ledgerStage.setTxnAmt(amount);
 			ledgerStage.setVoucherDate(new Date());
 			ledgerStage.setReferenceType("FILE");
-			ledgerStage.setVoucherNum(1);
+			ledgerStage.setVoucherNum(voucherNumber);
 			ledgerStage.setTxnCode(0);
 			ledgerStage.setNarration(feeDed.get("id").toString());
 			ledgerStageList.add(ledgerStage);
@@ -215,8 +216,9 @@ public class DisbursementService {
 	 * 
 	 * @param ledgerDataList
 	 * @param disbursementRequestData
+	 * @param voucherNumber 
 	 */
-	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData) {
+	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData, int voucherNumber) {
 		ledgerDataList.stream().forEach(ledger -> {
 
 			if (ledger.getAccountingType().equals("BRANCH")) {
@@ -240,9 +242,19 @@ public class DisbursementService {
 			ledger.setModuleCode(1);
 			ledger.setNarration("narration");
 			ledger.setVoucherDate(new Date());
-			ledger.setVoucherNum(1);
+			ledger.setVoucherNum(voucherNumber);
 		});
 		ledgerStageRepo.saveAll(ledgerDataList);
+	}
+
+	private int getVouvherNumber(String mode, int disbHdrKey) {
+		int voucherNumber=0;
+		if(mode.equals("CREATE")) {
+			voucherNumber=ledgerStageRepo.getMaxVoucherNumber()+1;
+		}else {
+			voucherNumber=ledgerStageRepo.getMaxVoucherNumberByHdrKey(disbHdrKey);
+		}
+		return voucherNumber;
 	}
 
 	/**
