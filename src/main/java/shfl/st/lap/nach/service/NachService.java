@@ -17,7 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import lombok.AllArgsConstructor;
 import shfl.st.lap.disbursementrequest.model.DisbursementRequest;
@@ -101,6 +100,7 @@ public class NachService {
 		nachResponseModel.setMaximumAmt((int)emiAmount*2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
 		nachResponseModel.setNachAmt((int)emiAmount);
+		nachResponseModel.setDraweePlace("chennai");
 		nachResponseModel.setStatus((nach.getStatus()!=null)?nach.getStatus():"");
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
