@@ -166,7 +166,7 @@ public class DisbursementService {
 			ledgerStage.setVoucherDate(new Date());
 			ledgerStage.setReferenceType("FILE");
 			ledgerStage.setVoucherNum(voucherNumber);
-			ledgerStage.setTxnCode(0);
+			ledgerStage.setTxnCode(1);
 			ledgerStage.setNarration(feeDed.get("id").toString());
 			ledgerStageList.add(ledgerStage);
 		});
@@ -206,7 +206,7 @@ public class DisbursementService {
 				ledger.setBranchCode(disbursementRequestData.getBranch());
 				ledger.setCharset("STDSJV");
 				ledger.setReferenceNum(disbursementRequestData.getApplicationNum());
-				if (ledger.getTxnCode() == 0) {
+				if (ledger.getTxnCode() == 1) {
 					ledger.setTxnAmt(disbursementRequestData.getTotalDisbAmt());
 				} else {
 					ledger.setTxnAmt(disbursementRequestData.getDisbAmt());
@@ -215,7 +215,7 @@ public class DisbursementService {
 				ledger.setBranchCode(null);
 				ledger.setCharset("STDSPV");
 				ledger.setReferenceNum(null);
-				ledger.setTxnAmt(disbursementRequestData.getDisbAmt());
+				ledger.setTxnAmt(disbursementRequestData.getTotalDisbAmt());
 			}
 			ledger.setHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			ledger.setEffectiveDate(new Date());
