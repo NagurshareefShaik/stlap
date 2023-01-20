@@ -75,6 +75,7 @@ public class NachService {
 		NachResponseModel nachResponseModel = new NachResponseModel();
 		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo.findByApplicationNum(nach.getApplicationNum()).get(0);
 		Optional<LosCustomer> losCustomer = losCustomerRepo.findById(nach.getApplicationNum());
+		double emiAmount=amortCalc(losCustomer.get());
 		nachResponseModel.setAccountType(customerDepandantBankDetails.getBankAccountType());
 		nachResponseModel.setApplicationCustomer(losCustomer.get().getCustomerName());
 		nachResponseModel.setApplicationNum(nach.getApplicationNum());
@@ -87,15 +88,15 @@ public class NachService {
 		nachResponseModel.setCustomerMobileNum(losCustomer.get().getMobileNumber());
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
 		nachResponseModel.setDebitType(nach.getDebitType());
-		nachResponseModel.setEmiAmt(15000);
+		nachResponseModel.setEmiAmt((int)emiAmount);
 		nachResponseModel.setFbd(nach.getFbd());
 		nachResponseModel.setFirstNachBillingDate(nach.getFirstNachBillingDate());
 		nachResponseModel.setFrequency(nach.getFrequency());
-		nachResponseModel.setMandateAmt(nach.getMandateAmt());
+		nachResponseModel.setMandateAmt((int)emiAmount*2);
 		nachResponseModel.setMandateNum(nach.getMandateNum());
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
 		nachResponseModel.setMandateValidity(nach.getMandateValidity());
-		nachResponseModel.setMaximumAmt(nach.getMaximumAmt());
+		nachResponseModel.setMaximumAmt((int)emiAmount*2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
 		nachResponseModel.setNachAmt(nach.getNachAmt());
 		nachResponseModel.setStatus(nach.getStatus());
@@ -171,6 +172,16 @@ public class NachService {
 			}
 		});
 		return ResponseEntity.ok(nachResponseList);
+	}
+	
+	public double amortCalc(LosCustomer losCustomer) {
+		double principal=losCustomer.getSanctionAmt();
+        int time=12;
+        float roi=losCustomer.getRateOfInterest();
+        roi=roi/(12*100);
+        double emi= Math.round((principal*roi*Math.pow(1+roi,time))/(Math.pow(1+roi,time)-1));
+        float firstMonthInterest= (float) (roi*principal);
+        return emi;
 	}
 
 }
