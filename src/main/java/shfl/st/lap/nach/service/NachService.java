@@ -166,6 +166,7 @@ public class NachService {
 				nach.setApplicationNum(disbReq.getApplicationNum());
 				nach.setMandateAmt(25000);
 				nach.setMaximumAmt(50000);
+				nach.setBranch(disbReq.getBranch());
 				nachResponseList.add(convertToResponse(nach));
 			}
 		});
