@@ -85,19 +85,23 @@ public class NachService {
 		nachResponseModel.setCustomerEmailId(losCustomer.get().getEmailId());
 		nachResponseModel.setCustomerMobileNum(losCustomer.get().getMobileNumber());
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
-		nachResponseModel.setDebitType(nach.getDebitType());
+		nachResponseModel.setDebitType((nach.getDebitType()!=null)?nach.getDebitType():"");
 		nachResponseModel.setEmiAmt((int)emiAmount);
 		nachResponseModel.setFbd(nach.getFbd());
 		nachResponseModel.setFirstNachBillingDate(nach.getFirstNachBillingDate());
 		nachResponseModel.setFrequency(nach.getFrequency());
 		nachResponseModel.setMandateAmt((int)emiAmount*2);
-		nachResponseModel.setMandateNum(nach.getMandateNum());
+		nachResponseModel.setMandateNum((nach.getMandateNum()!=null)?nach.getMandateNum():"");
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
+		//TODO repayment structure
 		nachResponseModel.setMandateValidity(nach.getMandateValidity());
+		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
+		nachResponseModel.setRepay("NACH");
+		nachResponseModel.setRepayApplication("NACH");
 		nachResponseModel.setMaximumAmt((int)emiAmount*2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
-		nachResponseModel.setNachAmt(nach.getNachAmt());
-		nachResponseModel.setStatus(nach.getStatus());
+		nachResponseModel.setNachAmt((int)emiAmount);
+		nachResponseModel.setStatus((nach.getStatus()!=null)?nach.getStatus():"");
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
 
@@ -172,7 +176,7 @@ public class NachService {
 	
 	public double amortCalc(LosCustomer losCustomer) {
 		double principal=losCustomer.getSanctionAmt();
-        int time=12;
+        int time=losCustomer.getTenure();
         float roi=losCustomer.getRateOfInterest();
         roi=roi/(12*100);
         double emi= Math.round((principal*roi*Math.pow(1+roi,time))/(Math.pow(1+roi,time)-1));

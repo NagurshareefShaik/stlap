@@ -56,6 +56,9 @@ public class Nach extends Auditable {
 
 	@Column(name = "mandate_validity")
 	private Date mandateValidity;
+	
+	@Column(name = "mandate_end_date")
+	private Date mandateEndDate;
 
 	@Column(name = "maximum_amt")
 	private int maximumAmt;

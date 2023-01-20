@@ -47,6 +47,8 @@ public class NachResponseModel {
 	
 	private Date mandateValidity;
 	
+	private Date mandateEndDate;
+	
 	private int maximumAmt;
 	
 	private int customerMobileNum;

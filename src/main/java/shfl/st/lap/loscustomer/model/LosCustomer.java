@@ -93,6 +93,9 @@ public class LosCustomer extends Auditable {
 
 	@Column(name = "mobile_umber")
 	private int mobileNumber;
+	
+	@Column(name = "tenure")
+	private int tenure;
 
 	@Column(name = "email_id")
 	private String emailId;
