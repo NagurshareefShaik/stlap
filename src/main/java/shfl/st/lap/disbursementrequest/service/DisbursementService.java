@@ -119,16 +119,16 @@ public class DisbursementService {
 	 */
 	public void setLedgerData(DisbursementRequest disbursementRequestData, String mode) {
 		List<LedgerStage> ledgerDataList = ledgerData.getLedgerData();
-		int voucherNumber=getVouvherNumber(mode,disbursementRequestData.getDisbHeaderKey());
+		int voucherNumber = getVouvherNumber(mode, disbursementRequestData.getDisbHeaderKey());
 		if (mode.equals("CREATE")) {
-			insertLedgerData(ledgerDataList, disbursementRequestData,voucherNumber);
-			insertLedgerDeductions(disbursementRequestData,voucherNumber);
+			insertLedgerData(ledgerDataList, disbursementRequestData, voucherNumber);
+			insertLedgerDeductions(disbursementRequestData, voucherNumber);
 		} else if (mode.equals("MODIFY")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			ledgerStageRepo.deleteAll(ledgerStageKeyList);
-			insertLedgerData(ledgerDataList, disbursementRequestData,voucherNumber);
-			insertLedgerDeductions(disbursementRequestData,voucherNumber);
+			insertLedgerData(ledgerDataList, disbursementRequestData, voucherNumber);
+			insertLedgerDeductions(disbursementRequestData, voucherNumber);
 		} else if (mode.equals("APPROVE")) {
 			List<LedgerStage> ledgerStageKeyList = ledgerStageRepo
 					.findByHeaderKey(disbursementRequestData.getDisbHeaderKey());
@@ -147,7 +147,7 @@ public class DisbursementService {
 	 * insertLedgerDeductions method is used to insert deduction in ledger table
 	 * 
 	 * @param disbursementRequestData
-	 * @param voucherNumber 
+	 * @param voucherNumber
 	 */
 	public void insertLedgerDeductions(DisbursementRequest disbursementRequestData, int voucherNumber) {
 		Map<String, Object> dataMap = new HashMap<>();
@@ -217,9 +217,10 @@ public class DisbursementService {
 	 * 
 	 * @param ledgerDataList
 	 * @param disbursementRequestData
-	 * @param voucherNumber 
+	 * @param voucherNumber
 	 */
-	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData, int voucherNumber) {
+	public void insertLedgerData(List<LedgerStage> ledgerDataList, DisbursementRequest disbursementRequestData,
+			int voucherNumber) {
 		ledgerDataList.stream().forEach(ledger -> {
 
 			if (ledger.getAccountingType().equals("BRANCH")) {
@@ -235,11 +236,7 @@ public class DisbursementService {
 				ledger.setBranchCode(null);
 				ledger.setCharset("STDSPV");
 				ledger.setReferenceNum(null);
-				if (ledger.getTxnCode() == 1) {
-					ledger.setTxnAmt(disbursementRequestData.getTotalDisbAmt());
-				} else {
-					ledger.setTxnAmt(disbursementRequestData.getDisbAmt());
-				}
+				ledger.setTxnAmt(disbursementRequestData.getTotalDisbAmt());
 			}
 			ledger.setHeaderKey(disbursementRequestData.getDisbHeaderKey());
 			ledger.setEffectiveDate(new Date());
@@ -253,11 +250,11 @@ public class DisbursementService {
 	}
 
 	private int getVouvherNumber(String mode, int disbHdrKey) {
-		int voucherNumber=0;
-		if(mode.equals("CREATE")) {
-			voucherNumber=ledgerStageRepo.getMaxVoucherNumber()+1;
-		}else {
-			voucherNumber=ledgerStageRepo.getMaxVoucherNumberByHdrKey(disbHdrKey);
+		int voucherNumber = 0;
+		if (mode.equals("CREATE")) {
+			voucherNumber = ledgerStageRepo.getMaxVoucherNumber() + 1;
+		} else {
+			voucherNumber = ledgerStageRepo.getMaxVoucherNumberByHdrKey(disbHdrKey);
 		}
 		return voucherNumber;
 	}
