@@ -76,8 +76,10 @@ public class StlapDashboardService {
 		returnMap.put("approved", getStatusCount("approved",disbReqList));
 		returnMap.put("cancelled", getStatusCount("Cancelled",disbReqList));
 		returnMap.put("approvedAmount", approvedAmount);
-		returnMap.put("oneMonth", getOneMonthData(disbursmentData));
-		returnMap.put("oneYear", getOneYearData(yearData));
+		returnMap.put("partialAmount", getStatusCount("partialAmount",disbReqList));
+		
+		returnMap.put("oneMonth", getOneMonthData(disbursmentData,"Requested"));
+		returnMap.put("oneYear", getOneMonthData(disbursmentData,"Approved"));
 		
 		Set<String> listOfApplicationNumber = losCustomerList.stream().map(map-> map.getApplicationNum()).collect(Collectors.toSet());
 		if(feeAccrualWaiverRepo.count()==0) {
@@ -201,7 +203,7 @@ public class StlapDashboardService {
 		return monthList;
 	}
 
-	private List<Map<String,Object>> getOneMonthData(Map<java.sql.Date, List<DisbursementRequest>> disbursmentData) {
+	private List<Map<String,Object>> getOneMonthData(Map<java.sql.Date, List<DisbursementRequest>> disbursmentData,String status) {
 		List<Map<String,Object>> oneMonthData = new ArrayList<>();
 		Calendar calender = Calendar.getInstance();
 		int year = calender.get(Calendar.YEAR);
@@ -211,15 +213,15 @@ public class StlapDashboardService {
 		for (int date = 1; date <= daysInMonth; date++) {
 			Map<String,Object> dayValueMap = new HashMap<>();
 			dayValueMap.put("name", date);
-			dayValueMap.put("requested", findDayWiseDataCount(disbursmentData,date,month,year));
+			dayValueMap.put(status, findDayWiseDataCount(disbursmentData,date,month,year,status));
 			oneMonthData.add(dayValueMap);
 		}
 		return oneMonthData;
 	}
 
-	private int findDayWiseDataCount(Map<java.sql.Date, List<DisbursementRequest>> disbursmentData, int date, int month, int year) {
+	private long findDayWiseDataCount(Map<java.sql.Date, List<DisbursementRequest>> disbursmentData, int date, int month, int year,String status) {
 		List<DisbursementRequest> dayWiseData = disbursmentData.get(new java.sql.Date(year-1900,month-1,date));
-		return Objects.isNull(dayWiseData)?0:dayWiseData.size();
+		return Objects.isNull(dayWiseData)?0:dayWiseData.stream().filter(filter->filter.equals(status)).count();
 	}
 	
 
