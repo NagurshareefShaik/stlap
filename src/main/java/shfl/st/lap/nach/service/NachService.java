@@ -41,9 +41,15 @@ public class NachService {
 	private CustomerDepBankDetailsRepo customerDepBankDetailsRepo;
 
 	private LosCustomerRepo losCustomerRepo;
-	
+
 	private DisbursementRequestRepo disbursementRequestRepo;
 
+	/**
+	 * registerNach method is used to save the nach details
+	 * 
+	 * @param nach
+	 * @return ResponseEntity<Nach>
+	 */
 	public ResponseEntity<Nach> registerNach(Nach nach) {
 		nach.setStatus(StatusEnum.REGISTERED.name());
 		Nach naachEntity = nachRepo.save(nach);
@@ -54,6 +60,12 @@ public class NachService {
 		}
 	}
 
+	/**
+	 * getNachDetails method is used to get the nach details
+	 * 
+	 * @param map
+	 * @return ResponseEntity<NachResponseModel>
+	 */
 	public ResponseEntity<NachResponseModel> getNachDetails(Map<String, String> map) {
 		String appNum = map.get("applicationNum");
 		Nach nachData = nachRepo.findByApplicationNum(appNum);
@@ -68,45 +80,60 @@ public class NachService {
 		return ResponseEntity.ok(nachResponseModel);
 	}
 
+	/**
+	 * convertToResponse method is used to convert the Nach model to customized Nach
+	 * Response model
+	 * 
+	 * @param nach
+	 * @return NachResponseModel
+	 */
 	private NachResponseModel convertToResponse(Nach nach) {
 		NachResponseModel nachResponseModel = new NachResponseModel();
-		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo.findByApplicationNum(nach.getApplicationNum()).get(0);
+		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo
+				.findByApplicationNum(nach.getApplicationNum()).get(0);
 		Optional<LosCustomer> losCustomer = losCustomerRepo.findById(nach.getApplicationNum());
-		double emiAmount=amortCalc(losCustomer.get());
+		double emiAmount = amortCalc(losCustomer.get());
 		nachResponseModel.setAccountType(customerDepandantBankDetails.getBankAccountType());
 		nachResponseModel.setApplicationCustomer(losCustomer.get().getCustomerName());
 		nachResponseModel.setApplicationNum(nach.getApplicationNum());
 		nachResponseModel.setBankAccHolderName(customerDepandantBankDetails.getAccHoldrName());
 		nachResponseModel.setBankAccountNum(customerDepandantBankDetails.getBankAccountNum());
 		nachResponseModel.setBankName(customerDepandantBankDetails.getBankName());
-		nachResponseModel.setBranch(nach.getBranch());
+		nachResponseModel.setBranch(losCustomer.get().getBranch());
 		nachResponseModel.setBranchName(customerDepandantBankDetails.getBankBranchName());
 		nachResponseModel.setCustomerEmailId(losCustomer.get().getEmailId());
 		nachResponseModel.setCustomerMobileNum(losCustomer.get().getMobileNumber());
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
-		nachResponseModel.setDebitType((nach.getDebitType()!=null)?nach.getDebitType():"");
-		nachResponseModel.setEmiAmt((int)emiAmount);
+		nachResponseModel.setDebitType((nach.getDebitType() != null) ? nach.getDebitType() : "");
+		nachResponseModel.setEmiAmt((int) emiAmount);
 		nachResponseModel.setFbd(nach.getFbd());
 		nachResponseModel.setFirstNachBillingDate(nach.getFirstNachBillingDate());
 		nachResponseModel.setFrequency(nach.getFrequency());
-		nachResponseModel.setMandateAmt((int)emiAmount*2);
-		nachResponseModel.setMandateNum((nach.getMandateNum()!=null)?nach.getMandateNum():"");
+		nachResponseModel.setMandateAmt((int) emiAmount * 2);
+		nachResponseModel.setMandateNum((nach.getMandateNum() != null) ? nach.getMandateNum() : "");
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
-		//TODO repayment structure
+		// TODO repayment structure
 		nachResponseModel.setMandateValidity(nach.getMandateValidity());
 		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
 		nachResponseModel.setRepay("NACH");
 		nachResponseModel.setRepayApplication("NACH");
-		nachResponseModel.setMaximumAmt((int)emiAmount*2);
+		nachResponseModel.setMaximumAmt((int) emiAmount * 2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
-		nachResponseModel.setNachAmt((int)emiAmount);
+		nachResponseModel.setNachAmt((int) emiAmount);
 		nachResponseModel.setDraweePlace("chennai");
-		nachResponseModel.setStatus((nach.getStatus()!=null)?nach.getStatus():"");
+		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "");
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
 
 	}
 
+	/**
+	 * getNachVerification method is used to get the pre verification done data from
+	 * nach table.
+	 * 
+	 * @param filterParams
+	 * @return ResponseEntity<List<NachResponseModel>>
+	 */
 	public ResponseEntity<List<NachResponseModel>> getNachVerification(NachFilterParams filterParams) {
 		List<Nach> nachList = nachRepo.findAll(new Specification<Nach>() {
 			private static final long serialVersionUID = 1L;
@@ -137,6 +164,13 @@ public class NachService {
 		return ResponseEntity.ok(nachRespList);
 	}
 
+	/**
+	 * nachStatusChange method is used to change the status of the nach based upon
+	 * operation.
+	 * 
+	 * @param map
+	 * @return ResponseEntity<NachResponseModel>
+	 */
 	public ResponseEntity<NachResponseModel> nachStatusChange(Map<String, String> map) {
 		NachResponseModel nachResponseModel = new NachResponseModel();
 		Nach nach = nachRepo.findByApplicationNum(map.get("applicationNum"));
@@ -151,37 +185,48 @@ public class NachService {
 	}
 
 	public ResponseEntity<NachResponseModel> preVerification(PreVerificationModel preVerificationModel) {
-		Map<String,String> applicationMap=new HashMap<>();
+		Map<String, String> applicationMap = new HashMap<>();
 		applicationMap.put("applicationNum", preVerificationModel.getApplicationNum());
-		NachResponseModel nachResponseModel= getNachDetails(applicationMap).getBody();
+		NachResponseModel nachResponseModel = getNachDetails(applicationMap).getBody();
 		return ResponseEntity.ok(nachResponseModel);
 	}
 
+	/**
+	 * getRequestedDisbData method is used to get the requested disbursement data
+	 * from database.
+	 * 
+	 * @return ResponseEntity<List<NachResponseModel>>
+	 */
 	public ResponseEntity<List<NachResponseModel>> getRequestedDisbData() {
-		List<DisbursementRequest> requestedDisbList=disbursementRequestRepo.findByRequestStatus("Approved");
-		List<NachResponseModel> nachResponseList=new ArrayList<>();
-		requestedDisbList.stream().forEach(disbReq->{
-			Nach nachData=nachRepo.findByBranchAndApplicationNum(disbReq.getBranch(), disbReq.getApplicationNum());
-			if(Objects.nonNull(nachData)) {
+		List<DisbursementRequest> requestedDisbList = disbursementRequestRepo.findByRequestStatus("Approved");
+		List<NachResponseModel> nachResponseList = new ArrayList<>();
+		requestedDisbList.stream().forEach(disbReq -> {
+			Nach nachData = nachRepo.findByBranchAndApplicationNum(disbReq.getBranch(), disbReq.getApplicationNum());
+			if (Objects.nonNull(nachData)) {
 				nachResponseList.add(convertToResponse(nachData));
-			}else {
+			} else {
 				Nach nach = new Nach();
 				nach.setApplicationNum(disbReq.getApplicationNum());
-				nach.setBranch(disbReq.getBranch());
 				nachResponseList.add(convertToResponse(nach));
 			}
 		});
 		return ResponseEntity.ok(nachResponseList);
 	}
-	
+
+	/**
+	 * amortCalc method is used to get the emi data based upon loan details
+	 * 
+	 * @param losCustomer
+	 * @return double
+	 */
 	public double amortCalc(LosCustomer losCustomer) {
-		double principal=losCustomer.getSanctionAmt();
-        int time=losCustomer.getTenure();
-        float roi=losCustomer.getRateOfInterest();
-        roi=roi/(12*100);
-        double emi= Math.round((principal*roi*Math.pow(1+roi,time))/(Math.pow(1+roi,time)-1));
-        float firstMonthInterest= (float) (roi*principal);
-        return emi;
+		double principal = losCustomer.getSanctionAmt();
+		int time = losCustomer.getTenure();
+		float roi = losCustomer.getRateOfInterest();
+		roi = roi / (12 * 100);
+		double emi = Math.round((principal * roi * Math.pow(1 + roi, time)) / (Math.pow(1 + roi, time) - 1));
+		float firstMonthInterest = (float) (roi * principal);
+		return emi;
 	}
 
 }
