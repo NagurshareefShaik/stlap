@@ -46,8 +46,8 @@ public class ShflApiService {
 	 */
 	public ResponseEntity<ShflApis> getShflApiUrlByCode(ShflApisModel shflApisModel) {
 		Optional<ShflApis> shflApisData = shflApiRepo.findById(shflApisModel.getApiCode());
-		setShflHistoryData(shflApisModel, shflApisData.get());
 		if (shflApisData.isPresent()) {
+			setShflHistoryData(shflApisModel, shflApisData.get());
 			return ResponseEntity.ok(shflApisData.get());
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ShflApis());
@@ -63,7 +63,7 @@ public class ShflApiService {
 		ShflApiHistory shflApiHistoryEntity = new ShflApiHistory();
 		shflApiHistoryEntity.setApiCode(shflApisModel.getApiCode());
 		shflApiHistoryEntity.setApiUrl(shflApis.getApiUrl());
-		shflApiHistoryEntity.setUser(shflApisModel.getUser());
+		shflApiHistoryEntity.setLoginUser(shflApisModel.getUser());
 		shflApiHistoryRepo.save(shflApiHistoryEntity);
 	}
 

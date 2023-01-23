@@ -26,7 +26,7 @@ public class ShflApiHistory extends Auditable {
 	@Column(name = "api_url")
 	private String apiUrl;
 
-	@Column(name = "user")
-	private String user;
+	@Column(name = "login_user")
+	private String loginUser;
 
 }
