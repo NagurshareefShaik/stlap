@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shfl.st.lap.shflApis.model.ShflApis;
+import shfl.st.lap.shflApis.model.ShflApisModel;
 import shfl.st.lap.shflApis.service.ShflApiService;
 
 @RestController
@@ -29,6 +30,11 @@ public class ShflApiController {
 	public ResponseEntity<ShflApis> getApiUrlByCode(@RequestBody Map<String,String> apiCodeMap){
 		return shflApiService.getApiByCode(apiCodeMap.get("code"));
 		
+	}
+	
+	@PostMapping("/getShflApiUrlByCode")
+	public ResponseEntity<ShflApis> getShflApiUrlByCode(@RequestBody ShflApisModel shflApisModel) {
+		return shflApiService.getShflApiUrlByCode(shflApisModel);
 	}
 
 }
