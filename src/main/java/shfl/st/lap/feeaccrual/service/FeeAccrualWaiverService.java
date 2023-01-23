@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -181,8 +183,11 @@ public class FeeAccrualWaiverService {
 		String description = getString(dataMap.get("details"));
 		AdditionalFeesDescription additionalFeesDescriptionData = feeAccrualWaiverRepo
 				.findByApplicationNumberAndFeeDescription(applicationNumber, description);
-		additionalFeesDescriptionData.setReceived(getInt(dataMap.get("received")));
-		feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
-		return ResponseEntity.ok().body("received amount updated");
+		if (Objects.nonNull(additionalFeesDescriptionData)) {
+			additionalFeesDescriptionData.setReceived(getInt(dataMap.get("received")));
+			feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
+			return ResponseEntity.ok().body("received amount updated");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	}
 }
