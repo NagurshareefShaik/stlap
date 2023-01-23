@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import shfl.st.lap.shflApis.model.ShflApis;
 
 @Repository
-public interface ShflApiRepo extends JpaRepository<ShflApis, String>{
+public interface ShflApiRepo extends JpaRepository<ShflApis, String> {
 
 }

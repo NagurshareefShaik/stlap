@@ -11,14 +11,13 @@ import shfl.st.lap.auditlog.Auditable;
 @Data
 @Entity
 @Table(name = "ST_TB_LMS_API")
-public class ShflApis extends Auditable{
-	
+public class ShflApis extends Auditable {
+
 	@Id
 	@Column(name = "api_code")
 	private String apiCode;
-	
+
 	@Column(name = "api_url")
 	private String apiUrl;
-	
 
 }
