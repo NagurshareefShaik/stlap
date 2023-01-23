@@ -169,4 +169,20 @@ public class FeeAccrualWaiverService {
 		});
 		return ResponseEntity.ok().body(branchList);
 	}
+
+	/**
+	 * updateReceivedAmount method is used to update received amount on disbursement
+	 * 
+	 * @param dataMap
+	 * @return ResponseEntity
+	 */
+	public ResponseEntity<String> updateReceivedAmount(Map<String, Object> dataMap) {
+		String applicationNumber = getString(dataMap.get("applicationNum"));
+		String description = getString(dataMap.get("details"));
+		AdditionalFeesDescription additionalFeesDescriptionData = feeAccrualWaiverRepo
+				.findByApplicationNumberAndFeeDescription(applicationNumber, description);
+		additionalFeesDescriptionData.setReceived(getInt(dataMap.get("received")));
+		feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
+		return ResponseEntity.ok().body("received amount updated");
+	}
 }

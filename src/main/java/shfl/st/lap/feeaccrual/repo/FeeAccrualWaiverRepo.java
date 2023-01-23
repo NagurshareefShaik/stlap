@@ -11,5 +11,7 @@ public interface FeeAccrualWaiverRepo extends JpaRepository<AdditionalFeesDescri
 
 	List<AdditionalFeesDescription> findByApplicationNumber(String applicationNumber);
 
+	AdditionalFeesDescription findByApplicationNumberAndFeeDescription(String applicationNumber, String description);
+
 	
 }
