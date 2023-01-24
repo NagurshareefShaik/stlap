@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shfl.st.lap.shflApis.model.ShflApis;
+import shfl.st.lap.shflApis.model.ShflApisModel;
 import shfl.st.lap.shflApis.service.ShflApiService;
 
 @RestController
 @RequestMapping("/api")
 public class ShflApiController {
-	
+
 	@Autowired
 	ShflApiService shflApiService;
-	
+
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertApi(@RequestBody ShflApis shflApis){
+	public ResponseEntity<String> insertApi(@RequestBody ShflApis shflApis) {
 		return shflApiService.insertApi(shflApis);
-		
+
 	}
-	
-	@PostMapping("/getApiUrlByCode")
-	public ResponseEntity<ShflApis> getApiUrlByCode(@RequestBody Map<String,String> apiCodeMap){
-		return shflApiService.getApiByCode(apiCodeMap.get("code"));
-		
+
+	@PostMapping("/getShflApiUrlByCode")
+	public ResponseEntity<ShflApis> getShflApiUrlByCode(@RequestBody ShflApisModel shflApisModel) {
+		return shflApiService.getShflApiUrlByCode(shflApisModel);
 	}
 
 }
