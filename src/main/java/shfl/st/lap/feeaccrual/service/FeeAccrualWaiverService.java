@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,5 +172,25 @@ public class FeeAccrualWaiverService {
 			branchList.add(branchmap);
 		});
 		return ResponseEntity.ok().body(branchList);
+	}
+	
+	/**
+	 * updateReceivedAmount method is used to update received amount on disbursement
+	 * 
+	 * @param dataMap
+	 * @return ResponseEntity
+	 */
+	public ResponseEntity<String> updateReceivedAmount(List<Map<String, Object>> dataMap) {
+		dataMap.stream().forEach(data -> {
+			String applicationNumber = getString(data.get("applicationNum"));
+			String description = getString(data.get("details"));
+			AdditionalFeesDescription additionalFeesDescriptionData = feeAccrualWaiverRepo
+					.findByApplicationNumberAndFeeDescription(applicationNumber, description);
+			if (Objects.nonNull(additionalFeesDescriptionData)) {
+				additionalFeesDescriptionData.setReceived(getInt(data.get("received")));
+				feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
+			}
+		});
+		return ResponseEntity.ok().body("received amount updated");
 	}
 }
