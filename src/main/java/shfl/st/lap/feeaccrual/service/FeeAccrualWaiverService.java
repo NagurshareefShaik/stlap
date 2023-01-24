@@ -178,16 +178,17 @@ public class FeeAccrualWaiverService {
 	 * @param dataMap
 	 * @return ResponseEntity
 	 */
-	public ResponseEntity<String> updateReceivedAmount(Map<String, Object> dataMap) {
-		String applicationNumber = getString(dataMap.get("applicationNum"));
-		String description = getString(dataMap.get("details"));
-		AdditionalFeesDescription additionalFeesDescriptionData = feeAccrualWaiverRepo
-				.findByApplicationNumberAndFeeDescription(applicationNumber, description);
-		if (Objects.nonNull(additionalFeesDescriptionData)) {
-			additionalFeesDescriptionData.setReceived(getInt(dataMap.get("received")));
-			feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
-			return ResponseEntity.ok().body("received amount updated");
-		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	public ResponseEntity<String> updateReceivedAmount(List<Map<String, Object>> dataMap) {
+		dataMap.stream().forEach(data -> {
+			String applicationNumber = getString(data.get("applicationNum"));
+			String description = getString(data.get("details"));
+			AdditionalFeesDescription additionalFeesDescriptionData = feeAccrualWaiverRepo
+					.findByApplicationNumberAndFeeDescription(applicationNumber, description);
+			if (Objects.nonNull(additionalFeesDescriptionData)) {
+				additionalFeesDescriptionData.setReceived(getInt(data.get("received")));
+				feeAccrualWaiverRepo.save(additionalFeesDescriptionData);
+			}
+		});
+		return ResponseEntity.ok().body("received amount updated");
 	}
 }

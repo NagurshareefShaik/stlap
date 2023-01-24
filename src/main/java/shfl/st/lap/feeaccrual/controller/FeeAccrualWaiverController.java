@@ -41,7 +41,7 @@ public class FeeAccrualWaiverController {
 	}
 	
 	@PostMapping("/updateReceivedAmount")
-	public ResponseEntity<String> updateReceivedAmount(@RequestBody Map<String, Object> dataMap) {
+	public ResponseEntity<String> updateReceivedAmount(@RequestBody List<Map<String, Object>> dataMap) {
 		return feeAccrualWaiverService.updateReceivedAmount(dataMap);
 	}
 }
