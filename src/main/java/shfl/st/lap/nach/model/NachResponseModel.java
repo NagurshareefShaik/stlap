@@ -27,6 +27,8 @@ public class NachResponseModel {
 	
 	private String bankAccHolderName;
 	
+	private String ifscCode;
+	
 	private int customerId;
 	
 	private int emiAmt;

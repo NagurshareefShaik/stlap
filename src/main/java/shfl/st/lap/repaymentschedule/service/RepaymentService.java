@@ -33,7 +33,7 @@ public class RepaymentService {
 		Optional<LosCustomer> customerData = losCustomerRepo.findById(applicationNum);
 		List<DisbursementRequest> disbRequestList = disbursementRequestRepo.findByApplicationNum(applicationNum);
 		Double principalAmount = disbRequestList.stream()
-				.filter(disb -> disb.getRequestStatus().equalsIgnoreCase("approved"))
+				.filter(disb -> disb.getRequestStatus().equalsIgnoreCase("requested"))
 				.collect(Collectors.summingDouble(DisbursementRequest::getDisbAmt));
 		LosCustomer losCustomerData = customerData.get();
 		int time = losCustomerData.getTenure();

@@ -108,6 +108,7 @@ public class NachService {
 		nachResponseModel.setBankName(customerDepandantBankDetails.getBankName());
 		nachResponseModel.setBranch(losCustomer.get().getBranch());
 		nachResponseModel.setBranchName(customerDepandantBankDetails.getBankBranchName());
+		nachResponseModel.setIfscCode(customerDepandantBankDetails.getIfscCode());
 		nachResponseModel.setCustomerEmailId(losCustomer.get().getEmailId());
 		nachResponseModel.setCustomerMobileNum(losCustomer.get().getMobileNumber());
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
@@ -119,6 +120,7 @@ public class NachService {
 		nachResponseModel.setMandateAmt((int) emiAmount * 2);
 		nachResponseModel.setMandateNum((nach.getMandateNum() != null) ? nach.getMandateNum() : "");
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
+		nachResponseModel.setLoanAmount(repaymentData.getSanctionAmount());
 		// TODO repayment structure
 		nachResponseModel.setMandateValidity(repaymentData.getMandateValidity());
 		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
