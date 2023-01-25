@@ -1,5 +1,6 @@
 package shfl.st.lap.reports.service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -21,12 +24,16 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import shfl.st.lap.employee.model.DisbursmentCurrent;
 import shfl.st.lap.employee.model.DisbursmentProcess;
+import shfl.st.lap.repaymentschedule.model.AmortResposnseModel;
+import shfl.st.lap.repaymentschedule.service.RepaymentService;
 
 @Service
+@AllArgsConstructor
 public class ReportService {
 
-	@Autowired
-	ResourceLoader resourceLoader;
+	private ResourceLoader resourceLoader;
+	
+	private RepaymentService repaymentService;
 
 	public ResponseEntity<byte[]> generateCustomerReport() throws Exception {
 		DisbursmentProcess disbursmentProcess=getDisbursmentData();
@@ -113,6 +120,33 @@ public class ReportService {
 		process.setIfscCode("HDFC000500");
 		process.setTotalDisbursmentAmt(500000);
 		return process;
+	}
+	
+	public ResponseEntity<byte[]> generateRepaySchedule(Map<String,String> appMap) throws IOException, JRException {
+		AmortResposnseModel amortResposnseModel=repaymentService.calculateRepaymentSchedule(appMap);
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(amortResposnseModel.getAmortModelList());
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("repaymentParameter", beanCollectionDataSource);
+		parameters.put("customerName", amortResposnseModel.getCustomerName());
+		parameters.put("loanNumber", amortResposnseModel.getApplicationNum());
+		parameters.put("tenure", amortResposnseModel.getTenure());
+		parameters.put("loanType", "LAP");
+		parameters.put("amountFinanced", amortResposnseModel.getSanctionAmount());
+		parameters.put("frequency", amortResposnseModel.getFrequency());
+		parameters.put("imageDir", resourceLoader.getResource("classpath:images").getURI().getPath());
+		parameters.put("totalInterest", amortResposnseModel.getTotalInterest());
+		parameters.put("totalPrincipal", amortResposnseModel.getTotalAmount());
+		parameters.put("totalAmount", amortResposnseModel.getTotalInterest()+amortResposnseModel.getTotalAmount());
+		HttpHeaders headers = new HttpHeaders();
+		// set the PDF format
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDispositionFormData("filename", "Repayment Schedule-"+amortResposnseModel.getApplicationNum()+".pdf");
+		String path = resourceLoader.getResource("classpath:jrxml/loanRepaymentSchedule.jrxml").getURI().getPath();
+		JasperReport jasperReport = JasperCompileManager.compileReport(path);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+		System.out.println("genereate report method completed");
+		return new ResponseEntity<byte[]>(JasperExportManager.exportReportToPdf(jasperPrint), headers,
+				HttpStatus.OK);
 	}
 
 }
