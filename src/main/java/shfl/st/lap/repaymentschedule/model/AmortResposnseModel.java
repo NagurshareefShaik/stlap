@@ -10,7 +10,7 @@ public class AmortResposnseModel {
 
 	private String applicationNum;
 
-	private long totalAmount;
+	private long totalPrincipalAmount;
 
 	private long totalInterest;
 

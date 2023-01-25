@@ -136,8 +136,8 @@ public class ReportService {
 		parameters.put("frequency", amortResposnseModel.getFrequency());
 		parameters.put("imageDir", resourceLoader.getResource("classpath:images").getURI().getPath());
 		parameters.put("totalInterest", amortResposnseModel.getTotalInterest());
-		parameters.put("totalPrincipal", amortResposnseModel.getTotalAmount());
-		parameters.put("totalAmount", amortResposnseModel.getTotalInterest() + amortResposnseModel.getTotalAmount());
+		parameters.put("totalPrincipal", amortResposnseModel.getTotalPrincipalAmount());
+		parameters.put("totalAmount", amortResposnseModel.getTotalInterest() + amortResposnseModel.getTotalPrincipalAmount());
 		HttpHeaders headers = new HttpHeaders();
 		// set the PDF format
 		headers.setContentType(MediaType.APPLICATION_PDF);

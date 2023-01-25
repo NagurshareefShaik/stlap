@@ -71,7 +71,7 @@ public class RepaymentService {
 			amortModelList.add(amortModel);
 			principalAmount = newBalance;
 		}
-		amortResposnseModel.setTotalAmount(Math.round(totalPrincipalPaid));
+		amortResposnseModel.setTotalPrincipalAmount(Math.round(totalPrincipalPaid));
 		amortResposnseModel.setTotalInterest(Math.round(totalInterestPaid));
 		amortResposnseModel.setAmortModelList(amortModelList);
 		return amortResposnseModel;
