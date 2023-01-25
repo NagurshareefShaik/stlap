@@ -197,20 +197,20 @@ public class NachService {
 	 * 
 	 * @return ResponseEntity<List<NachResponseModel>>
 	 */
-	public ResponseEntity<List<NachResponseModel>> getRequestedDisbData() {
-		List<DisbursementRequest> requestedDisbList = disbursementRequestRepo.findByRequestStatus("Approved");
-		List<NachResponseModel> nachResponseList = new ArrayList<>();
-		requestedDisbList.stream().forEach(disbReq -> {
-			Nach nachData = nachRepo.findByBranchAndApplicationNum(disbReq.getBranch(), disbReq.getApplicationNum());
+	public ResponseEntity<NachResponseModel> getRequestedDisbData(Map<String, String> map) {
+		DisbursementRequest requestedDisbData = disbursementRequestRepo.findByBranchAndApplicationNumAndRequestStatus(map.get("branch"),map.get("applicationNum"),"requested");
+		NachResponseModel nachResponse = new NachResponseModel();
+		if(Objects.nonNull(requestedDisbData)) {
+			Nach nachData = nachRepo.findByBranchAndApplicationNum(requestedDisbData.getBranch(), requestedDisbData.getApplicationNum());
 			if (Objects.nonNull(nachData)) {
-				nachResponseList.add(convertToResponse(nachData));
+				nachResponse = convertToResponse(nachData);
 			} else {
 				Nach nach = new Nach();
-				nach.setApplicationNum(disbReq.getApplicationNum());
-				nachResponseList.add(convertToResponse(nach));
+				nach.setApplicationNum(requestedDisbData.getApplicationNum());
+				nachResponse = convertToResponse(nach);
 			}
-		});
-		return ResponseEntity.ok(nachResponseList);
+		};
+		return ResponseEntity.ok(nachResponse);
 	}
 
 	/**

@@ -29,9 +29,9 @@ public class NachController {
 		return nachService.registerNach(nach);
 	}
 	
-	@GetMapping("/getAllRequestedDisbData")
-	public ResponseEntity<List<NachResponseModel>> getRequestedDisbData(){
-		return nachService.getRequestedDisbData();
+	@PostMapping("/getDisbRequestedData")
+	public ResponseEntity<NachResponseModel> getRequestedDisbData(@RequestBody Map<String, String> map){
+		return nachService.getRequestedDisbData(map);
 	}
 	
 	
