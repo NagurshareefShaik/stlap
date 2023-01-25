@@ -114,8 +114,8 @@ public class NachService {
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
 		nachResponseModel.setDebitType((nach.getDebitType() != null) ? nach.getDebitType() : "");
 		nachResponseModel.setEmiAmt((int) emiAmount);
-		nachResponseModel.setFbd(nach.getFbd());
-		nachResponseModel.setFirstNachBillingDate(nach.getFirstNachBillingDate());
+		nachResponseModel.setFbd(repaymentData.getFbd());
+		nachResponseModel.setFirstNachBillingDate(repaymentData.getFbd());
 		nachResponseModel.setFrequency(nach.getFrequency());
 		nachResponseModel.setMandateAmt((int) emiAmount * 2);
 		nachResponseModel.setMandateNum((nach.getMandateNum() != null) ? nach.getMandateNum() : "");
@@ -123,14 +123,14 @@ public class NachService {
 		nachResponseModel.setLoanAmount(repaymentData.getSanctionAmount());
 		// TODO repayment structure
 		nachResponseModel.setMandateValidity(repaymentData.getMandateValidity());
-		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
+		nachResponseModel.setMandateEndDate(repaymentData.getMandateValidity());
 		nachResponseModel.setRepay("NACH");
 		nachResponseModel.setRepayApplication("NACH");
 		nachResponseModel.setMaximumAmt((int) emiAmount * 2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
 		nachResponseModel.setNachAmt((int) emiAmount);
 		nachResponseModel.setDraweePlace("chennai");
-		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "");
+		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "New");
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
 

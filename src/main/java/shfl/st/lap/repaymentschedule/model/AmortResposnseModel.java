@@ -25,6 +25,8 @@ public class AmortResposnseModel {
 	private String loanType;
 
 	private String frequency;
+	
+	private Date fbd;
 
 	private Date mandateValidity;
 

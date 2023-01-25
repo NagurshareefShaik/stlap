@@ -1,5 +1,7 @@
 package shfl.st.lap.repaymentschedule.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +54,11 @@ public class RepaymentService {
 		amortResposnseModel.setMandateValidity(DateUtils.addMonths(new Date(), losCustomerData.getTenure() - 1));
 		amortResposnseModel.setSanctionAmount((int) Math.round(principalAmount));
 		amortResposnseModel.setTenure(losCustomerData.getTenure());
+		try {
+			amortResposnseModel.setFbd(new SimpleDateFormat("dd/MM/yyyy").parse(disbRequestList.get(0).getBillingDate()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		for (int month = 0; month < time; month++) {
 			AmortModel amortModel = new AmortModel();
 			double montlyInterest = (rateOfInterest * principalAmount);
