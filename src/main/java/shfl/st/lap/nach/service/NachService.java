@@ -31,6 +31,8 @@ import shfl.st.lap.nach.model.NachFilterParams;
 import shfl.st.lap.nach.model.NachResponseModel;
 import shfl.st.lap.nach.model.PreVerificationModel;
 import shfl.st.lap.nach.repo.NachRepo;
+import shfl.st.lap.repaymentschedule.model.AmortResposnseModel;
+import shfl.st.lap.repaymentschedule.service.RepaymentService;
 
 @Service
 @AllArgsConstructor
@@ -43,6 +45,8 @@ public class NachService {
 	private LosCustomerRepo losCustomerRepo;
 
 	private DisbursementRequestRepo disbursementRequestRepo;
+	
+	private RepaymentService repaymentService;
 
 	/**
 	 * registerNach method is used to save the nach details
@@ -92,7 +96,10 @@ public class NachService {
 		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo
 				.findByApplicationNum(nach.getApplicationNum()).get(0);
 		Optional<LosCustomer> losCustomer = losCustomerRepo.findById(nach.getApplicationNum());
-		double emiAmount = amortCalc(losCustomer.get());
+		Map<String,String> appMap=new HashMap<>();
+		appMap.put("applicationNum", nach.getApplicationNum());
+		AmortResposnseModel repaymentData=repaymentService.calculateRepaymentSchedule(appMap);
+		double emiAmount = repaymentData.getEmiAmount();
 		nachResponseModel.setAccountType(customerDepandantBankDetails.getBankAccountType());
 		nachResponseModel.setApplicationCustomer(losCustomer.get().getCustomerName());
 		nachResponseModel.setApplicationNum(nach.getApplicationNum());
@@ -113,7 +120,7 @@ public class NachService {
 		nachResponseModel.setMandateNum((nach.getMandateNum() != null) ? nach.getMandateNum() : "");
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
 		// TODO repayment structure
-		nachResponseModel.setMandateValidity(nach.getMandateValidity());
+		nachResponseModel.setMandateValidity(repaymentData.getMandateValidity());
 		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
 		nachResponseModel.setRepay("NACH");
 		nachResponseModel.setRepayApplication("NACH");
