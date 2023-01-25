@@ -90,11 +90,8 @@ public class LosCustomer extends Auditable {
 
 	@Column(name = "memo_deduction")
 	private float memoDeduction;
-	
-	@Column(name = "tenure")
-	private int tenure;
 
-	@Column(name = "mobile_number")
+	@Column(name = "mobile_umber")
 	private int mobileNumber;
 
 	@Column(name = "email_id")
