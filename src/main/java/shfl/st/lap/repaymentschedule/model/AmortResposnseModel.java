@@ -30,6 +30,4 @@ public class AmortResposnseModel {
 
 	private List<AmortModel> amortModelList;
 
-
-
 }
