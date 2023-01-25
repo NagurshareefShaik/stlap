@@ -1,11 +1,11 @@
 package shfl.st.lap.nach.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -96,7 +96,10 @@ public class NachService {
 		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo
 				.findByApplicationNum(nach.getApplicationNum()).get(0);
 		Optional<LosCustomer> losCustomer = losCustomerRepo.findById(nach.getApplicationNum());
-		double emiAmount = amortCalc(losCustomer.get());
+		Map<String,String> appMap=new HashMap<>();
+		appMap.put("applicationNum", nach.getApplicationNum());
+		AmortResposnseModel repaymentData=repaymentService.calculateRepaymentSchedule(appMap);
+		double emiAmount = repaymentData.getEmiAmount();
 		nachResponseModel.setAccountType(customerDepandantBankDetails.getBankAccountType());
 		nachResponseModel.setApplicationCustomer(losCustomer.get().getCustomerName());
 		nachResponseModel.setApplicationNum(nach.getApplicationNum());
@@ -105,27 +108,29 @@ public class NachService {
 		nachResponseModel.setBankName(customerDepandantBankDetails.getBankName());
 		nachResponseModel.setBranch(losCustomer.get().getBranch());
 		nachResponseModel.setBranchName(customerDepandantBankDetails.getBankBranchName());
+		nachResponseModel.setIfscCode(customerDepandantBankDetails.getIfscCode());
 		nachResponseModel.setCustomerEmailId(losCustomer.get().getEmailId());
 		nachResponseModel.setCustomerMobileNum(losCustomer.get().getMobileNumber());
 		nachResponseModel.setCustomerId(losCustomer.get().getCustomerId());
 		nachResponseModel.setDebitType((nach.getDebitType() != null) ? nach.getDebitType() : "");
 		nachResponseModel.setEmiAmt((int) emiAmount);
-		nachResponseModel.setFbd(nach.getFbd());
-		nachResponseModel.setFirstNachBillingDate(nach.getFirstNachBillingDate());
+		nachResponseModel.setFbd(repaymentData.getFbd());
+		nachResponseModel.setFirstNachBillingDate(repaymentData.getFbd());
 		nachResponseModel.setFrequency(nach.getFrequency());
 		nachResponseModel.setMandateAmt((int) emiAmount * 2);
 		nachResponseModel.setMandateNum((nach.getMandateNum() != null) ? nach.getMandateNum() : "");
 		nachResponseModel.setMandateStartDate(nach.getMandateStartDate());
+		nachResponseModel.setLoanAmount(repaymentData.getSanctionAmount());
 		// TODO repayment structure
-		nachResponseModel.setMandateValidity(nach.getMandateValidity());
-		nachResponseModel.setMandateEndDate(nach.getMandateEndDate());
+		nachResponseModel.setMandateValidity(repaymentData.getMandateValidity());
+		nachResponseModel.setMandateEndDate(repaymentData.getMandateValidity());
 		nachResponseModel.setRepay("NACH");
 		nachResponseModel.setRepayApplication("NACH");
 		nachResponseModel.setMaximumAmt((int) emiAmount * 2);
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
 		nachResponseModel.setNachAmt((int) emiAmount);
 		nachResponseModel.setDraweePlace("chennai");
-		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "");
+		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "New");
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
 
@@ -155,10 +160,6 @@ public class NachService {
 					predicate = criteriaBuilder.and(predicate,
 							criteriaBuilder.like(root.get("applicationNum"), filterParams.getApplicationNumber()));
 				}
-//				if (filterParams.getUmrnNumber()!=0) {
-//					predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("applicantName").as(String.class),
-//							filterParams.getUmrnNumber()));
-//				}
 				return predicate;
 			}
 		});
@@ -180,6 +181,11 @@ public class NachService {
 		Nach nach = nachRepo.findByApplicationNum(map.get("applicationNum"));
 		if (Objects.nonNull(nach)) {
 			nach.setStatus(map.get("status"));
+			if(map.get("mode").equals("approve")) {
+				Random random = new Random();
+				int umrnNumber = 10000000 + random.nextInt(90000000);
+				nach.setUmrnNumber(umrnNumber);
+			}
 			Nach nachResponse = nachRepo.save(nach);
 			nachResponseModel = convertToResponse(nachResponse);
 		} else {

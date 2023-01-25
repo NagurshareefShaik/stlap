@@ -97,7 +97,6 @@ public class LosCustomer extends Auditable {
 	@Column(name = "mobile_number")
 	private int mobileNumber;
 	
-
 	@Column(name = "email_id")
 	private String emailId;
 

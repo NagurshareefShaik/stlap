@@ -1,6 +1,6 @@
 package shfl.st.lap.nach.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -26,6 +26,8 @@ public class NachResponseModel {
 	private String bankAccountNum;
 	
 	private String bankAccHolderName;
+	
+	private String ifscCode;
 	
 	private int customerId;
 	
