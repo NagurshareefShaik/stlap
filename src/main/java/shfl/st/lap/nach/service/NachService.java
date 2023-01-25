@@ -1,11 +1,11 @@
 package shfl.st.lap.nach.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -151,10 +151,6 @@ public class NachService {
 					predicate = criteriaBuilder.and(predicate,
 							criteriaBuilder.like(root.get("applicationNum"), filterParams.getApplicationNumber()));
 				}
-//				if (filterParams.getUmrnNumber()!=0) {
-//					predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("applicantName").as(String.class),
-//							filterParams.getUmrnNumber()));
-//				}
 				return predicate;
 			}
 		});
@@ -176,6 +172,11 @@ public class NachService {
 		Nach nach = nachRepo.findByApplicationNum(map.get("applicationNum"));
 		if (Objects.nonNull(nach)) {
 			nach.setStatus(map.get("status"));
+			if(map.get("mode").equals("approve")) {
+				Random random = new Random();
+				int umrnNumber = 10000000 + random.nextInt(90000000);
+				nach.setUmrnNumber(umrnNumber);
+			}
 			Nach nachResponse = nachRepo.save(nach);
 			nachResponseModel = convertToResponse(nachResponse);
 		} else {
