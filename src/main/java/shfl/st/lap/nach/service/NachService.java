@@ -31,6 +31,8 @@ import shfl.st.lap.nach.model.NachFilterParams;
 import shfl.st.lap.nach.model.NachResponseModel;
 import shfl.st.lap.nach.model.PreVerificationModel;
 import shfl.st.lap.nach.repo.NachRepo;
+import shfl.st.lap.repaymentschedule.model.AmortResposnseModel;
+import shfl.st.lap.repaymentschedule.service.RepaymentService;
 
 @Service
 @AllArgsConstructor
@@ -43,6 +45,8 @@ public class NachService {
 	private LosCustomerRepo losCustomerRepo;
 
 	private DisbursementRequestRepo disbursementRequestRepo;
+	
+	private RepaymentService repaymentService;
 
 	/**
 	 * registerNach method is used to save the nach details
@@ -227,6 +231,43 @@ public class NachService {
 		double emi = Math.round((principal * roi * Math.pow(1 + roi, time)) / (Math.pow(1 + roi, time) - 1));
 		float firstMonthInterest = (float) (roi * principal);
 		return emi;
+	}
+
+	/**
+	 * enachDetails method is used to get the emi data based upon loan details
+	 * 
+	 * @param losCustomer
+	 * @return double
+	 */
+	public Map<String, Object> enachDetails(Map<String,String> enach) {
+		Map<String,Object> returnMap = new HashMap<>();
+		String applicationNum = getString(enach.get("applicationNum"));
+		String applicatnName = getString(enach.get("applicantName"));
+		AmortResposnseModel amortResponse=repaymentService.calculateRepaymentSchedule(enach);
+		List<CustomerDepandantBankDetails> bankDetails = customerDepBankDetailsRepo.findByApplicationNum(applicationNum);
+		List<LosCustomer> enachDetails = losCustomerRepo.findByapplicationNumAndCoApplicantName(applicationNum,applicatnName);
+		returnMap.put("losData", enachDetails.get(0));
+		returnMap.put("bankDetails", bankDetails.get(0));
+		returnMap.put("nachAmount", amortResponse);
+		return returnMap;
+	}
+
+	private String getString(Object object) {
+		return Objects.isNull(object)?"":object.toString();
+	}
+
+	public List<Map<String, Object>> getApplicants(Map<String, Object> enach) {
+		List<Map<String,Object>> applicanctList = new ArrayList<>();
+		String applicationNum = getString(enach.get("applicationNum"));
+		List<LosCustomer> returnData = losCustomerRepo.findByapplicationNum(applicationNum);
+		Map<String,Object> applicantMap = new HashMap<>();
+		applicantMap.put("text", returnData.get(0).getCoApplicantName());
+		applicantMap.put("value", 1);
+		applicanctList.add(applicantMap);
+		applicantMap.put("text", returnData.get(0).getCustomerName());
+		applicantMap.put("value", 2);
+		applicanctList.add(applicantMap);
+		return applicanctList;
 	}
 
 }

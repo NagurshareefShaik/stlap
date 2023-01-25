@@ -11,5 +11,9 @@ import shfl.st.lap.loscustomer.model.LosCustomer;
 public interface LosCustomerRepo extends JpaRepository<LosCustomer, String>{
 
 	List<LosCustomer> findByBranch(String string);
+
+	List<LosCustomer> findByapplicationNumAndCoApplicantName(String applicationNum, String applicatnName);
+
+	List<LosCustomer> findByapplicationNum(String applicationNum);
 	
 }
