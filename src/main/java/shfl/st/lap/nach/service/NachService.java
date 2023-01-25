@@ -1,5 +1,7 @@
 package shfl.st.lap.nach.service;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +10,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,9 +23,7 @@ import shfl.st.lap.loscustomer.repo.CustomerDepBankDetailsRepo;
 import shfl.st.lap.loscustomer.repo.LosCustomerRepo;
 import shfl.st.lap.nach.enums.StatusEnum;
 import shfl.st.lap.nach.model.Nach;
-import shfl.st.lap.nach.model.NachFilterParams;
 import shfl.st.lap.nach.model.NachResponseModel;
-import shfl.st.lap.nach.model.PreVerificationModel;
 import shfl.st.lap.nach.repo.NachRepo;
 import shfl.st.lap.repaymentschedule.model.AmortResposnseModel;
 import shfl.st.lap.repaymentschedule.service.RepaymentService;
@@ -45,7 +39,7 @@ public class NachService {
 	private LosCustomerRepo losCustomerRepo;
 
 	private DisbursementRequestRepo disbursementRequestRepo;
-	
+
 	private RepaymentService repaymentService;
 
 	/**
@@ -96,9 +90,9 @@ public class NachService {
 		CustomerDepandantBankDetails customerDepandantBankDetails = customerDepBankDetailsRepo
 				.findByApplicationNum(nach.getApplicationNum()).get(0);
 		Optional<LosCustomer> losCustomer = losCustomerRepo.findById(nach.getApplicationNum());
-		Map<String,String> appMap=new HashMap<>();
+		Map<String, String> appMap = new HashMap<>();
 		appMap.put("applicationNum", nach.getApplicationNum());
-		AmortResposnseModel repaymentData=repaymentService.calculateRepaymentSchedule(appMap);
+		AmortResposnseModel repaymentData = repaymentService.calculateRepaymentSchedule(appMap);
 		double emiAmount = repaymentData.getEmiAmount();
 		nachResponseModel.setAccountType(customerDepandantBankDetails.getBankAccountType());
 		nachResponseModel.setApplicationCustomer(losCustomer.get().getCustomerName());
@@ -130,39 +124,20 @@ public class NachService {
 		nachResponseModel.setMicr(customerDepandantBankDetails.getMicrCode());
 		nachResponseModel.setNachAmt((int) emiAmount);
 		nachResponseModel.setDraweePlace("chennai");
-		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : "New");
+		nachResponseModel.setStatus((nach.getStatus() != null) ? nach.getStatus() : StatusEnum.NEW.name());
 		nachResponseModel.setUmrnNumber(nach.getUmrnNumber());
 		return nachResponseModel;
 
 	}
 
 	/**
-	 * getNachVerification method is used to get the pre verification done data from
-	 * nach table.
+	 * getNachVerification method is used to get the verified data from nach table.
 	 * 
 	 * @param filterParams
 	 * @return ResponseEntity<List<NachResponseModel>>
 	 */
-	public ResponseEntity<List<NachResponseModel>> getNachVerification(NachFilterParams filterParams) {
-		List<Nach> nachList = nachRepo.findAll(new Specification<Nach>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Predicate toPredicate(Root<Nach> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				Predicate predicate = criteriaBuilder.conjunction();
-				predicate = criteriaBuilder.and(predicate,
-						criteriaBuilder.like(root.get("status"), StatusEnum.PRE_VERIFICATION_DONE.name()));
-				if (!filterParams.getBranch().isEmpty()) {
-					predicate = criteriaBuilder.and(predicate,
-							criteriaBuilder.like(root.get("branch"), filterParams.getBranch()));
-				}
-				if (!filterParams.getApplicationNumber().isEmpty()) {
-					predicate = criteriaBuilder.and(predicate,
-							criteriaBuilder.like(root.get("applicationNum"), filterParams.getApplicationNumber()));
-				}
-				return predicate;
-			}
-		});
+	public ResponseEntity<List<NachResponseModel>> getNachDataByStatus(Map<String, String> branchMap) {
+		List<Nach> nachList = nachRepo.findByBranchAndStatus(branchMap.get("branch"), branchMap.get("status"));
 		List<NachResponseModel> nachRespList = nachList.stream().map(nach -> {
 			return convertToResponse(nach);
 		}).collect(Collectors.toList());
@@ -181,7 +156,7 @@ public class NachService {
 		Nach nach = nachRepo.findByApplicationNum(map.get("applicationNum"));
 		if (Objects.nonNull(nach)) {
 			nach.setStatus(map.get("status"));
-			if(map.get("mode").equals("approve")) {
+			if (map.get("mode").equals("verify")) {
 				Random random = new Random();
 				int umrnNumber = 10000000 + random.nextInt(90000000);
 				nach.setUmrnNumber(umrnNumber);
@@ -194,13 +169,6 @@ public class NachService {
 		return ResponseEntity.ok(nachResponseModel);
 	}
 
-	public ResponseEntity<NachResponseModel> preVerification(PreVerificationModel preVerificationModel) {
-		Map<String, String> applicationMap = new HashMap<>();
-		applicationMap.put("applicationNum", preVerificationModel.getApplicationNum());
-		NachResponseModel nachResponseModel = getNachDetails(applicationMap).getBody();
-		return ResponseEntity.ok(nachResponseModel);
-	}
-
 	/**
 	 * getRequestedDisbData method is used to get the requested disbursement data
 	 * from database.
@@ -208,10 +176,12 @@ public class NachService {
 	 * @return ResponseEntity<List<NachResponseModel>>
 	 */
 	public ResponseEntity<NachResponseModel> getRequestedDisbData(Map<String, String> map) {
-		DisbursementRequest requestedDisbData = disbursementRequestRepo.findByBranchAndApplicationNumAndRequestStatus(map.get("branch"),map.get("applicationNum"),"requested");
+		DisbursementRequest requestedDisbData = disbursementRequestRepo.findByBranchAndApplicationNumAndRequestStatus(
+				map.get("branch"), map.get("applicationNum"), "requested");
 		NachResponseModel nachResponse = new NachResponseModel();
-		if(Objects.nonNull(requestedDisbData)) {
-			Nach nachData = nachRepo.findByBranchAndApplicationNum(requestedDisbData.getBranch(), requestedDisbData.getApplicationNum());
+		if (Objects.nonNull(requestedDisbData)) {
+			Nach nachData = nachRepo.findByBranchAndApplicationNum(requestedDisbData.getBranch(),
+					requestedDisbData.getApplicationNum());
 			if (Objects.nonNull(nachData)) {
 				nachResponse = convertToResponse(nachData);
 			} else {
@@ -219,24 +189,9 @@ public class NachService {
 				nach.setApplicationNum(requestedDisbData.getApplicationNum());
 				nachResponse = convertToResponse(nach);
 			}
-		};
+		}
+		;
 		return ResponseEntity.ok(nachResponse);
-	}
-
-	/**
-	 * amortCalc method is used to get the emi data based upon loan details
-	 * 
-	 * @param losCustomer
-	 * @return double
-	 */
-	public double amortCalc(LosCustomer losCustomer) {
-		double principal = losCustomer.getSanctionAmt();
-		int time = losCustomer.getTenure();
-		float roi = losCustomer.getRateOfInterest();
-		roi = roi / (12 * 100);
-		double emi = Math.round((principal * roi * Math.pow(1 + roi, time)) / (Math.pow(1 + roi, time) - 1));
-		float firstMonthInterest = (float) (roi * principal);
-		return emi;
 	}
 
 }
