@@ -1,10 +1,10 @@
 package shfl.st.lap.reports.service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -21,19 +23,24 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import shfl.st.lap.employee.model.DisbursmentCurrent;
 import shfl.st.lap.employee.model.DisbursmentProcess;
+import shfl.st.lap.repaymentschedule.model.AmortResposnseModel;
+import shfl.st.lap.repaymentschedule.service.RepaymentService;
 
 @Service
+@AllArgsConstructor
 public class ReportService {
 
-	@Autowired
-	ResourceLoader resourceLoader;
+	private ResourceLoader resourceLoader;
+
+	private RepaymentService repaymentService;
 
 	public ResponseEntity<byte[]> generateCustomerReport() throws Exception {
-		DisbursmentProcess disbursmentProcess=getDisbursmentData();
+		DisbursmentProcess disbursmentProcess = getDisbursmentData();
 		try {
 			System.out.println(disbursmentProcess);
 			System.out.println("genereate report method started");
-			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(disbursmentProcess.getDisbursmentCurrent());
+			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+					disbursmentProcess.getDisbursmentCurrent());
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("disbursmentTable", beanCollectionDataSource);
 			parameters.put("apllicantName", disbursmentProcess.getApplicantName());
@@ -65,15 +72,15 @@ public class ReportService {
 			System.out.println("genereate report method completed");
 			return new ResponseEntity<byte[]>(JasperExportManager.exportReportToPdf(jasperPrint), headers,
 					HttpStatus.OK);
-			
+
 		} catch (Exception e) {
 			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	private DisbursmentProcess getDisbursmentData() {
-		DisbursmentProcess process=new DisbursmentProcess();
-		DisbursmentCurrent disbursment=new DisbursmentCurrent();
+		DisbursmentProcess process = new DisbursmentProcess();
+		DisbursmentCurrent disbursment = new DisbursmentCurrent();
 		disbursment.setId(1);
 		disbursment.setAmount(10000);
 		disbursment.setAccountNumber("182728928282");
@@ -81,8 +88,8 @@ public class ReportService {
 		disbursment.setIfscCode("HDFC000007");
 		disbursment.setPaymentMode("Cash");
 		disbursment.setEntityName("Tom");
-		
-		DisbursmentCurrent disbursment1=new DisbursmentCurrent();
+
+		DisbursmentCurrent disbursment1 = new DisbursmentCurrent();
 		disbursment1.setId(1);
 		disbursment1.setAmount(10000);
 		disbursment1.setAccountNumber("182728928282");
@@ -90,7 +97,7 @@ public class ReportService {
 		disbursment1.setIfscCode("HDFC000007");
 		disbursment1.setPaymentMode("Cash");
 		disbursment1.setEntityName("Tom");
-		
+
 		process.setAccountNumber("1242112176865264");
 		process.setApplicantName("Sundaram");
 		process.setChequeMode("Crossed Cheque");
@@ -98,8 +105,8 @@ public class ReportService {
 		process.setCurrentDisbursment(500000);
 		process.setDateOfDisbursment("08/18/2014");
 		process.setDebitAccountDetail("3456789976");
-		//list
-		process.setDisbursmentCurrent(Arrays.asList(disbursment,disbursment1));
+		// list
+		process.setDisbursmentCurrent(Arrays.asList(disbursment, disbursment1));
 		process.setEffectiveRate("18");
 		process.setFavourName("Sundaram Finance");
 		process.setFileNumber("STLAP123456");
@@ -113,6 +120,34 @@ public class ReportService {
 		process.setIfscCode("HDFC000500");
 		process.setTotalDisbursmentAmt(500000);
 		return process;
+	}
+
+	public ResponseEntity<byte[]> generateRepaySchedule(Map<String, String> appMap) throws IOException, JRException {
+		AmortResposnseModel amortResposnseModel = repaymentService.calculateRepaymentSchedule(appMap);
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
+				amortResposnseModel.getAmortModelList());
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("repaymentParameter", beanCollectionDataSource);
+		parameters.put("customerName", amortResposnseModel.getCustomerName());
+		parameters.put("loanNumber", amortResposnseModel.getApplicationNum());
+		parameters.put("tenure", amortResposnseModel.getTenure());
+		parameters.put("loanType", "LAP");
+		parameters.put("amountFinanced", amortResposnseModel.getSanctionAmount());
+		parameters.put("frequency", amortResposnseModel.getFrequency());
+		parameters.put("imageDir", resourceLoader.getResource("classpath:images").getURI().getPath());
+		parameters.put("totalInterest", amortResposnseModel.getTotalInterest());
+		parameters.put("totalPrincipal", amortResposnseModel.getTotalPrincipalAmount());
+		parameters.put("totalAmount", amortResposnseModel.getTotalInterest() + amortResposnseModel.getTotalPrincipalAmount());
+		HttpHeaders headers = new HttpHeaders();
+		// set the PDF format
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDispositionFormData("filename",
+				"Repayment Schedule-" + amortResposnseModel.getApplicationNum() + ".pdf");
+		String path = resourceLoader.getResource("classpath:jrxml/loanRepaymentSchedule.jrxml").getURI().getPath();
+		JasperReport jasperReport = JasperCompileManager.compileReport(path);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+		System.out.println("genereate report method completed");
+		return new ResponseEntity<byte[]>(JasperExportManager.exportReportToPdf(jasperPrint), headers, HttpStatus.OK);
 	}
 
 }
