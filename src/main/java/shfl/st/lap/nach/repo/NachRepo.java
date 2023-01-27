@@ -1,6 +1,7 @@
 package shfl.st.lap.nach.repo;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -14,6 +15,10 @@ public interface NachRepo extends JpaRepository<Nach, String>,JpaSpecificationEx
 	Nach findByBranchAndApplicationNum(String branch,String applicationNum);
 
 	List<Nach> findByBranchAndStatus(String branch, String status);
+
+	List<Nach> findByStatusIn(Set<String> statusList);
+
+	List<Nach> findByStatus(String status);
 	
 	
 }

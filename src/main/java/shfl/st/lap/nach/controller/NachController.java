@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +47,14 @@ public class NachController {
 		return nachService.nachStatusChange(map);
 	}
 	
+	@GetMapping("/getAllCreatedAndVerifiedNachData")
+	public ResponseEntity<List<NachResponseModel>> getAllCreatedAndVerifiedNachData() {
+		return nachService.getAllCreatedAndVerifiedNachData();
+	}
+	
+	@GetMapping("/getAppNumByVerifiedStatus")
+	public ResponseEntity<List<String>> getAppNumByVerifiedStatus() {
+		return nachService.getAppNumByVerifiedStatus();
+	}
 
 }

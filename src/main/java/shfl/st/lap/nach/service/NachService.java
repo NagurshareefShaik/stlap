@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -232,5 +234,34 @@ public class NachService {
 		return applicanctList;
 	}
 
+	/**
+	 * getAllCreatedAndVerifiedNachData method is used to fetch created and verified
+	 * data
+	 * 
+	 * @return nachResponseModelList
+	 */
+	public ResponseEntity<List<NachResponseModel>> getAllCreatedAndVerifiedNachData() {
+		Set<String> statusList = new HashSet<>();
+		statusList.add(StatusEnum.REGISTERED.name());
+		statusList.add(StatusEnum.VERIFIED.name());
+		List<Nach> nachDataList = nachRepo.findByStatusIn(statusList);
+		List<NachResponseModel> nachResponseModelList = nachDataList.stream().map(nach -> {
+			return convertToResponse(nach);
+		}).collect(Collectors.toList());
+		return ResponseEntity.ok(nachResponseModelList);
+	}
+
+	/**
+	 * getAppNumByVerifiedStatus method is used to fetch application numbers for
+	 * verified status
+	 * 
+	 * @return applicationNumList
+	 */
+	public ResponseEntity<List<String>> getAppNumByVerifiedStatus() {
+		List<Nach> nachStatusList = nachRepo.findByStatus("VERIFIED");
+		List<String> applicationNumList = nachStatusList.stream().map(map -> map.getApplicationNum())
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(applicationNumList);
+	}
 
 }
