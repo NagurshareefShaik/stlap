@@ -52,9 +52,9 @@ public class NachController {
 		return nachService.getAllCreatedAndVerifiedNachData();
 	}
 	
-	@GetMapping("/getAppNumByVerifiedStatus")
-	public ResponseEntity<List<String>> getAppNumByVerifiedStatus() {
-		return nachService.getAppNumByVerifiedStatus();
+	@GetMapping("/getAppNumAndBranchByVerifiedStatus")
+	public ResponseEntity<List<Map<String,String>>> getAppNumAndBranchByVerifiedStatus() {
+		return nachService.getAppNumAndBranchByVerifiedStatus();
 	}
 
 }

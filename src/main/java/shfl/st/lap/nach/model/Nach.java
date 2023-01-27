@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,6 +22,7 @@ import shfl.st.lap.auditlog.Auditable;
 public class Nach extends Auditable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "mandate_num")
 	private String mandateNum;
 
@@ -40,7 +43,7 @@ public class Nach extends Auditable {
 	private int mandateAmt;
 
 	@Column(name = "frequency")
-	private int frequency;
+	private String frequency;
 
 	@Column(name = "debit_type")
 	private String debitType;

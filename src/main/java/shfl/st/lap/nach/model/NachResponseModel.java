@@ -37,7 +37,7 @@ public class NachResponseModel {
 	
 	private int mandateAmt;
 	
-	private int frequency;
+	private String frequency;
 	
 	private String debitType;
 	

@@ -252,16 +252,20 @@ public class NachService {
 	}
 
 	/**
-	 * getAppNumByVerifiedStatus method is used to fetch application numbers for
-	 * verified status
+	 * getAppNumAndBranchByVerifiedStatus method is used to fetch application
+	 * numbers and branch for verified status
 	 * 
 	 * @return applicationNumList
 	 */
-	public ResponseEntity<List<String>> getAppNumByVerifiedStatus() {
+	public ResponseEntity<List<Map<String, String>>> getAppNumAndBranchByVerifiedStatus() {
+		List<Map<String, String>> appNumAndbranchList = new ArrayList<>();
 		List<Nach> nachStatusList = nachRepo.findByStatus("VERIFIED");
-		List<String> applicationNumList = nachStatusList.stream().map(map -> map.getApplicationNum())
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(applicationNumList);
+		nachStatusList.stream().forEach(data -> {
+			Map<String, String> branchmap = new HashMap<>();
+			branchmap.put(data.getBranch(), data.getApplicationNum());
+			appNumAndbranchList.add(branchmap);
+		});
+		return ResponseEntity.ok(appNumAndbranchList);
 	}
 
 }
