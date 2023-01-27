@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,9 @@ public class NachService {
 	 */
 	public ResponseEntity<Nach> registerNach(Nach nach) {
 		nach.setStatus(StatusEnum.REGISTERED.name());
+		if (nach.getMandateNum().isEmpty() || Objects.isNull(nach.getMandateNum())) {
+			nach.setMandateNum(ThreadLocalRandom.current().toString());
+		}
 		Nach naachEntity = nachRepo.save(nach);
 		if (Objects.nonNull(naachEntity)) {
 			return ResponseEntity.ok().body(naachEntity);
