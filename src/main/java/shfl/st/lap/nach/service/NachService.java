@@ -159,7 +159,7 @@ public class NachService {
 		Nach nach = nachRepo.findByApplicationNum(map.get("applicationNum"));
 		if (Objects.nonNull(nach)) {
 			nach.setStatus(map.get("status"));
-			if (map.get("mode").equals("verify")) {
+			if (map.get("mode").equals(StatusEnum.VERIFIED.name())) {
 				Random random = new Random();
 				int umrnNumber = 10000000 + random.nextInt(90000000);
 				nach.setUmrnNumber(umrnNumber);
