@@ -22,7 +22,6 @@ import shfl.st.lap.auditlog.Auditable;
 public class Nach extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "mandate_num")
 	private String mandateNum;
 
