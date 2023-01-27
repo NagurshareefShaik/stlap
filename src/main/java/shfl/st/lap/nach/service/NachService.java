@@ -50,18 +50,20 @@ public class NachService {
 	 * registerNach method is used to save the nach details
 	 * 
 	 * @param nach
-	 * @return ResponseEntity<Nach>
+	 * @return ResponseEntity<NachResponseModel>
 	 */
-	public ResponseEntity<Nach> registerNach(Nach nach) {
+	public ResponseEntity<NachResponseModel> registerNach(Nach nach) {
 		nach.setStatus(StatusEnum.REGISTERED.name());
 		if (nach.getMandateNum().isEmpty() || Objects.isNull(nach.getMandateNum())) {
-			nach.setMandateNum(ThreadLocalRandom.current().toString());
+			nach.setMandateNum(String.valueOf(ThreadLocalRandom.current().nextInt()));
 		}
 		Nach naachEntity = nachRepo.save(nach);
+		NachResponseModel nachModel = new NachResponseModel();
 		if (Objects.nonNull(naachEntity)) {
-			return ResponseEntity.ok().body(naachEntity);
+			nachModel = convertToResponse(naachEntity);
+			return ResponseEntity.ok().body(nachModel);
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Nach());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new NachResponseModel());
 		}
 	}
 
@@ -266,7 +268,8 @@ public class NachService {
 		List<Nach> nachStatusList = nachRepo.findByStatus("VERIFIED");
 		nachStatusList.stream().forEach(data -> {
 			Map<String, String> branchmap = new HashMap<>();
-			branchmap.put(data.getBranch(), data.getApplicationNum());
+			branchmap.put("branch", data.getBranch());
+			branchmap.put("applicationNum", data.getApplicationNum());
 			appNumAndbranchList.add(branchmap);
 		});
 		return ResponseEntity.ok(appNumAndbranchList);

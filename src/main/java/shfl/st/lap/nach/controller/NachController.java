@@ -23,7 +23,7 @@ public class NachController {
 	private NachService nachService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<Nach> nachRegister(@RequestBody Nach nach){
+	public ResponseEntity<NachResponseModel> nachRegister(@RequestBody Nach nach){
 		return nachService.registerNach(nach);
 	}
 	
